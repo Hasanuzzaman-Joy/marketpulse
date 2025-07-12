@@ -91,25 +91,25 @@ const Footer = () => {
           </div>
 
           {/* 4. Social */}
-          <div className="relative z-20 ml-0 md:ml-20">
+          <div className="relative z-20 ml-0 md:ml-20 lg:ml-10">
             <h4 className="font-semibold text-lg">Follow Us</h4>
             <div className="w-10 h-[3px] bg-white rounded-full mt-2 mb-4"></div>
             <div className="flex gap-4">
               <Link
                 to="https://www.facebook.com/"
-                className="bg-accent hover:bg-secondary border border-secondary hover:border-white text-white p-3 rounded-full"
+                className="bg-accent hover:bg-secondary border border-white text-white p-3 rounded-full"
               >
                 <FaFacebookF />
               </Link>
               <Link
                 to="https://twitter.com/"
-                className="bg-accent hover:bg-secondary border border-secondary hover:border-white text-white p-3 rounded-full"
+                className="bg-accent hover:bg-secondary border border-white text-white p-3 rounded-full"
               >
                 <FaTwitter />
               </Link>
               <Link
                 to="https://www.linkedin.com/"
-                className="bg-accent hover:bg-secondary border border-secondary hover:border-white text-white p-3 rounded-full"
+                className="bg-accent hover:bg-secondary border border-white text-white p-3 rounded-full"
               >
                 <FaLinkedinIn />
               </Link>
