@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router";
 import Button from "../shared/Button";
+import { FcGoogle } from "react-icons/fc";
 
 const Register = () => {
   return (
@@ -27,7 +28,7 @@ const Register = () => {
 
       {/* Right Section */}
       <div className="bg-white flex items-center justify-center px-6 py-12">
-        <div className="w-full md:w-3/4 lg:w-3/4">
+        <div className="w-full md:w-3/4 lg:w-4/5">
           <h2 className="text-2xl md:text-3xl font-heading font-bold text-main text-center">
             Create Your Account 🚀
           </h2>
@@ -36,6 +37,16 @@ const Register = () => {
             Sign up to personalize your experience, receive live updates, and
             unlock all features of Market Pulse.
           </p>
+
+          {/* Google Sign Up Button */}
+          <Button
+            type="button"
+            className="w-full flex items-center justify-center gap-3 mb-6"
+            aria-label="Sign up with Google"
+          >
+            <FcGoogle size={24} />
+            <span className="text-white font-medium">Sign up with Google</span>
+          </Button>
 
           {/* === Form Start === */}
           <form className="space-y-5" aria-label="Registration form">

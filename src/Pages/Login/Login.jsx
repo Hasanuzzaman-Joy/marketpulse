@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router";
 import Button from "../shared/Button";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
   return (
@@ -29,7 +30,7 @@ const Login = () => {
 
       {/* Right Section */}
       <div className="bg-white flex items-center justify-center px-6 py-12">
-        <div className="w-full md:w-3/4 lg:w-3/4">
+        <div className="w-full md:w-3/4 lg:w-4/5">
           <h2 className="text-2xl md:text-3xl font-heading font-bold text-main text-center">
             Welcome Back 👋
           </h2>
@@ -38,6 +39,16 @@ const Login = () => {
             We're excited to see you again. Log in to stay connected, explore
             new updates, and manage your experience with ease.
           </p>
+
+          {/* Google Sign Up Button */}
+          <Button
+            type="button"
+            className="w-full flex items-center justify-center gap-3 mb-6"
+            aria-label="Sign up with Google"
+          >
+            <FcGoogle size={24} />
+            <span className="text-white font-medium">Sign in with Google</span>
+          </Button>
 
           <form className="space-y-5">
             {/* Email Input */}
