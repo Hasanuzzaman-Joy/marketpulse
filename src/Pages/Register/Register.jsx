@@ -1,9 +1,143 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router";
 import Button from "../shared/Button";
 import { FcGoogle } from "react-icons/fc";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import axios from "axios";
+import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const Register = () => {
+  useEffect(() => {
+    document.title = "MarketPulse - Register";
+  }, []);
+
+  const { loading, setLoading, signUp, modifiedProfile } = useAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    const photo = form.photo.files[0];
+
+    if (!photo) {
+      toast.error("Profile photo is required.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+      setLoading(false);
+      return;
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      toast.error("Password must have at least one uppercase letter.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+      setLoading(false);
+      return;
+    }
+
+    if (!/[a-z]/.test(password)) {
+      toast.error("Password must have at least one lowercase letter.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+      setLoading(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters long.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // Upload image to Cloudinary
+      const imageData = new FormData();
+      imageData.append("file", photo);
+      imageData.append("upload_preset", import.meta.env.VITE_PRESET);
+      imageData.append("cloud_name", import.meta.env.VITE_CLOUD_NAME);
+
+      const res = await axios.post(
+        `https://api.cloudinary.com/v1_1/${
+          import.meta.env.VITE_CLOUD_NAME
+        }/image/upload`,
+        imageData
+      );
+      const imageURL = res.data.secure_url;
+
+      const data = {
+        name,
+        email,
+        password,
+        photo: imageURL,
+      };
+
+      await signUp(email, password);
+      await modifiedProfile(name, photo);
+
+      Swal.fire({
+        title: "Registration Successful 🎉",
+        text: "Your account has been created.",
+        icon: "success",
+        confirmButtonText: "Go to Dashboard",
+        customClass: {
+          popup: "rounded-2xl p-8",
+          title: "text-main font-heading text-2xl mb-4",
+          htmlContainer: "text-textSecondary text-base mb-6",
+          confirmButton:
+            "bg-secondary text-white px-6 py-2 rounded hover:bg-accent transition font-medium cursor-pointer",
+        },
+        buttonsStyling: false,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "/";
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen grid md:grid-cols-1 lg:grid-cols-2 font-body">
       {/* Left Section */}
@@ -49,16 +183,21 @@ const Register = () => {
           </Button>
 
           {/* === Form Start === */}
-          <form className="space-y-5" aria-label="Registration form">
+          <form
+            className="space-y-5"
+            aria-label="Registration form"
+            onSubmit={handleSubmit}
+          >
             {/* Full Name */}
             <div>
               <label className="block text-sm font-medium text-textSecondary mb-1">
                 Full Name
               </label>
               <input
+                name="name"
                 type="text"
                 placeholder="John Doe"
-                aria-label="Full name"
+                aria-label="name"
                 className="w-full px-4 py-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-accent text-main"
               />
             </div>
@@ -69,6 +208,7 @@ const Register = () => {
                 Email Address
               </label>
               <input
+                name="email"
                 type="email"
                 placeholder="example@email.com"
                 aria-label="Email address"
@@ -83,6 +223,7 @@ const Register = () => {
               </label>
               <div className="flex items-center gap-3">
                 <input
+                  name="photo"
                   type="file"
                   accept="image/*"
                   aria-label="Upload profile photo"
@@ -97,6 +238,7 @@ const Register = () => {
                 Password
               </label>
               <input
+                name="password"
                 type="password"
                 placeholder="••••••••"
                 aria-label="Password"
@@ -105,8 +247,13 @@ const Register = () => {
             </div>
 
             {/* Submit */}
-            <Button type="submit" className="w-full" aria-label="Register button">
-              Register
+            <Button
+              type="submit"
+              className="w-full"
+              aria-label="Register button"
+              disabled={loading}
+            >
+              {loading ? "Registering..." : "Register"}
             </Button>
           </form>
 
@@ -120,6 +267,8 @@ const Register = () => {
               Login here
             </Link>
           </p>
+
+          <ToastContainer />
         </div>
       </div>
     </div>
