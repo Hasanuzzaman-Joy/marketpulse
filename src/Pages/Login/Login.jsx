@@ -1,9 +1,112 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import Button from "../shared/Button";
 import { FcGoogle } from "react-icons/fc";
+import useAuth from "../../hooks/useAuth";
+import useAxios from "../../hooks/useAxios";
+import useSuccessAlert from "../../hooks/useSuccessAlert";
+import CircularProgress from "@mui/material/CircularProgress";
+import { toast, ToastContainer, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
+  const { loading, setLoading, googleSign, login } = useAuth();
+  const axiosInstance = useAxios();
+  const successSwal = useSuccessAlert();
+  const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    document.title = "MarketPulse - Login";
+  }, []);
+
+  // Login with google
+  const handleGoogle = () => {
+    googleSign()
+      .then((userCredential) => {
+        const user = userCredential.user;
+        const lastSignedIn = new Date();
+
+        axiosInstance.patch("/register", { email: user.email, lastSignedIn })
+          .then(() => {
+            axiosInstance.post("/jwt", { email: user.email })
+              .then((res) => {
+                if (res.data) {
+                  const token = res.data?.token;
+                  localStorage.setItem("token", token);
+                }
+              })
+            successSwal({
+              title: "Login Successful 🎉",
+              text: "Welcome back to MarketPulse!",
+              redirectTo: "/",
+            });
+          })
+          .catch(() => {
+            toast.error("Failed to update last signed-in time.", {
+              position: "top-right",
+              autoClose: 3000,
+              transition: Bounce,
+            });
+          })
+          .finally(() => setLoading(false));
+      })
+      .catch((error) => {
+        toast.error(`Google Sign-In Failed: ${error.message}`, {
+          position: "top-right",
+          autoClose: 3000,
+          transition: Bounce,
+        });
+        setLoading(false);
+      });
+  };
+
+  // Login with form
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const form = e.target;
+    const email = form.email.value.trim();
+    const password = form.password.value;
+
+    login(email, password)
+      .then(() => {
+        const lastSignedIn = new Date();
+        axiosInstance.patch("/register", { email, lastSignedIn })
+          .then(() => {
+            axiosInstance.post("/jwt", { email })
+              .then((res) => {
+                if (res.data) {
+                  const token = res.data?.token;
+                  localStorage.setItem("token", token);
+                }
+              })
+            successSwal({
+              title: "Login Successful 🎉",
+              text: "Welcome back to MarketPulse!",
+              redirectTo: "/",
+            });
+          })
+          .catch(() => {
+            toast.error("Failed to update last signed-in time.", {
+              position: "top-right",
+              autoClose: 3000,
+              transition: Bounce,
+            });
+          })
+          .finally(() => setLoading(false));
+      })
+      .catch((error) => {
+        toast.error(`Login Failed: ${error.message}`, {
+          position: "top-right",
+          autoClose: 3000,
+          transition: Bounce,
+        });
+        setLoading(false);
+      });
+  };
+
   return (
     <div className="min-h-screen grid md:grid-cols-1 lg:grid-cols-2 font-body">
       {/* Left Section */}
@@ -16,7 +119,10 @@ const Login = () => {
               alt="Logo"
               className="w-20 h-20"
             />
-            <h1 className="text-3xl md:text-5xl font-heading font-bold">
+            <h1 className="text-3xl md:text-5xl font-heading font-bold"
+              style={{
+                WebkitTextStroke: "1px #fff"
+              }}>
               Market <span className="text-accent">Pulse</span>
             </h1>
           </div>
@@ -40,41 +146,53 @@ const Login = () => {
             new updates, and manage your experience with ease.
           </p>
 
-          {/* Google Sign Up Button */}
+          {/* Google Sign In Button */}
           <Button
             type="button"
             className="w-full flex items-center justify-center gap-3 mb-6"
-            aria-label="Sign up with Google"
+            aria-label="Sign in with Google"
+            onClick={handleGoogle}
+            disabled={loading}
           >
             <FcGoogle size={24} />
             <span className="text-white font-medium">Sign in with Google</span>
           </Button>
 
-          <form className="space-y-5">
+          {/* Form Start */}
+          <form className="space-y-5" onSubmit={handleSubmit}>
             {/* Email Input */}
             <div>
               <label className="block text-sm font-medium text-textSecondary mb-1">
                 Email Address
               </label>
               <input
+                name="email"
                 type="email"
                 aria-label="Email Address"
                 placeholder="example@email.com"
                 className="w-full px-4 py-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-accent text-main"
+                required
               />
             </div>
 
             {/* Password Input */}
-            <div>
+            <div className="relative">
               <label className="block text-sm font-medium text-textSecondary mb-1">
                 Password
               </label>
               <input
-                type="password"
-                aria-label="Password"
+                name="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-accent text-main"
+                required
+                className="w-full px-4 py-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-accent text-main pr-12"
               />
+              <span
+                className="absolute right-3 top-[42px] text-textSecondary cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
             </div>
 
             {/* Forgot Password */}
@@ -88,8 +206,15 @@ const Login = () => {
             </div>
 
             {/* Login Button */}
-            <Button type="submit" className="w-full">
-              Login
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? (
+                <div className="flex gap-2 items-center justify-center">
+                  <CircularProgress size={20} sx={{ color: "white" }} />
+                  Logging in...
+                </div>
+              ) : (
+                "Login"
+              )}
             </Button>
           </form>
 
@@ -103,6 +228,8 @@ const Login = () => {
               Register here
             </Link>
           </p>
+
+          <ToastContainer />
         </div>
       </div>
     </div>

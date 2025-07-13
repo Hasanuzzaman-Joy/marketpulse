@@ -1,25 +1,72 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import Button from "../shared/Button";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxios";
+import useSuccessAlert from "../../hooks/useSuccessAlert";
 import CircularProgress from "@mui/material/CircularProgress";
 import { toast, ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Swal from "sweetalert2";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
-  const { loading, setLoading, signUp, modifiedProfile } = useAuth();
+  const { loading, setLoading, googleSign, signUp, modifiedProfile } = useAuth();
   const axiosInstance = useAxios();
-  const navigate = useNavigate();
+  const successSwal = useSuccessAlert();
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     document.title = "MarketPulse - Register";
   }, []);
 
+  // Register with google
+  const handleGoogle = () => {
+    googleSign()
+      .then((userCredential) => {
+        const user = userCredential.user;
+        const userData = {
+          name: user.displayName,
+          email: user.email,
+          photo: user.photoURL,
+        };
+
+        // Save user info to your backend
+        axiosInstance.post("/register", userData)
+          .then(() => {
+            axiosInstance.post("/jwt", { email: user.email })
+              .then((res) => {
+                if (res.data) {
+                  const token = res.data?.token;
+                  localStorage.setItem("token", token);
+                }
+              })
+            successSwal({
+              title: "Registration Successful 🎉",
+              text: "Welcome to MarketPulse!",
+              redirectTo: "/",
+            });
+          })
+          .catch(() => {
+            toast.error("Failed to save user data after Google sign-in.", {
+              position: "top-right",
+              autoClose: 3000,
+              transition: Bounce,
+            });
+          })
+          .finally(() => setLoading(false));
+      })
+      .catch((err) => {
+        toast.error(`Google Sign-in Failed: ${err.message}`, {
+          position: "top-right",
+          autoClose: 3000,
+          transition: Bounce,
+        });
+        setLoading(false);
+      });
+  };
+
+  // Register with form
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -73,27 +120,18 @@ const Register = () => {
         modifiedProfile(name, imageURL)
         axiosInstance.post("/register", userData)
           .then(() => {
-            Swal.fire({
-              icon: 'success',
-              title: 'Registration Successful 🎉',
-              text: 'Welcome to MarketPulse!',
-              background: '#ffffff',
-              color: '#083925',
-              confirmButtonColor: '#a8b324',
-              showConfirmButton: false,
-              timer: 2500,
-              timerProgressBar: true,
-              customClass: {
-                popup: 'p-6 rounded-lg',
-                title: 'text-2xl font-bold font-heading',
-                content: 'text-base font-body',
-              },
+            axiosInstance.post("/jwt", { email })
+              .then((res) => {
+                if (res.data) {
+                  const token = res.data?.token;
+                  localStorage.setItem("token", token);
+                }
+              })
+            successSwal({
+              title: "Registration Successful 🎉",
+              text: "Welcome to MarketPulse!",
+              redirectTo: "/",
             });
-
-            // Redirect after Swal closes
-            setTimeout(() => {
-              navigate('/');
-            }, 2200);
           });
       })
       .catch((err) => {
@@ -121,7 +159,10 @@ const Register = () => {
         <div className="text-white text-center space-y-4">
           <div className="flex flex-col items-center justify-center gap-3">
             <img src="https://i.ibb.co/CstBYsHY/trans-logo.png" alt="Logo" className="w-20 h-20" />
-            <h1 className="text-3xl md:text-5xl font-heading font-bold">
+            <h1 className="text-3xl md:text-5xl font-heading font-bold"
+              style={{
+                WebkitTextStroke: "1px #fff"
+              }}>
               Market <span className="text-accent">Pulse</span>
             </h1>
           </div>
@@ -144,6 +185,7 @@ const Register = () => {
 
           {/* Google Sign Up Button */}
           <Button
+            onClick={handleGoogle}
             type="button"
             className="w-full flex items-center justify-center gap-3 mb-6"
             aria-label="Sign up with Google"
