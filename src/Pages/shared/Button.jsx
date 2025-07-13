@@ -12,7 +12,7 @@ const Button = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`text-white px-6 py-2 rounded bg-secondary hover:bg-accent transition font-semibold
+      className={`text-white py-2 rounded bg-secondary hover:bg-accent transition font-semibold
         ${
           disabled
             ? "bg-gray-400 cursor-not-allowed"
