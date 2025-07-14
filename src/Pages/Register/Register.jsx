@@ -198,7 +198,7 @@ const Register = () => {
           <form className="space-y-5" onSubmit={handleSubmit}>
             {/* Name */}
             <div>
-              <label className="block text-sm font-medium text-textSecondary mb-1">Full Name</label>
+              <label className="block text-sm font-medium text-text-secondary mb-1">Full Name</label>
               <input
                 name="name"
                 type="text"
@@ -210,7 +210,7 @@ const Register = () => {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-textSecondary mb-1">Email Address</label>
+              <label className="block text-sm font-medium text-text-secondary mb-1">Email Address</label>
               <input
                 name="email"
                 type="email"
@@ -222,7 +222,7 @@ const Register = () => {
 
             {/* Profile Photo URL */}
             <div>
-              <label className="block text-sm font-medium text-textSecondary mb-1">Profile Photo URL (Optional)</label>
+              <label className="block text-sm font-medium text-text-secondary mb-1">Profile Photo URL (Optional)</label>
               <input
                 name="photo"
                 type="url"
@@ -233,7 +233,7 @@ const Register = () => {
 
             {/* Password */}
             <div className="relative">
-              <label className="block text-sm font-medium text-textSecondary mb-1">
+              <label className="block text-sm font-medium text-text-secondary mb-1">
                 Password
               </label>
               <input
@@ -244,7 +244,7 @@ const Register = () => {
                 className="w-full px-4 py-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-accent text-main pr-12"
               />
               <span
-                className="absolute right-3 top-[42px] text-textSecondary cursor-pointer"
+                className="absolute right-3 top-[42px] text-text-secondary cursor-pointer"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
@@ -264,7 +264,7 @@ const Register = () => {
             </Button>
           </form>
 
-          <p className="mt-6 text-sm text-center text-textSecondary">
+          <p className="mt-6 text-sm text-center text-text-secondary">
             Already have an account?{" "}
             <Link to="/login" className="text-primary font-medium hover:text-accent hover:underline">
               Login here

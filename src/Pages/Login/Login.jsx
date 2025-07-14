@@ -162,7 +162,7 @@ const Login = () => {
           <form className="space-y-5" onSubmit={handleSubmit}>
             {/* Email Input */}
             <div>
-              <label className="block text-sm font-medium text-textSecondary mb-1">
+              <label className="block text-sm font-medium text-text-secondary mb-1">
                 Email Address
               </label>
               <input
@@ -177,7 +177,7 @@ const Login = () => {
 
             {/* Password Input */}
             <div className="relative">
-              <label className="block text-sm font-medium text-textSecondary mb-1">
+              <label className="block text-sm font-medium text-text-secondary mb-1">
                 Password
               </label>
               <input
@@ -188,7 +188,7 @@ const Login = () => {
                 className="w-full px-4 py-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-accent text-main pr-12"
               />
               <span
-                className="absolute right-3 top-[42px] text-textSecondary cursor-pointer"
+                className="absolute right-3 top-[42px] text-text-secondary cursor-pointer"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
@@ -219,7 +219,7 @@ const Login = () => {
           </form>
 
           {/* Register Redirect */}
-          <p className="mt-6 text-sm text-center text-textSecondary">
+          <p className="mt-6 text-sm text-center text-text-secondary">
             Don’t have an account?{" "}
             <Link
               to="/register"
