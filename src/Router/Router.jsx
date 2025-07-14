@@ -7,6 +7,7 @@ import Contact from "../Pages/Contact/Contact";
 import Register from "../Pages/Register/Register";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Forbidden from "../Pages/Forbidden/Forbidden";
+import DashboardLayouts from "../Layouts/DashboardLayouts";
 
 const router = createBrowserRouter([
     {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
                     element: <Forbidden />,
                 }
             ]
+    },
+    {
+        path:'/dashboard',
+        element:<DashboardLayouts />
     }
 ]);
 

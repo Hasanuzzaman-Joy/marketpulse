@@ -16,9 +16,6 @@ const Contact = () => {
           className="absolute w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70 flex flex-col justify-center items-center text-white font-heading text-center px-4">
-          <div className="absolute -top-[2px]">
-            <img src="https://i.ibb.co/C5v6D8Vv/ripped-paper-header-1.png" alt="" />
-          </div>
           <div className="absolute bottom-0">
             <img src="https://i.ibb.co/ynmhfN1Q/ripped-paper-slider-2.png" alt="" />
           </div>
