@@ -9,6 +9,7 @@ import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Forbidden from "../Pages/Forbidden/Forbidden";
 import DashboardLayouts from "../Layouts/DashboardLayouts";
 import AllUsers from "../Pages/Admin/AllUsers/AllUsers";
+import PrivateRoute from "./ProtectedRoutes/PrivateRoute";
 
 const router = createBrowserRouter([
     {
@@ -31,7 +32,9 @@ const router = createBrowserRouter([
                 },
                 {
                     path: '/contact',
-                    element: <Contact />
+                    element: <PrivateRoute allowedRoles={["user", "vendor", "admin"]}>
+                        <Contact />
+                    </PrivateRoute>
                 },
                 {
                     path: '/loading',
@@ -44,13 +47,17 @@ const router = createBrowserRouter([
             ]
     },
     {
-        path:'/dashboard',
-        element:<DashboardLayouts />,
+        path: '/dashboard',
+        element: <PrivateRoute allowedRoles={["user", "vendor", "admin"]}>
+            <DashboardLayouts />
+        </PrivateRoute>,
         errorElement: <ErrorPage />,
-        children:[
+        children: [
             {
-                path:'all-users',
-                element:<AllUsers />
+                path: 'all-users',
+                element: <PrivateRoute allowedRoles={["admin"]}>
+                    <AllUsers />
+                </PrivateRoute>
             }
         ]
     }

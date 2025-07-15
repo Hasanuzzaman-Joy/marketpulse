@@ -7,11 +7,14 @@ import useAuth from "../hooks/useAuth";
 import Button from "../Pages/shared/Button";
 import SidebarFooter from "../Pages/shared/SidebarFooter";
 import { AnimatePresence, motion } from "framer-motion";
+import useRole from "../hooks/useRole";
+import Loading from "../Pages/shared/Loading";
 
 const DashboardLayout = () => {
   const { user, logOut } = useAuth();
+  const { userRole, roleLoading } = useRole();
+  console.log(userRole, roleLoading)
   const location = useLocation();
-
   const [menuOpen, setMenuOpen] = useState(false);
 
   const getPageTitle = () => {
@@ -19,70 +22,92 @@ const DashboardLayout = () => {
     return page.charAt(0).toUpperCase() + page.slice(1).replace("-", " ");
   };
 
+  if(roleLoading) return <Loading />;
+
   const menuItems = (
     <>
-      <li>
-        <NavLink to="/dashboard/all-users" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
-          <FaUserFriends /> All Users
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/dashboard/all-products" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
-          <FaClipboardList /> All Products
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/dashboard/all-ads" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
-          <FaBullhorn /> All Advertisements
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/dashboard/all-orders" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
-          <FaShoppingBasket /> All Orders
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/dashboard/add-product" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
-          <FaPlusSquare /> Add Product
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/dashboard/my-products" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
-          <FaBoxOpen /> My Products
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/dashboard/add-advertisement" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
-          <FaAd /> Add Advertisement
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/dashboard/my-advertisements" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
-          <FaChartBar /> My Advertisements
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/dashboard/price-trends" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
-          <FaChartLine /> View Price Trends
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/dashboard/manage-watchlist" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
-          <FaTools /> Manage Watchlist
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/dashboard/my-orders" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
-          <FaListAlt /> My Order List
-        </NavLink>
-      </li>
+      {/* For admin */}
+      {
+        user && userRole === "admin" &&
+        <>
+          <li>
+            <NavLink to="/dashboard/all-users" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+              <FaUserFriends /> All Users
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/all-products" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+              <FaClipboardList /> All Products
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/all-ads" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+              <FaBullhorn /> All Advertisements
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/all-orders" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+              <FaShoppingBasket /> All Orders
+            </NavLink>
+          </li>
+        </>
+      }
+
+      {/* For vendor */}
+      {
+        user && userRole === "vendor" &&
+        <>
+          <li>
+            <NavLink to="/dashboard/add-product" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+              <FaPlusSquare /> Add Product
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/my-products" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+              <FaBoxOpen /> My Products
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/add-advertisement" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+              <FaAd /> Add Advertisement
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/my-advertisements" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+              <FaChartBar /> My Advertisements
+            </NavLink>
+          </li>
+        </>
+      }
+
+      {/* For seller */}
+      {
+        user && userRole === "user" &&
+        <>
+          <li>
+            <NavLink to="/dashboard/price-trends" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+              <FaChartLine /> View Price Trends
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/manage-watchlist" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+              <FaTools /> Manage Watchlist
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/my-orders" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+              <FaListAlt /> My Order List
+            </NavLink>
+          </li>
+        </>
+      }
     </>
   );
 
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar (Desktop only) */}
-      <aside className="hidden md:flex w-64 bg-white shadow-xl border-r border-[#dcdbdb] fixed top-0 left-0 h-screen flex-col justify-between px-6 pt-4 pb-6 z-40">
+      <aside className="hidden lg:flex w-64 bg-white shadow-xl border-r border-[#dcdbdb] fixed top-0 left-0 h-screen flex-col justify-between px-6 pt-4 pb-6 z-40">
         <div>
           <Link to="/" className="flex items-center gap-2 md:-ml-2 md:mt-1 mb-12">
             <img
@@ -104,15 +129,15 @@ const DashboardLayout = () => {
       </aside>
 
       {/* Right Panel */}
-      <div className="md:ml-64 flex flex-col w-full h-screen">
+      <div className="lg:ml-64 flex flex-col w-full h-screen">
         {/* Navbar */}
         <nav
-          className="fixed py-5 top-0 left-0 md:left-64 right-0 z-30 bg-white shadow transition-all duration-500 ease-in-out px-4 md:px-6"
+          className="fixed py-5 top-0 left-0 lg:left-64 right-0 z-30 bg-white shadow transition-all duration-500 ease-in-out px-4 md:px-6"
         >
           <div className="flex justify-between items-center">
             {/* Mobile: Logo + name */}
             <div className="flex items-center gap-2">
-              <Link to="/" className="flex items-center gap-2 md:hidden">
+              <Link to="/" className="flex items-center gap-2 lg:hidden">
                 <img
                   src="https://i.ibb.co/CstBYsHY/trans-logo.png"
                   alt="Logo"
@@ -124,7 +149,7 @@ const DashboardLayout = () => {
               </Link>
 
               {/* Desktop: Page Title */}
-              <h2 className="hidden md:block text-2xl font-heading font-bold text-main">
+              <h2 className="hidden lg:block text-2xl font-heading font-bold text-main">
                 {getPageTitle()}
               </h2>
             </div>
@@ -133,14 +158,14 @@ const DashboardLayout = () => {
             <div className="flex items-center gap-3">
               {/* Mobile hamburger */}
               <button
-                className="md:hidden text-2xl text-main"
+                className="lg:hidden text-2xl text-main"
                 onClick={() => setMenuOpen(true)}
               >
                 <FiMenu />
               </button>
 
               {/* Desktop: user info */}
-              <div className="hidden md:flex items-center gap-3">
+              <div className="hidden lg:flex items-center gap-3">
                 <span className="font-medium font-heading text-base">
                   {user?.displayName || "User"}
                 </span>
@@ -159,7 +184,7 @@ const DashboardLayout = () => {
         </nav>
 
         {/* Main Content */}
-        <div className="flex flex-col flex-1 overflow-y-auto mt-[80px]">
+        <div className="flex flex-col flex-1 overflow-y-auto bg-[#f4f4f4] mt-[72px]">
           <main className="flex-1 p-6">
             <Outlet />
           </main>

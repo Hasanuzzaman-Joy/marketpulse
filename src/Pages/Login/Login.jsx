@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import Button from "../shared/Button";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../hooks/useAuth";
@@ -20,6 +20,9 @@ const Login = () => {
     document.title = "MarketPulse - Login";
   }, []);
 
+  const location = useLocation();
+  const from = location.state?.from || "/";
+
   // Login with google
   const handleGoogle = () => {
     googleSign()
@@ -39,7 +42,7 @@ const Login = () => {
             successSwal({
               title: "Login Successful 🎉",
               text: "Welcome back to MarketPulse!",
-              redirectTo: "/",
+              redirectTo: from,
             });
           })
           .catch(() => {
@@ -85,7 +88,7 @@ const Login = () => {
             successSwal({
               title: "Login Successful 🎉",
               text: "Welcome back to MarketPulse!",
-              redirectTo: "/",
+              redirectTo: from,
             });
           })
           .catch(() => {

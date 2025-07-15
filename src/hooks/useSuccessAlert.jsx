@@ -23,7 +23,7 @@ const useSuccessAlert = () => {
     });
 
     setTimeout(() => {
-      navigate(redirectTo);
+      navigate(redirectTo, { replace: true });
     }, 2200);
   };
 

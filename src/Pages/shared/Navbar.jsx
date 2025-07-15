@@ -34,11 +34,14 @@ const Navbar = () => {
           Contact
         </NavLink>
       </li>
-      <li>
-        <NavLink to="/dashboard" className="nav-link" onClick={handleLinkClick}>
-          Dashboard
-        </NavLink>
-      </li>
+      {
+        user &&
+        <li>
+          <NavLink to="/dashboard" className="nav-link" onClick={handleLinkClick}>
+            Dashboard
+          </NavLink>
+        </li>
+      }
     </>
   );
 
