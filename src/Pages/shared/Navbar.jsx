@@ -44,9 +44,8 @@ const Navbar = () => {
 
   return (
     <header
-      className={`w-full z-50 bg-white sticky top-0 shadow transition-all duration-500 ease-in-out ${
-        isScrolled ? "py-3" : "py-5"
-      }`}
+      className={`w-full z-50 bg-white sticky top-0 shadow transition-all duration-500 ease-in-out ${isScrolled ? "py-3" : "py-5"
+        }`}
     >
       <nav className="w-11/12 mx-auto flex items-center justify-between px-4 relative">
         {/* Left - Logo */}
@@ -133,12 +132,12 @@ const Navbar = () => {
               <div className="flex flex-col gap-3">
                 {!user ? (
                   <>
-                    <Link to="/login">
+                    <Link to="/login" onClick={() => setMenuOpen(false)}>
                       <Button size="sm" className="w-full">
                         Login
                       </Button>
                     </Link>
-                    <Link to="/register">
+                    <Link to="/register" onClick={() => setMenuOpen(false)}>
                       <Button size="sm" className="w-full">
                         Register
                       </Button>
@@ -157,10 +156,13 @@ const Navbar = () => {
                       ) : (
                         <FaUserCircle className="text-2xl text-textSecondary" />
                       )}
-                      <span className="text-sm">{user.displayName}</span>
+                      <span className="text-base font-medium font-heading">{user.displayName}</span>
                     </div>
                     <Button
-                      onClick={logOut}
+                      onClick={() => {
+                        logOut();
+                        setMenuOpen(false);
+                      }}
                       className="flex items-center gap-2 w-full"
                     >
                       <FiLogOut /> Logout
