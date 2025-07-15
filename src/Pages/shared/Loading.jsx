@@ -4,7 +4,7 @@ import Lottie from 'lottie-react';
 
 const Loading = () => {
   return (
-    <div className="min-h-screen w-full flex flex-col justify-center items-center bg-bg-light">
+    <div className="min-h-screen w-full flex flex-col justify-center items-center">
       {/* Logo Row */}
       <div className="flex items-center gap-3 mb-6">
         <img src="https://i.ibb.co/CstBYsHY/trans-logo.png" alt="Logo" className="w-12 h-12" />

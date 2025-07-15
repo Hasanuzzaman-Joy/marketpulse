@@ -1,13 +1,7 @@
 import { useState } from "react";
 import { NavLink, Outlet, useLocation, Link } from "react-router";
-import {
-  FiLogOut,
-  FiGrid,
-  FiSettings,
-  FiShoppingCart,
-  FiMenu,
-  FiX,
-} from "react-icons/fi";
+import { FiLogOut, FiMenu, FiX } from "react-icons/fi";
+import { FaUserFriends, FaClipboardList, FaBullhorn, FaShoppingBasket, FaPlusSquare, FaBoxOpen, FaAd, FaChartBar, FaChartLine, FaTools, FaListAlt } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import Button from "../Pages/shared/Button";
@@ -28,30 +22,58 @@ const DashboardLayout = () => {
   const menuItems = (
     <>
       <li>
-        <NavLink
-          to="/dashboard"
-          className="flex items-center gap-2 nav-link"
-          onClick={() => setMenuOpen(false)}
-        >
-          <FiGrid /> Overview
+        <NavLink to="/dashboard/all-users" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+          <FaUserFriends /> All Users
         </NavLink>
       </li>
       <li>
-        <NavLink
-          to="/dashboard/ads"
-          className="flex items-center gap-2 nav-link"
-          onClick={() => setMenuOpen(false)}
-        >
-          <FiShoppingCart /> My Ads
+        <NavLink to="/dashboard/all-products" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+          <FaClipboardList /> All Products
         </NavLink>
       </li>
       <li>
-        <NavLink
-          to="/dashboard/advertise"
-          className="flex items-center gap-2 nav-link"
-          onClick={() => setMenuOpen(false)}
-        >
-          <FiSettings /> Advertise
+        <NavLink to="/dashboard/all-ads" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+          <FaBullhorn /> All Advertisements
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/dashboard/all-orders" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+          <FaShoppingBasket /> All Orders
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/dashboard/add-product" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+          <FaPlusSquare /> Add Product
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/dashboard/my-products" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+          <FaBoxOpen /> My Products
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/dashboard/add-advertisement" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+          <FaAd /> Add Advertisement
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/dashboard/my-advertisements" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+          <FaChartBar /> My Advertisements
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/dashboard/price-trends" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+          <FaChartLine /> View Price Trends
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/dashboard/manage-watchlist" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+          <FaTools /> Manage Watchlist
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/dashboard/my-orders" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+          <FaListAlt /> My Order List
         </NavLink>
       </li>
     </>

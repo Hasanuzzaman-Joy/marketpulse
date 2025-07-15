@@ -21,8 +21,7 @@ const ErrorPage = () => {
                     Oops! Page Not Found 😕
                 </h2>
                 <p className="text-text-secondary text-base md:text-lg mb-6 leading-relaxed w-full md:w-2/3 lg:w-2/4">
-                    The page you’re looking for doesn’t exist or was moved. <br />
-                    Let’s take you back to a safe place.
+                    The page you’re looking for doesn’t exist or was moved. Let’s take you back to a safe place.
                 </p>
 
                 {/* Back Home Button */}
