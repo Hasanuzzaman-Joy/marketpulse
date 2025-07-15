@@ -47,7 +47,7 @@ const Navbar = () => {
       className={`w-full z-50 bg-white sticky top-0 shadow transition-all duration-500 ease-in-out ${isScrolled ? "py-3" : "py-5"
         }`}
     >
-      <nav className="w-11/12 mx-auto flex items-center justify-between px-4 relative">
+      <nav className="w-11/12 mx-auto flex items-center justify-between md:px-4 relative">
         {/* Left - Logo */}
         <Link to="/" className="flex items-center gap-2">
           <img
@@ -119,13 +119,22 @@ const Navbar = () => {
             >
               {/* Close button */}
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-heading font-bold text-main">Menu</h2>
+                <Link to="/" className="flex items-center gap-2">
+                  <img
+                    src="https://i.ibb.co/CstBYsHY/trans-logo.png"
+                    alt="Logo"
+                    className="w-10 h-10"
+                  />
+                  <h1 className="text-xl font-bold text-secondary font-heading">
+                    Market <span className="text-accent">Pulse</span>
+                  </h1>
+                </Link>
                 <button onClick={() => setMenuOpen(false)}>
                   <FiX className="text-2xl text-main" />
                 </button>
               </div>
 
-              <ul className="flex flex-col gap-6 text-main font-medium font-heading mb-6">
+              <ul className="flex flex-col gap-6 text-main font-medium font-heading my-10">
                 {menuItems}
               </ul>
 

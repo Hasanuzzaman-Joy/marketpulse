@@ -8,6 +8,7 @@ import Register from "../Pages/Register/Register";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Forbidden from "../Pages/Forbidden/Forbidden";
 import DashboardLayouts from "../Layouts/DashboardLayouts";
+import AllUsers from "../Pages/Admin/AllUsers/AllUsers";
 
 const router = createBrowserRouter([
     {
@@ -44,7 +45,14 @@ const router = createBrowserRouter([
     },
     {
         path:'/dashboard',
-        element:<DashboardLayouts />
+        element:<DashboardLayouts />,
+        errorElement: <ErrorPage />,
+        children:[
+            {
+                path:'all-users',
+                element:<AllUsers />
+            }
+        ]
     }
 ]);
 
