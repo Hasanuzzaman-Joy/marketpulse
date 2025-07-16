@@ -8,9 +8,10 @@ import Register from "../Pages/Register/Register";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Forbidden from "../Pages/Forbidden/Forbidden";
 import DashboardLayouts from "../Layouts/DashboardLayouts";
-import AllUsers from "../Pages/Admin/AllUsers/AllUsers";
+import AllUsers from "../Pages/Dashboard/Admin/AllUsers/AllUsers";
 import PrivateRoute from "./ProtectedRoutes/PrivateRoute";
-import ApplyVendor from "../Pages/Vendor/ApplyVendor/ApplyVendor";
+import ApplyVendor from "../Pages/Dashboard/Vendor/ApplyVendor/ApplyVendor";
+import AddProduct from "../Pages/Dashboard/Vendor/AddProduct/AddProduct";
 
 const router = createBrowserRouter([
     {
@@ -64,6 +65,12 @@ const router = createBrowserRouter([
                 path: 'all-users',
                 element: <PrivateRoute allowedRoles={["admin"]}>
                     <AllUsers />
+                </PrivateRoute>
+            },
+            {
+                path: 'add-product',
+                element: <PrivateRoute allowedRoles={["vendor"]}>
+                    <AddProduct />
                 </PrivateRoute>
             }
         ]

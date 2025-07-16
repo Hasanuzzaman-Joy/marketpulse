@@ -1,10 +1,10 @@
 import React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import useAuth from "../../../hooks/useAuth";
-import Loading from "../../shared/Loading";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import useAuth from "../../../../hooks/useAuth";
+import Loading from "../../../shared/Loading";
 import Swal from "sweetalert2";
-import StatCard from "../../shared/StatCard";
+import StatCard from "../../../shared/StatCard";
 import { FaUsers } from "react-icons/fa";
 
 const roles = ["admin", "vendor", "user"];

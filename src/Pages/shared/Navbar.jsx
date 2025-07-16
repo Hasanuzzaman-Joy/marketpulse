@@ -45,7 +45,7 @@ const Navbar = () => {
         </li>
       }
       {
-        user && !roleLoading && userRole !== "vendor" &&
+        !roleLoading && userRole === "user" &&
         <li>
           <NavLink
             to="/apply-vendor"
