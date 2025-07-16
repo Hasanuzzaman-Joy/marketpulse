@@ -10,6 +10,7 @@ import Forbidden from "../Pages/Forbidden/Forbidden";
 import DashboardLayouts from "../Layouts/DashboardLayouts";
 import AllUsers from "../Pages/Admin/AllUsers/AllUsers";
 import PrivateRoute from "./ProtectedRoutes/PrivateRoute";
+import ApplyVendor from "../Pages/Vendor/ApplyVendor/ApplyVendor";
 
 const router = createBrowserRouter([
     {
@@ -34,6 +35,12 @@ const router = createBrowserRouter([
                     path: '/contact',
                     element: <PrivateRoute allowedRoles={["user", "vendor", "admin"]}>
                         <Contact />
+                    </PrivateRoute>
+                },
+                {
+                    path: '/apply-vendor',
+                    element: <PrivateRoute allowedRoles={["user", "admin"]}>
+                        <ApplyVendor />
                     </PrivateRoute>
                 },
                 {

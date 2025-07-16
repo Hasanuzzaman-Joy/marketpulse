@@ -5,11 +5,13 @@ import Button from "../shared/Button";
 import { FiLogOut, FiMenu, FiX } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { motion, AnimatePresence } from "motion/react"
+import useRole from "../../hooks/useRole";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { userRole, roleLoading } = useRole();
 
   // Scroll shrink effect
   useEffect(() => {
@@ -39,6 +41,21 @@ const Navbar = () => {
         <li>
           <NavLink to="/dashboard" className="nav-link" onClick={handleLinkClick}>
             Dashboard
+          </NavLink>
+        </li>
+      }
+      {
+        user && !roleLoading && userRole !== "vendor" &&
+        <li>
+          <NavLink
+            to="/apply-vendor"
+            className={({ isActive }) =>
+              `nav-link border-[1.5px] px-3 py-1 rounded-full ${isActive ? "border-accent text-accent" : "border-[1.5px]"
+              }`
+            }
+            onClick={handleLinkClick}
+          >
+            Become A Seller
           </NavLink>
         </li>
       }
