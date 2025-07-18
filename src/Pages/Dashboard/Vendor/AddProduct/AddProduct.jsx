@@ -1,21 +1,31 @@
 import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
+import Swal from "sweetalert2";
+import { toast, ToastContainer } from "react-toastify";
+import CircularProgress from "@mui/material/CircularProgress";
 import useAuth from "../../../../hooks/useAuth";
-import Button from "../../../shared/Button";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import Button from "../../../shared/Button";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import CircularProgress from "@mui/material/CircularProgress";
-import { toast, ToastContainer } from "react-toastify";
-import Swal from "sweetalert2";
 import "react-toastify/dist/ReactToastify.css";
+import useSuccessAlert from "../../../../hooks/useSuccessAlert";
 
 const AddProduct = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const showSuccess = useSuccessAlert();
+  
+
   const [date, setDate] = useState(new Date());
   const [imgURL, setImgURL] = useState("");
   const [imgLoading, setImgLoading] = useState(false);
+
+  const formatDate = (dateObj) => {
+    if (!dateObj) return "";
+    const d = new Date(dateObj);
+    return d.toISOString().split("T")[0];
+  };
 
   const {
     register,
@@ -25,7 +35,7 @@ const AddProduct = () => {
     setValue,
   } = useForm({
     defaultValues: {
-      prices: [{ date: new Date(), price: "" }],
+      prices: [{ date: formatDate(new Date()), price: "" }],
     },
   });
 
@@ -47,14 +57,11 @@ const AddProduct = () => {
     try {
       const res = await fetch(
         `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUD_NAME}/image/upload`,
-        {
-          method: "POST",
-          body: imageData,
-        }
+        { method: "POST", body: imageData }
       );
       const data = await res.json();
       setImgURL(data.secure_url);
-    } catch (err) {
+    } catch {
       toast.error("Image upload failed");
     } finally {
       setImgLoading(false);
@@ -69,7 +76,7 @@ const AddProduct = () => {
 
     const product = {
       vendorEmail: user?.email,
-      vendorName: user?.displayName || "Unknown",
+      vendorName: user?.displayName,
       marketName: data.marketName,
       date,
       marketDescription: data.marketDescription,
@@ -85,20 +92,19 @@ const AddProduct = () => {
     };
 
     try {
-      await axiosSecure.post("/products", product);
-      Swal.fire({
-        icon: "success",
+      await axiosSecure.post(`/add-products?email=${user?.email}`, product);
+      await showSuccess({
         title: "Product Added 🎉",
         text: "Your product was successfully submitted and is pending approval.",
-        confirmButtonColor: "#10b981",
+        redirectTo: "/my-products",
       });
-    } catch (err) {
+    } catch {
       toast.error("Failed to add product. Please try again.");
     }
   };
 
   return (
-    <div className="w-full md:w-11/12 mx-auto p-6 md:p-12 bg-white rounded shadow-xl my-10 text-main font-body">
+    <div className="w-full mx-auto p-6 md:p-12 bg-white rounded shadow-xl text-main font-body">
       <h3 className="text-3xl font-heading font-bold mb-2 text-secondary">
         Add Market Product
       </h3>
@@ -152,12 +158,13 @@ const AddProduct = () => {
             )}
           </div>
 
-          {/* Date Picker */}
+          {/* Date */}
           <div className="flex flex-col">
             <label className="mb-1 text-text-secondary font-medium">Date</label>
             <DatePicker
               selected={date}
               onChange={(date) => setDate(date)}
+              dateFormat="yyyy-MM-dd"
               className="w-full border border-border rounded-md px-6 py-3 text-main text-base focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
@@ -245,21 +252,26 @@ const AddProduct = () => {
         {/* Price History Inputs */}
         <div className="space-y-4">
           <label className="text-text-secondary font-medium">Price History</label>
+
           {fields.map((field, index) => (
             <div
               key={field.id}
-              className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center"
+              className="flex flex-col w-full md:flex-row md:items-center md:gap-4 gap-2 mt-1"
             >
-              <DatePicker
-                selected={field.date}
-                onChange={(date) => setValue(`prices.${index}.date`, date)}
-                {...register(`prices.${index}.date`, {
-                  required: "Date is required",
-                })}
-                className="w-full border border-border rounded-md px-6 py-3 text-main text-base focus:outline-none focus:ring-2 focus:ring-accent"
-              />
+              {/* Price's Date */}
+              <div className="w-full">
+                <DatePicker
+                  selected={new Date(field.date || new Date())}
+                  onChange={(date) =>
+                    setValue(`prices.${index}.date`, date, { shouldValidate: true })
+                  }
+                  dateFormat="yyyy-MM-dd"
+                  className="w-full border border-border rounded-md px-6 py-3 text-main text-base focus:outline-none focus:ring-2 focus:ring-accent"
+                />
+              </div>
 
-              <div className="flex items-center gap-2">
+              {/* Price input with remove button */}
+              <div className="flex w-full items-center gap-2">
                 <input
                   {...register(`prices.${index}.price`, {
                     required: "Price is required",
@@ -271,7 +283,7 @@ const AddProduct = () => {
                   <button
                     type="button"
                     onClick={() => remove(index)}
-                    className="text-secondary font-bold text-xl"
+                    className="text-secondary font-bold text-xl cursor-pointer"
                   >
                     &times;
                   </button>
@@ -282,8 +294,8 @@ const AddProduct = () => {
 
           <button
             type="button"
-            onClick={() => append({ date: new Date(), price: "" })}
-            className="text-secondary hover:text-accent font-medium"
+            onClick={() => append({ date: formatDate(new Date()), price: "" })}
+            className="text-secondary hover:text-accent font-medium cursor-pointer"
           >
             + Add Price Entry
           </button>

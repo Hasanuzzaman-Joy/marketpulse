@@ -18,7 +18,7 @@ const useSuccessAlert = () => {
       customClass: {
         popup: "p-6 rounded-lg",
         title: "text-2xl font-bold font-heading",
-        content: "text-base font-body",
+        content: "text-lg font-medium font-body",
       },
     });
 

@@ -12,6 +12,7 @@ import AllUsers from "../Pages/Dashboard/Admin/AllUsers/AllUsers";
 import PrivateRoute from "./ProtectedRoutes/PrivateRoute";
 import ApplyVendor from "../Pages/Dashboard/Vendor/ApplyVendor/ApplyVendor";
 import AddProduct from "../Pages/Dashboard/Vendor/AddProduct/AddProduct";
+import AddAdvertisement  from "../Pages/Dashboard/Vendor/AddAdvertisement/AddAdvertisement ";
 
 const router = createBrowserRouter([
     {
@@ -55,7 +56,7 @@ const router = createBrowserRouter([
             ]
     },
     {
-        path: '/dashboard',
+        path: 'dashboard',
         element: <PrivateRoute allowedRoles={["user", "vendor", "admin"]}>
             <DashboardLayouts />
         </PrivateRoute>,
@@ -71,6 +72,12 @@ const router = createBrowserRouter([
                 path: 'add-product',
                 element: <PrivateRoute allowedRoles={["vendor"]}>
                     <AddProduct />
+                </PrivateRoute>
+            },
+            {
+                path: 'add-advertisement',
+                element: <PrivateRoute allowedRoles={["vendor"]}>
+                    <AddAdvertisement />
                 </PrivateRoute>
             }
         ]
