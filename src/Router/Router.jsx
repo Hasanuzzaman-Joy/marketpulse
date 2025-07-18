@@ -13,6 +13,8 @@ import PrivateRoute from "./ProtectedRoutes/PrivateRoute";
 import ApplyVendor from "../Pages/Dashboard/Vendor/ApplyVendor/ApplyVendor";
 import AddProduct from "../Pages/Dashboard/Vendor/AddProduct/AddProduct";
 import AddAdvertisement  from "../Pages/Dashboard/Vendor/AddAdvertisement/AddAdvertisement ";
+import MyProducts from "../Pages/Dashboard/Vendor/MyProducts/MyProducts";
+import UpdateProduct from "../Pages/Dashboard/Vendor/UpdateProduct/UpdateProduct";
 
 const router = createBrowserRouter([
     {
@@ -78,6 +80,18 @@ const router = createBrowserRouter([
                 path: 'add-advertisement',
                 element: <PrivateRoute allowedRoles={["vendor"]}>
                     <AddAdvertisement />
+                </PrivateRoute>
+            },
+            {
+                path: 'update-product/:id',
+                element: <PrivateRoute allowedRoles={["vendor"]}>
+                    <UpdateProduct />
+                </PrivateRoute>
+            },
+            {
+                path: 'my-products',
+                element: <PrivateRoute allowedRoles={["vendor"]}>
+                    <MyProducts />
                 </PrivateRoute>
             }
         ]

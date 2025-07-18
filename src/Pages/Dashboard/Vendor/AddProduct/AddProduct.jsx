@@ -96,7 +96,7 @@ const AddProduct = () => {
       await showSuccess({
         title: "Product Added 🎉",
         text: "Your product was successfully submitted and is pending approval.",
-        redirectTo: "/my-products",
+        redirectTo: "/dashboard/my-products",
       });
     } catch {
       toast.error("Failed to add product. Please try again.");
