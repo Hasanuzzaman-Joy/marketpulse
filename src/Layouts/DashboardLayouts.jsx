@@ -13,7 +13,6 @@ import Loading from "../Pages/shared/Loading";
 const DashboardLayout = () => {
   const { user, logOut } = useAuth();
   const { userRole, roleLoading } = useRole();
-  console.log(userRole, roleLoading)
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -58,13 +57,13 @@ const DashboardLayout = () => {
         user && userRole === "vendor" &&
         <>
           <li>
-            <NavLink to="/dashboard/add-product" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
-              <FaPlusSquare /> Add Product
+            <NavLink to="/dashboard/my-products" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+              <FaBoxOpen /> My Products
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/my-products" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
-              <FaBoxOpen /> My Products
+            <NavLink to="/dashboard/add-product" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+              <FaPlusSquare /> Add Product
             </NavLink>
           </li>
           <li>

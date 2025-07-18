@@ -1,170 +1,290 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
-import { useNavigate, useParams } from "react-router";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useParams } from "react-router";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import CircularProgress from "@mui/material/CircularProgress";
+import { toast, ToastContainer } from "react-toastify";
+import useAuth from "../../../../hooks/useAuth";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import Button from "../../../shared/Button";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import useAxiosSecure from "../../../../hooks/useAxiosSecure";
-import useAuth from "../../../../hooks/useAuth";
-import Button from "../../../shared/Button";
-import Swal from "sweetalert2";
-import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useSuccessAlert from "../../../../hooks/useSuccessAlert";
+import useImageUpload from "../../../../hooks/useImageUpload";
+import Loading from "../../../shared/Loading";
 
 const UpdateProduct = () => {
-  const { id: productId } = useParams();
-  const navigate = useNavigate();
+  const { id } = useParams();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const showSuccess = useSuccessAlert();
+  const queryClient = useQueryClient();
+  const { imgURL, imgLoading, handleImageUpload, setImgURL } = useImageUpload();
+
+  const [date, setDate] = useState(new Date());
+
+  const formatDate = (dateObj) => {
+    if (!dateObj) return "";
+    const d = new Date(dateObj);
+    return d.toISOString().split("T")[0];
+  };
 
   const {
     register,
     handleSubmit,
     setValue,
     control,
-    formState: { errors },
-  } = useForm();
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: {
+      prices: [{ date: formatDate(new Date()), price: "" }],
+    },
+  });
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "priceHistory",
+    name: "prices",
   });
 
-  // ✅ GET the product details
-  const { data: product = {}, isLoading } = useQuery({
-    queryKey: ["product", productId],
+  //  Fetch product data
+  const { data: productData, isLoading } = useQuery({
+    queryKey: ["product", id],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/products/${productId}`);
-      const productData = res.data;
-
-      // Set form values from the fetched product
-      setValue("title", productData.title);
-      setValue("description", productData.description);
-      setValue("price", productData.price);
-      setValue("location", productData.location);
-      setValue("priceHistory", productData.priceHistory || []);
-
-      return productData;
-    },
-    enabled: !!productId,
-  });
-
-  // ✅ UPDATE product mutation
-  const { mutateAsync } = useMutation({
-    mutationFn: async (updatedProduct) => {
-      const res = await axiosSecure.put(`/update-product/${productId}`, updatedProduct);
+      const res = await axiosSecure.get(`/update-product/${id}`);
       return res.data;
     },
-    onSuccess: () => {
-      toast.success("Product updated successfully");
-      navigate("/dashboard/my-products");
+    enabled: !!id,
+  });
+
+  // Prefill form after product is fetched
+  useEffect(() => {
+    if (productData) {
+      setDate(new Date(productData.date));
+      setImgURL(productData.image);
+
+      reset({
+        marketName: productData.marketName,
+        itemName: productData.itemName,
+        pricePerUnit: productData.pricePerUnit,
+        marketDescription: productData.marketDescription,
+        itemDescription: productData.itemDescription || "",
+        prices: productData.prices || [{ date: formatDate(new Date()), price: "" }],
+      });
+    }
+  }, [productData, reset, setImgURL]);
+
+  // Update mutation
+  const updateMutation = useMutation({
+    mutationFn: async (updatedData) => {
+      return await axiosSecure.patch(`/modify-product/${id}?email=${user?.email}`, updatedData);
     },
-    onError: (error) => {
-      toast.error("Failed to update product");
-      console.error(error);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(["product", id]);
+      await showSuccess({
+        title: "Updated Successfully",
+        text: "Your product has been successfully updated.",
+        redirectTo: "/dashboard/my-products",
+      });
+    },
+    onError: () => {
+      toast.error("Failed to update product. Try again.");
     },
   });
 
   const onSubmit = async (data) => {
+    if (!imgURL) {
+      toast.error("Please upload an image.");
+      return;
+    }
+
     const updatedProduct = {
-      title: data.title,
-      description: data.description,
-      price: parseFloat(data.price),
-      location: data.location,
-      priceHistory: data.priceHistory,
-      updatedAt: new Date(),
-      updatedBy: user?.email,
+      marketName: data.marketName,
+      date,
+      itemName: data.itemName,
+      pricePerUnit: data.pricePerUnit,
+      image: imgURL,
+      marketDescription: data.marketDescription,
+      itemDescription: data.itemDescription,
+      prices: data.prices.map((entry) => ({
+        date: entry.date,
+        price: parseFloat(entry.price),
+      })),
     };
 
-    await mutateAsync(updatedProduct);
+    updateMutation.mutate(updatedProduct);
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow">
-      <h2 className="text-2xl font-bold mb-6">Update Product</h2>
+    <div className="w-full mx-auto p-6 md:p-12 bg-white rounded shadow-xl text-main font-body">
+      <h3 className="text-3xl font-heading font-bold mb-2 text-secondary">
+        Update Product
+      </h3>
+      <p className="text-text-secondary mb-8 leading-relaxed">
+        Edit the product details and submit updates for review.
+      </p>
+
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex flex-col">
+            <label className="mb-1 text-text-secondary font-medium">
+              Vendor Email
+            </label>
+            <input
+              value={user?.email || ""}
+              readOnly
+              className="w-full border border-border bg-gray-100 cursor-not-allowed rounded-md px-6 py-3"
+            />
+          </div>
 
-        <div>
-          <label className="block font-medium">Title</label>
-          <input
-            type="text"
-            {...register("title", { required: "Title is required" })}
-            className="input input-bordered w-full"
-          />
-          {errors.title && <p className="text-red-500">{errors.title.message}</p>}
-        </div>
+          <div className="flex flex-col">
+            <label className="mb-1 text-text-secondary font-medium">
+              Vendor Name
+            </label>
+            <input
+              value={user?.displayName || ""}
+              readOnly
+              className="w-full border border-border bg-gray-100 cursor-not-allowed rounded-md px-6 py-3"
+            />
+          </div>
 
-        <div>
-          <label className="block font-medium">Description</label>
-          <textarea
-            {...register("description", { required: "Description is required" })}
-            className="textarea textarea-bordered w-full"
-          ></textarea>
-          {errors.description && <p className="text-red-500">{errors.description.message}</p>}
-        </div>
+          <div className="flex flex-col">
+            <label className="mb-1 text-text-secondary font-medium">Market Name</label>
+            <input
+              {...register("marketName", { required: "Market name is required" })}
+              className="w-full border border-border rounded-md px-6 py-3"
+            />
+            {errors.marketName && (
+              <span className="text-red-500 text-sm">{errors.marketName.message}</span>
+            )}
+          </div>
 
-        <div>
-          <label className="block font-medium">Price</label>
-          <input
-            type="number"
-            step="0.01"
-            {...register("price", { required: "Price is required" })}
-            className="input input-bordered w-full"
-          />
-          {errors.price && <p className="text-red-500">{errors.price.message}</p>}
-        </div>
+          <div className="flex flex-col">
+            <label className="mb-1 text-text-secondary font-medium">Date</label>
+            <DatePicker
+              selected={date}
+              onChange={(d) => setDate(d)}
+              dateFormat="yyyy-MM-dd"
+              className="w-full border border-border rounded-md px-6 py-3"
+            />
+          </div>
 
-        <div>
-          <label className="block font-medium">Location</label>
-          <input
-            type="text"
-            {...register("location", { required: "Location is required" })}
-            className="input input-bordered w-full"
-          />
-          {errors.location && <p className="text-red-500">{errors.location.message}</p>}
-        </div>
+          <div className="flex flex-col">
+            <label className="mb-1 text-text-secondary font-medium">Item Name</label>
+            <input
+              {...register("itemName", { required: "Item name is required" })}
+              className="w-full border border-border rounded-md px-6 py-3"
+            />
+          </div>
 
-        {/* ✅ Dynamic Price History */}
-        <div>
-          <label className="block font-medium">Price History</label>
-          <div className="space-y-4">
-            {fields.map((field, index) => (
-              <div key={field.id} className="flex flex-col md:flex-row md:items-center gap-2">
-                <DatePicker
-                  selected={field.date ? new Date(field.date) : new Date()}
-                  onChange={(date) => setValue(`priceHistory.${index}.date`, date)}
-                  className="input input-bordered"
-                  placeholderText="Select Date"
-                />
-                <input
-                  type="number"
-                  step="0.01"
-                  placeholder="Price"
-                  {...register(`priceHistory.${index}.price`, { required: true })}
-                  className="input input-bordered w-full"
-                />
-                <button
-                  type="button"
-                  className="btn btn-sm btn-error"
-                  onClick={() => remove(index)}
-                >
-                  Remove
-                </button>
+          <div className="flex flex-col">
+            <label className="mb-1 text-text-secondary font-medium">
+              Price per Unit
+            </label>
+            <input
+              {...register("pricePerUnit", { required: "Price per unit is required" })}
+              className="w-full border border-border rounded-md px-6 py-3"
+            />
+          </div>
+
+          <div className="flex flex-col md:col-span-2">
+            <label className="mb-1 text-text-secondary font-medium">Product Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              disabled={imgLoading}
+              className="file:bg-secondary file:text-white file:cursor-pointer file:px-6 file:py-2 file:border-0 file:mr-3 w-full border border-border rounded-md"
+            />
+            {imgLoading && (
+              <div className="flex gap-2 text-secondary mt-2">
+                <CircularProgress size={20} sx={{ color: "#0a472e" }} />
+                Uploading image...
               </div>
-            ))}
-            <button
-              type="button"
-              className="btn btn-sm btn-outline"
-              onClick={() => append({ date: "", price: "" })}
-            >
-              Add Price History
-            </button>
+            )}
           </div>
         </div>
 
-        <Button type="submit" label="Update Product" />
+        <div className="flex flex-col">
+          <label className="mb-1 text-text-secondary font-medium">Market Description</label>
+          <textarea
+            {...register("marketDescription", {
+              required: "Market description is required",
+            })}
+            rows={4}
+            className="w-full border border-border rounded-md px-6 py-3 resize-none"
+          />
+        </div>
+
+        <div className="space-y-4">
+          <label className="text-text-secondary font-medium">Price History</label>
+          {fields.map((field, index) => (
+            <div key={field.id} className="flex flex-col md:flex-row gap-4 mt-1">
+              <div className="w-full">
+                <DatePicker
+                  selected={new Date(field.date)}
+                  onChange={(date) =>
+                    setValue(`prices.${index}.date`, date, { shouldValidate: true })
+                  }
+                  dateFormat="yyyy-MM-dd"
+                  className="w-full border border-border rounded-md px-6 py-3"
+                />
+              </div>
+
+              <div className="flex w-full items-center gap-2">
+                <input
+                  {...register(`prices.${index}.price`, {
+                    required: "Price is required",
+                  })}
+                  className="w-full border border-border rounded-md px-6 py-3"
+                />
+                {fields.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => remove(index)}
+                    className="text-secondary font-bold text-xl"
+                  >
+                    &times;
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => append({ date: formatDate(new Date()), price: "" })}
+            className="text-secondary hover:text-accent font-medium"
+          >
+            + Add Price Entry
+          </button>
+        </div>
+
+        <div className="flex flex-col">
+          <label className="mb-1 text-text-secondary font-medium">
+            Item Description (optional)
+          </label>
+          <textarea
+            {...register("itemDescription")}
+            rows={3}
+            className="w-full border border-border rounded-md px-6 py-3 resize-none"
+          />
+        </div>
+
+        <Button type="submit" disabled={isSubmitting || updateMutation.isPending}>
+          {isSubmitting || updateMutation.isPending ? (
+            <div className="flex gap-2 items-center justify-center">
+              <CircularProgress size={20} sx={{ color: "white" }} />
+              Updating...
+            </div>
+          ) : (
+            "Update Product"
+          )}
+        </Button>
       </form>
+      <ToastContainer />
     </div>
   );
 };
