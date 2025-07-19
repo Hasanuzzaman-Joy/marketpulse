@@ -82,7 +82,7 @@ const UpdateProduct = () => {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries(["product", id]);
-      await showSuccess({
+      showSuccess({
         title: "Updated Successfully",
         text: "Your product has been successfully updated.",
         redirectTo: "/dashboard/my-products",

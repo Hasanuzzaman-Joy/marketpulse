@@ -36,10 +36,10 @@ const AddAdvertisement = () => {
 
         try {
             await axiosSecure.post(`/advertisements?email=${user?.email}`, ad);
-            await showSuccess({
+            showSuccess({
                 title: "Advertisement Added 🎉",
                 text: "Your ad is pending approval and will be visible upon review.",
-                redirectTo: "/my-advertisements",
+                redirectTo: "/dashboard/my-advertisements",
             });
         } catch {
             toast.error("Failed to submit advertisement.");

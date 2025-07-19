@@ -27,8 +27,8 @@ const MyProducts = () => {
         enabled: !!user?.email,
     });
 
-    const handleDelete = (id) => {
-        Swal.fire({
+    const handleDelete = async (id) => {
+        const res = await Swal.fire({
             title: "Are you sure?",
             text: "You will not be able to recover this product!",
             icon: "warning",
@@ -36,14 +36,20 @@ const MyProducts = () => {
             confirmButtonColor: "#0a472e",
             cancelButtonColor: "#a8b324",
             confirmButtonText: "Yes, delete it!",
-        }).then((res) => {
-            console.log(res)
-            if (res.isConfirmed) {
-                axiosSecure.delete(`/delete-products/${id}?email=${user?.email}`);
-                showSuccess("Deleted!", "Your product has been deleted.", "/my-products",);
-                refetch();
-            }
         });
+
+        if (res.isConfirmed) {
+            try {
+                await axiosSecure.delete(`/delete-products/${id}?email=${user?.email}`);
+                showSuccess({
+                    title: "Deleted!",
+                    text: "Your product has been deleted."
+                });
+                refetch(); 
+            } catch (err) {
+                console.error("Delete failed:", err);
+            }
+        }
     };
 
     return (
@@ -62,9 +68,9 @@ const MyProducts = () => {
             {isLoading ? (
                 <Loading />
             ) : products.length === 0 ? (
-                <div className="flex flex-col items-center justify-center text-center space-y-3 min-h-[60vh] bg-gray-100">
+                <div className="flex flex-col items-center justify-center text-center space-y-3 min-h-[60vh] bg-gray-100 px-4">
                     <MdInventory className="text-secondary text-6xl mb-2" />
-                    <h3 className="text-2xl md:text-3xl font-heading font-bold text-secondary">
+                    <h3 className="text-2xl md:text-3xl font-heading font-bold text-secondary  leading-9">
                         You haven’t added any products yet
                     </h3>
                     <p className="text-text-secondary text-lg leading-7 mb-6">
@@ -95,7 +101,7 @@ const MyProducts = () => {
                                     <td className="px-5 py-2">
                                         <div className="flex items-center gap-3">
                                             <img
-                                                src={item.image || "https://via.placeholder.com/60"}
+                                                src={item.image || "https://res.cloudinary.com/dvkiiyhaj/image/upload/v1752928833/ikhyvszgvsjzqqf8xcej.png"}
                                                 alt={item.itemName}
                                                 className="w-10 h-10 rounded-md object-cover border border-border"
                                             />

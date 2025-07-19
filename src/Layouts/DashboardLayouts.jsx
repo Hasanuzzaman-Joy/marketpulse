@@ -65,15 +65,15 @@ const DashboardLayout = () => {
             <NavLink to="/dashboard/add-product" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
               <FaPlusSquare /> Add Product
             </NavLink>
+          </li>    
+          <li>
+            <NavLink to="/dashboard/my-advertisements" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+              <FaChartBar /> My Advertisements
+            </NavLink>
           </li>
           <li>
             <NavLink to="/dashboard/add-advertisement" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
               <FaAd /> Add Advertisement
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/my-advertisements" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
-              <FaChartBar /> My Advertisements
             </NavLink>
           </li>
         </>
@@ -184,7 +184,7 @@ const DashboardLayout = () => {
 
         {/* Main Content */}
         <div className="flex flex-col flex-1 overflow-y-auto bg-[#f4f4f4] mt-[72px]">
-          <main className="flex-1 p-6">
+          <main className="flex-1 md:p-6">
             <Outlet />
           </main>
           <SidebarFooter />

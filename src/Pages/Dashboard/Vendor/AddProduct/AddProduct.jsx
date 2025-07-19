@@ -66,7 +66,7 @@ const AddProduct = () => {
 
     try {
       await axiosSecure.post(`/add-products?email=${user?.email}`, product);
-      await showSuccess({
+      showSuccess({
         title: "Product Added 🎉",
         text: "Your product was successfully submitted and is pending approval.",
         redirectTo: "/dashboard/my-products",
