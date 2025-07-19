@@ -42,7 +42,7 @@ const MyProducts = () => {
             try {
                 await axiosSecure.delete(`/delete-products/${id}?email=${user?.email}`);
                 showSuccess({
-                    title: "Deleted!",
+                    title: "Deleted...",
                     text: "Your product has been deleted."
                 });
                 refetch(); 

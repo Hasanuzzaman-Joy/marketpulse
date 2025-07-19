@@ -17,6 +17,7 @@ import MyProducts from "../Pages/Dashboard/Vendor/MyProducts/MyProducts";
 import UpdateProduct from "../Pages/Dashboard/Vendor/UpdateProduct/UpdateProduct";
 import DashboardHome from "../Pages/Dashboard/DashboardHome";
 import MyAdvertisements from "../Pages/Dashboard/Vendor/MyAdvertisements/MyAdvertisements";
+import AdminAllProducts from "../Pages/Dashboard/Admin/AdminAllProducts/AdminAllProducts";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
           <PrivateRoute allowedRoles={["user", "vendor", "admin"]}>
             <Contact />
           </PrivateRoute>
-        ),
+        )
       },
       {
         path: "/apply-vendor",
@@ -50,7 +51,7 @@ const router = createBrowserRouter([
           <PrivateRoute allowedRoles={["user", "admin"]}>
             <ApplyVendor />
           </PrivateRoute>
-        ),
+        )
       },
       {
         path: "/loading",
@@ -77,7 +78,7 @@ const router = createBrowserRouter([
           <PrivateRoute allowedRoles={["admin", "vendor", "user"]}>
             <DashboardHome />
           </PrivateRoute>
-        ),
+        )
       },
       {
         path: "all-users",
@@ -85,7 +86,15 @@ const router = createBrowserRouter([
           <PrivateRoute allowedRoles={["admin"]}>
             <AllUsers />
           </PrivateRoute>
-        ),
+        )
+      },
+      {
+        path: "all-products",
+        element: (
+          <PrivateRoute allowedRoles={["admin"]}>
+            <AdminAllProducts />
+          </PrivateRoute>
+        )
       },
       {
         path: "add-product",
@@ -93,7 +102,7 @@ const router = createBrowserRouter([
           <PrivateRoute allowedRoles={["vendor"]}>
             <AddProduct />
           </PrivateRoute>
-        ),
+        )
       },
       {
         path: "add-advertisement",
@@ -101,15 +110,15 @@ const router = createBrowserRouter([
           <PrivateRoute allowedRoles={["vendor"]}>
             <AddAdvertisement />
           </PrivateRoute>
-        ),
+        )
       },
       {
         path: "update-product/:id",
         element: (
-          <PrivateRoute allowedRoles={["vendor"]}>
+          <PrivateRoute allowedRoles={["admin", "vendor"]}>
             <UpdateProduct />
           </PrivateRoute>
-        ),
+        )
       },
       {
         path: "my-products",
@@ -117,7 +126,7 @@ const router = createBrowserRouter([
           <PrivateRoute allowedRoles={["vendor"]}>
             <MyProducts />
           </PrivateRoute>
-        ),
+        )
       },
       {
         path: "my-advertisements",
@@ -125,7 +134,7 @@ const router = createBrowserRouter([
           <PrivateRoute allowedRoles={["vendor"]}>
             <MyAdvertisements />
           </PrivateRoute>
-        ),
+        )
       }
     ],
   },

@@ -9,6 +9,7 @@ import AdvertisementForm from "../../../shared/AdvertisementForm";
 import Modal from "../../../shared/Modal";
 import Swal from "sweetalert2";
 import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 const MyAdvertisements = () => {
   const { user } = useAuth();
@@ -63,18 +64,50 @@ const MyAdvertisements = () => {
     setModalOpen(true);
   };
 
+  // const handleUpdateSubmit = async (formData) => {
+  //   setLoading(true);
+  //   try {
+  //     await axiosSecure.patch(`/update-ad/${selectedAd._id}?email=${user?.email}`, formData);
+  //     showSuccess({
+  //       title: "Updated...",
+  //       text: "Your advertisement has been updated.",
+  //     });
+  //     setModalOpen(false);
+  //     refetch();
+  //   } catch (err) {
+  //     Swal.fire("Error", "Failed to update advertisement.", "error");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleUpdateSubmit = async (formData) => {
+    const updatedData = {
+      ...formData,
+      image: formData.image || selectedAd.image,
+    };
+
+    const hasChanges =
+      updatedData.title !== selectedAd.title ||
+      updatedData.description !== selectedAd.description ||
+      updatedData.image !== selectedAd.image;
+
+    if (!hasChanges) {
+      toast.error("No changes detected");
+      return;
+    }
+
     setLoading(true);
     try {
-      await axiosSecure.patch(`/update-ad/${selectedAd._id}?email=${user?.email}`, formData);
-      showSuccess({
-        title: "Updated...",
-        text: "Your advertisement has been updated.",
-      });
+      await axiosSecure.patch(
+        `/update-ad/${selectedAd._id}?email=${user?.email}`,
+        updatedData
+      );
+      toast.success("Your advertisement has been updated successfully...");
       setModalOpen(false);
       refetch();
     } catch (err) {
-      Swal.fire("Error", "Failed to update advertisement.", "error");
+      toast.error("Failed to update advertisement. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -176,6 +209,7 @@ const MyAdvertisements = () => {
           loading={loading}
         />
       </Modal>
+      <ToastContainer />
     </div>
   );
 };

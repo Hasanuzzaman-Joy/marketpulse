@@ -12,6 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import useSuccessAlert from "../../../../hooks/useSuccessAlert";
 import useImageUpload from "../../../../hooks/useImageUpload";
+import useRole from "../../../../hooks/useRole";
 import Loading from "../../../shared/Loading";
 
 const UpdateProduct = () => {
@@ -21,6 +22,7 @@ const UpdateProduct = () => {
   const showSuccess = useSuccessAlert();
   const queryClient = useQueryClient();
   const { imgURL, imgLoading, handleImageUpload, setImgURL } = useImageUpload();
+  const { userRole, roleLoading } = useRole();
 
   const [date, setDate] = useState(new Date());
 
@@ -82,11 +84,18 @@ const UpdateProduct = () => {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries(["product", id]);
-      showSuccess({
-        title: "Updated Successfully",
-        text: "Your product has been successfully updated.",
-        redirectTo: "/dashboard/my-products",
-      });
+
+      if (userRole && !roleLoading) {
+        const redirectPath = userRole === "admin"
+          ? "/dashboard/all-products"
+          : "/dashboard/my-products";
+
+        showSuccess({
+          title: "Updated Successfully",
+          text: "Your product has been successfully updated.",
+          redirectTo: redirectPath,
+        });
+      }
     },
     onError: () => {
       toast.error("Failed to update product. Try again.");
@@ -134,7 +143,7 @@ const UpdateProduct = () => {
               Vendor Email
             </label>
             <input
-              value={user?.email || ""}
+              value={productData?.vendorEmail || ""}
               readOnly
               className="w-full border border-border bg-gray-100 cursor-not-allowed rounded-md px-6 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
             />
@@ -145,7 +154,7 @@ const UpdateProduct = () => {
               Vendor Name
             </label>
             <input
-              value={user?.displayName || ""}
+              value={productData?.vendorName || ""}
               readOnly
               className="w-full border border-border bg-gray-100 cursor-not-allowed rounded-md px-6 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
             />
@@ -199,11 +208,19 @@ const UpdateProduct = () => {
               disabled={imgLoading}
               className="file:bg-secondary file:text-white file:cursor-pointer file:px-6 file:py-2 file:border-0 file:mr-3 w-full border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
             />
-            {imgLoading && (
+            {imgLoading ? (
               <div className="flex gap-2 text-secondary mt-2">
                 <CircularProgress size={20} sx={{ color: "#0a472e" }} />
                 Uploading image...
               </div>
+            ) : (
+              (imgURL || productData?.image) && (
+                <img
+                  src={imgURL || productData.image}
+                  alt="Preview"
+                  className="mt-4 w-32 h-32 object-cover border rounded"
+                />
+              )
             )}
           </div>
         </div>

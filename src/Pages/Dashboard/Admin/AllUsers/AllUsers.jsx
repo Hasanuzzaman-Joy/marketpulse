@@ -59,7 +59,7 @@ const AllUsers = () => {
   const totalNormal = users.filter((u) => u.role === "user").length;
 
   return (
-    <div className="font-body text-main">
+    <div className="font-body text-main p-6 md:p-10 bg-white ">
       <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
         <FaUsers className="text-primary" /> All Users
       </h2>
@@ -73,35 +73,34 @@ const AllUsers = () => {
       </div>
 
       {/* User Table */}
-      <div className="overflow-x-auto bg-white rounded-lg border border-border shadow-md">
-        <table className="min-w-full text-sm text-left text-main">
-          <thead className="bg-secondary font-heading text-white uppercase tracking-wide">
+      <div className="overflow-x-auto bg-bg rounded shadow-sm">
+        <table className="min-w-full text-left text-base text-main">
+          <thead className="bg-secondary text-white text-sm font-medium">
             <tr>
-              <th className="px-4 py-3">#</th>
-              <th className="px-4 py-3">Name</th>
-              <th className="px-4 py-3">Email</th>
-              <th className="px-4 py-3">Role</th>
-              <th className="px-4 py-3">Set Role</th>
+              <th className="px-6 py-4">#</th>
+              <th className="px-6 py-4">Name</th>
+              <th className="px-6 py-4">Email</th>
+              <th className="px-6 py-4">Role</th>
+              <th className="px-6 py-4">Set Role</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-sm font-medium">
             {users.map((u, idx) => (
-              <tr
-                key={u._id}
-                className="border-t text-base border-gray-200 hover:bg-gray-50 transition"
-              >
-                <td className="px-4 py-4 font-bold">{idx + 1}</td>
-                <td className="px-4 py-4 flex items-center gap-2">
-                  <img
-                    src={u.photo}
-                    alt={u.name}
-                    className="w-8 h-8 rounded-full border-2 border-accent"
-                  />
-                  {u.name}
+              <tr key={u._id} className="border-b border-border hover:bg-gray-50 transition">
+                <td className="px-6 py-4 font-bold">{idx + 1}</td>
+                <td className="px-6 py-4">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={u.photo}
+                      alt={u.name}
+                      className="w-10 h-10 rounded-md object-cover border border-border"
+                    />
+                    <span className="font-medium">{u.name}</span>
+                  </div>
                 </td>
-                <td className="px-4 py-4">{u.email}</td>
-                <td className="px-4 py-4 capitalize">{u.role}</td>
-                <td className="px-4 py-4">
+                <td className="px-6 py-4">{u.email}</td>
+                <td className="px-6 py-4 capitalize">{u.role}</td>
+                <td className="px-6 py-4">
                   <select
                     className="border border-border px-3 py-2 rounded focus:ring-2 focus:ring-accent text-main cursor-pointer hover:border-accent transition-all duration-200"
                     value={u.role}
