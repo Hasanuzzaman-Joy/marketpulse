@@ -52,7 +52,7 @@ const UpdateProduct = () => {
   const { data: productData, isLoading } = useQuery({
     queryKey: ["product", id],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/update-product/${id}`);
+      const res = await axiosSecure.get(`/single-product/${id}`);
       return res.data;
     },
     enabled: !!id,
@@ -136,7 +136,7 @@ const UpdateProduct = () => {
             <input
               value={user?.email || ""}
               readOnly
-              className="w-full border border-border bg-gray-100 cursor-not-allowed rounded-md px-6 py-3"
+              className="w-full border border-border bg-gray-100 cursor-not-allowed rounded-md px-6 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
 
@@ -147,7 +147,7 @@ const UpdateProduct = () => {
             <input
               value={user?.displayName || ""}
               readOnly
-              className="w-full border border-border bg-gray-100 cursor-not-allowed rounded-md px-6 py-3"
+              className="w-full border border-border bg-gray-100 cursor-not-allowed rounded-md px-6 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
 
@@ -155,7 +155,7 @@ const UpdateProduct = () => {
             <label className="mb-1 text-text-secondary font-medium">Market Name</label>
             <input
               {...register("marketName", { required: "Market name is required" })}
-              className="w-full border border-border rounded-md px-6 py-3"
+              className="w-full border border-border rounded-md px-6 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
             />
             {errors.marketName && (
               <span className="text-red-500 text-sm">{errors.marketName.message}</span>
@@ -168,7 +168,7 @@ const UpdateProduct = () => {
               selected={date}
               onChange={(d) => setDate(d)}
               dateFormat="yyyy-MM-dd"
-              className="w-full border border-border rounded-md px-6 py-3"
+              className="w-full border border-border rounded-md px-6 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
 
@@ -176,7 +176,7 @@ const UpdateProduct = () => {
             <label className="mb-1 text-text-secondary font-medium">Item Name</label>
             <input
               {...register("itemName", { required: "Item name is required" })}
-              className="w-full border border-border rounded-md px-6 py-3"
+              className="w-full border border-border rounded-md px-6 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
 
@@ -186,7 +186,7 @@ const UpdateProduct = () => {
             </label>
             <input
               {...register("pricePerUnit", { required: "Price per unit is required" })}
-              className="w-full border border-border rounded-md px-6 py-3"
+              className="w-full border border-border rounded-md px-6 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
 
@@ -197,7 +197,7 @@ const UpdateProduct = () => {
               accept="image/*"
               onChange={handleImageUpload}
               disabled={imgLoading}
-              className="file:bg-secondary file:text-white file:cursor-pointer file:px-6 file:py-2 file:border-0 file:mr-3 w-full border border-border rounded-md"
+              className="file:bg-secondary file:text-white file:cursor-pointer file:px-6 file:py-2 file:border-0 file:mr-3 w-full border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
             />
             {imgLoading && (
               <div className="flex gap-2 text-secondary mt-2">
@@ -215,7 +215,7 @@ const UpdateProduct = () => {
               required: "Market description is required",
             })}
             rows={4}
-            className="w-full border border-border rounded-md px-6 py-3 resize-none"
+            className="w-full border border-border rounded-md px-6 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-accent"
           />
         </div>
 
@@ -230,7 +230,7 @@ const UpdateProduct = () => {
                     setValue(`prices.${index}.date`, date, { shouldValidate: true })
                   }
                   dateFormat="yyyy-MM-dd"
-                  className="w-full border border-border rounded-md px-6 py-3"
+                  className="w-full border border-border rounded-md px-6 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
                 />
               </div>
 
@@ -239,7 +239,7 @@ const UpdateProduct = () => {
                   {...register(`prices.${index}.price`, {
                     required: "Price is required",
                   })}
-                  className="w-full border border-border rounded-md px-6 py-3"
+                  className="w-full border border-border rounded-md px-6 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
                 />
                 {fields.length > 1 && (
                   <button
@@ -269,7 +269,7 @@ const UpdateProduct = () => {
           <textarea
             {...register("itemDescription")}
             rows={3}
-            className="w-full border border-border rounded-md px-6 py-3 resize-none"
+            className="w-full border border-border rounded-md px-6 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-accent"
           />
         </div>
 

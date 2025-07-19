@@ -190,7 +190,7 @@ const AddProduct = () => {
               accept="image/*"
               onChange={handleImageUpload}
               disabled={imgLoading}
-              className="file:bg-secondary file:text-white file:cursor-pointer file:px-6 file:py-2 file:border-0 file:mr-3 w-full border border-border rounded-md text-main text-base focus:outline-none focus:ring-2 focus:ring-accent"
+              className="file:bg-secondary file:text-white file:cursor-pointer file:px-6 file:py-2 file:border-0 file:mr-3 w-full border border-border rounded-md text-main text-base focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
               required
             />
             {imgLoading && (

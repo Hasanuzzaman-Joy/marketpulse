@@ -16,6 +16,7 @@ import AddAdvertisement from "../Pages/Dashboard/Vendor/AddAdvertisement/AddAdve
 import MyProducts from "../Pages/Dashboard/Vendor/MyProducts/MyProducts";
 import UpdateProduct from "../Pages/Dashboard/Vendor/UpdateProduct/UpdateProduct";
 import DashboardHome from "../Pages/Dashboard/DashboardHome";
+import MyAdvertisements from "../Pages/Dashboard/Vendor/MyAdvertisements/MyAdvertisements";
 
 const router = createBrowserRouter([
   {
@@ -71,7 +72,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-       index:true,
+        index: true,
         element: (
           <PrivateRoute allowedRoles={["admin", "vendor", "user"]}>
             <DashboardHome />
@@ -118,6 +119,14 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "my-advertisements",
+        element: (
+          <PrivateRoute allowedRoles={["vendor"]}>
+            <MyAdvertisements />
+          </PrivateRoute>
+        ),
+      }
     ],
   },
 ]);

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 const useSuccessAlert = () => {
   const navigate = useNavigate();
 
-  const showSuccess = ({ title, text, redirectTo = "/" }) => {
+  const showSuccess = ({ title, text, redirectTo}) => {
     Swal.fire({
       icon: "success",
       title: title || "Success 🎉",

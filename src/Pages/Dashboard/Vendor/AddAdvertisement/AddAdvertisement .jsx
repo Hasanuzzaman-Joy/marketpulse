@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { toast, ToastContainer } from "react-toastify";
@@ -8,44 +7,19 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import Button from "../../../shared/Button";
 import "react-toastify/dist/ReactToastify.css";
 import useSuccessAlert from "../../../../hooks/useSuccessAlert";
+import useImageUpload from "../../../../hooks/useImageUpload";
 
 const AddAdvertisement = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const showSuccess = useSuccessAlert();
-
-    const [imgURL, setImgURL] = useState("");
-    const [imgLoading, setImgLoading] = useState(false);
+    const { imgURL, imgLoading, handleImageUpload } = useImageUpload();
 
     const {
         register,
         handleSubmit,
         formState: { errors, isSubmitting },
     } = useForm();
-
-    const handleImageUpload = async (e) => {
-        const image = e.target.files[0];
-        if (!image) return;
-
-        setImgLoading(true);
-        const imageData = new FormData();
-        imageData.append("file", image);
-        imageData.append("upload_preset", import.meta.env.VITE_PRESET);
-        imageData.append("cloud_name", import.meta.env.VITE_CLOUD_NAME);
-
-        try {
-            const res = await fetch(
-                `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUD_NAME}/image/upload`,
-                { method: "POST", body: imageData }
-            );
-            const data = await res.json();
-            setImgURL(data.secure_url);
-        } catch {
-            toast.error("Image upload failed");
-        } finally {
-            setImgLoading(false);
-        }
-    };
 
     const onSubmit = async (data) => {
         if (!imgURL) {
@@ -57,7 +31,7 @@ const AddAdvertisement = () => {
             title: data.title,
             description: data.description,
             image: imgURL,
-            createdBy: user?.email,
+            adCreatedBy: user?.email,
         };
 
         try {
@@ -129,7 +103,7 @@ const AddAdvertisement = () => {
                         accept="image/*"
                         onChange={handleImageUpload}
                         disabled={imgLoading}
-                        className="file:bg-secondary file:text-white file:cursor-pointer file:px-6 file:py-2 file:border-0 file:mr-3 w-full border border-border rounded-md text-main text-base focus:outline-none focus:ring-2 focus:ring-accent"
+                        className="file:bg-secondary file:text-white file:cursor-pointer file:px-6 file:py-2 file:border-0 file:mr-3 w-full border border-border rounded-md text-main text-base focus:outline-none focus:ring-2 focus:ring-accent  cursor-pointer"
                         required
                     />
                     {imgLoading && (
