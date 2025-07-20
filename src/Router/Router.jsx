@@ -18,6 +18,7 @@ import UpdateProduct from "../Pages/Dashboard/Vendor/UpdateProduct/UpdateProduct
 import DashboardHome from "../Pages/Dashboard/DashboardHome";
 import MyAdvertisements from "../Pages/Dashboard/Vendor/MyAdvertisements/MyAdvertisements";
 import AdminAllProducts from "../Pages/Dashboard/Admin/AdminAllProducts/AdminAllProducts";
+import AllAdvertisementsAdmin from "../Pages/Dashboard/Admin/AllAdvertisementsAdmin/AllAdvertisementsAdmin";
 
 const router = createBrowserRouter([
   {
@@ -93,6 +94,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute allowedRoles={["admin"]}>
             <AdminAllProducts />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: "all-advertisement",
+        element: (
+          <PrivateRoute allowedRoles={["admin"]}>
+            <AllAdvertisementsAdmin />
           </PrivateRoute>
         )
       },

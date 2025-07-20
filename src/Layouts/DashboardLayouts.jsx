@@ -40,7 +40,7 @@ const DashboardLayout = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/all-ads" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+            <NavLink to="/dashboard/all-advertisement" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
               <FaBullhorn /> All Advertisements
             </NavLink>
           </li>

@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import { MdInventory } from "react-icons/md";
 import Button from "../../../shared/Button";
 import Loading from "../../../shared/Loading";
-import RejectionModal from "./RejectionModal";
+import RejectionModal from "../../shared/RejectionModal";
 
 const MyProducts = () => {
   const { user } = useAuth();
