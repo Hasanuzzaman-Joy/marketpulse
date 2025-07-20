@@ -15,6 +15,7 @@ const useRole = () => {
             return res.data.role; 
         },
     });
+    console.log(userRole)
     return {userRole, roleLoading}
 };
 
