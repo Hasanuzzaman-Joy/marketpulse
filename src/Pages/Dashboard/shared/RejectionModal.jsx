@@ -8,11 +8,11 @@ const RejectionModal = ({ isOpen, onClose, rejectionReason, rejectionFeedback })
                 <h2 className="text-2xl font-bold font-heading text-center text-primary">Product Rejected</h2>
                 <div>
                     <h3 className="font-semibold mb-1">Reason:</h3>
-                    <p className="bg-bg-alt border border-secondary p-3 rounded">{rejectionReason || "No reason provided"}</p>
+                    <p className="bg-bg-alt border border-accent p-3 rounded">{rejectionReason || "No reason provided"}</p>
                 </div>
                 <div>
                     <h3 className="font-semibold mb-1">Feedback:</h3>
-                    <p className="bg-bg-alt border border-secondary p-3 rounded">{rejectionFeedback || "No feedback provided"}</p>
+                    <p className="bg-bg-alt border border-accent p-3 rounded">{rejectionFeedback || "No feedback provided"}</p>
                 </div>
                 <div className="flex justify-end mt-6">
                     <Button

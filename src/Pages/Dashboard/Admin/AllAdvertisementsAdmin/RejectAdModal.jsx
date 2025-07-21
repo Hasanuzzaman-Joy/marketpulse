@@ -40,7 +40,7 @@ const RejectAdModal = ({ ad, onClose }) => {
       showSuccess({
         title: "Advertisement Rejected",
         text: "The advertisement has been successfully rejected.",
-        redirectTo: "/dashboard/all-advertisements"
+        redirectTo: "/dashboard/all-advertisement"
       });
     },
     onError: () => {

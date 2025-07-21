@@ -7,17 +7,21 @@ import Button from "../../../shared/Button";
 import Loading from "../../../shared/Loading";
 import AdvertisementForm from "../../../shared/AdvertisementForm";
 import Modal from "../../../shared/Modal";
-import Swal from "sweetalert2";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
+import RejectionModal from "../../shared/RejectionModal";
+import Swal from "sweetalert2";
 
 const MyAdvertisements = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const showSuccess = useSuccessAlert();
+
   const [selectedAd, setSelectedAd] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showRejectModal, setShowRejectModal] = useState(false);
+  const [rejectionData, setRejectionData] = useState({});
 
   const {
     data: ads = [],
@@ -59,27 +63,9 @@ const MyAdvertisements = () => {
 
   const handleUpdateClick = (ad) => {
     const { _id, description, image, title } = ad;
-    const newAd = { _id, description, image, title };
-    setSelectedAd(newAd);
+    setSelectedAd({ _id, description, image, title });
     setModalOpen(true);
   };
-
-  // const handleUpdateSubmit = async (formData) => {
-  //   setLoading(true);
-  //   try {
-  //     await axiosSecure.patch(`/update-ad/${selectedAd._id}?email=${user?.email}`, formData);
-  //     showSuccess({
-  //       title: "Updated...",
-  //       text: "Your advertisement has been updated.",
-  //     });
-  //     setModalOpen(false);
-  //     refetch();
-  //   } catch (err) {
-  //     Swal.fire("Error", "Failed to update advertisement.", "error");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const handleUpdateSubmit = async (formData) => {
     const updatedData = {
@@ -111,6 +97,14 @@ const MyAdvertisements = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleRejectionView = (ad) => {
+    setRejectionData({
+      rejectionReason: ad.rejectionReason || "Not provided",
+      rejectionFeedback: ad.rejectionFeedback || "Not provided",
+    });
+    setShowRejectModal(true);
   };
 
   return (
@@ -158,7 +152,10 @@ const MyAdvertisements = () => {
                   <td className="px-5 py-2">
                     <div className="flex items-center gap-3">
                       <img
-                        src={ad.image || "https://res.cloudinary.com/dvkiiyhaj/image/upload/v1752928833/ikhyvszgvsjzqqf8xcej.png"}
+                        src={
+                          ad.image ||
+                          "https://res.cloudinary.com/dvkiiyhaj/image/upload/v1752928833/ikhyvszgvsjzqqf8xcej.png"
+                        }
                         alt={ad.title}
                         className="w-10 h-10 rounded-md object-cover border border-border"
                       />
@@ -173,23 +170,31 @@ const MyAdvertisements = () => {
                   <td className="px-6 py-4">
                     <span
                       className={`px-3 py-1 rounded-md text-sm font-medium ${ad.status === "approved"
-                        ? "bg-green-100 text-green-700"
-                        : ad.status === "pending"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-red-100 text-red-600"
+                          ? "bg-green-100 text-green-700"
+                          : ad.status === "pending"
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-red-100 text-red-600"
                         }`}
                     >
                       {ad.status || "pending"}
                     </span>
                   </td>
-                  <td className="px-6 py-4 space-x-2 flex justify-center items-center gap-2">
-                    <button
-                      className="text-white px-3 py-2 rounded bg-accent hover:bg-secondary transition font-semibold cursor-pointer"
-                      onClick={() => handleUpdateClick(ad)}
-                    >
-                      Update
-                    </button>
-                    <Button onClick={() => handleDelete(ad._id)}>Delete</Button>
+                  <td className="px-6 py-4 space-x-2 flex justify-start items-center gap-2">
+                    {ad.status === "rejected" ? (
+                      <Button onClick={() => handleRejectionView(ad)}>
+                        View Rejection
+                      </Button>
+                    ) : (
+                      <>
+                        <button
+                          className="text-white px-3 py-2 rounded bg-accent hover:bg-secondary transition font-semibold cursor-pointer"
+                          onClick={() => handleUpdateClick(ad)}
+                        >
+                          Update
+                        </button>
+                        <Button onClick={() => handleDelete(ad._id)}>Delete</Button>
+                      </>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -209,6 +214,14 @@ const MyAdvertisements = () => {
           loading={loading}
         />
       </Modal>
+
+      <RejectionModal
+        isOpen={showRejectModal}
+        onClose={() => setShowRejectModal(false)}
+        rejectionReason={rejectionData.rejectionReason}
+        rejectionFeedback={rejectionData.rejectionFeedback}
+      />
+
       <ToastContainer />
     </div>
   );

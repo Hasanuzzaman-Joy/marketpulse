@@ -10,7 +10,7 @@ import Forbidden from "../Pages/Forbidden/Forbidden";
 import DashboardLayouts from "../Layouts/DashboardLayouts";
 import AllUsers from "../Pages/Dashboard/Admin/AllUsers/AllUsers";
 import PrivateRoute from "./ProtectedRoutes/PrivateRoute";
-import ApplyVendor from "../Pages/Dashboard/Vendor/ApplyVendor/ApplyVendor";
+// import ApplyVendor from "../Pages/Dashboard/Vendor/ApplyVendor/ApplyVendor";
 import AddProduct from "../Pages/Dashboard/Vendor/AddProduct/AddProduct";
 import AddAdvertisement from "../Pages/Dashboard/Vendor/AddAdvertisement/AddAdvertisement ";
 import MyProducts from "../Pages/Dashboard/Vendor/MyProducts/MyProducts";
@@ -19,6 +19,7 @@ import DashboardHome from "../Pages/Dashboard/DashboardHome";
 import MyAdvertisements from "../Pages/Dashboard/Vendor/MyAdvertisements/MyAdvertisements";
 import AdminAllProducts from "../Pages/Dashboard/Admin/AdminAllProducts/AdminAllProducts";
 import AllAdvertisementsAdmin from "../Pages/Dashboard/Admin/AllAdvertisementsAdmin/AllAdvertisementsAdmin";
+import ViewPriceTrends from "../Pages/Dashboard/User/PriceTrends/ViewPriceTrends";
 
 const router = createBrowserRouter([
   {
@@ -46,14 +47,14 @@ const router = createBrowserRouter([
           </PrivateRoute>
         )
       },
-      {
-        path: "/apply-vendor",
-        element: (
-          <PrivateRoute allowedRoles={["user", "admin"]}>
-            <ApplyVendor />
-          </PrivateRoute>
-        )
-      },
+      // {
+      //   path: "/apply-vendor",
+      //   element: (
+      //     <PrivateRoute allowedRoles={["user", "admin"]}>
+      //       <ApplyVendor />
+      //     </PrivateRoute>
+      //   )
+      // },
       {
         path: "/loading",
         element: <Loading />,
@@ -142,6 +143,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute allowedRoles={["vendor"]}>
             <MyAdvertisements />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: "price-trends",
+        element: (
+          <PrivateRoute allowedRoles={["user"]}>
+            <ViewPriceTrends />
           </PrivateRoute>
         )
       }

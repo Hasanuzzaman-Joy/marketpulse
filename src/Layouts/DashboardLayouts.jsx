@@ -184,7 +184,7 @@ const DashboardLayout = () => {
 
         {/* Main Content */}
         <div className="flex flex-col flex-1 overflow-y-auto bg-[#f4f4f4] mt-[72px]">
-          <main className="flex-1 md:p-6">
+          <main className="flex-1 p-3 md:p-6">
             <Outlet />
           </main>
           <SidebarFooter />

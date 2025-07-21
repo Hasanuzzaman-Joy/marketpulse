@@ -5,13 +5,13 @@ import Button from "../shared/Button";
 import { FiLogOut, FiMenu, FiX } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { motion, AnimatePresence } from "motion/react"
-import useRole from "../../hooks/useRole";
+// import useRole from "../../hooks/useRole";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const { userRole, roleLoading } = useRole();
+  // const { userRole, roleLoading } = useRole();
 
   // Scroll shrink effect
   useEffect(() => {
@@ -44,7 +44,7 @@ const Navbar = () => {
           </NavLink>
         </li>
       }
-      {
+      {/* {
         !roleLoading && userRole === "user" &&
         <li>
           <NavLink
@@ -58,7 +58,7 @@ const Navbar = () => {
             Become A Seller
           </NavLink>
         </li>
-      }
+      } */}
     </>
   );
 

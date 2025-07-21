@@ -14,7 +14,7 @@ import useSuccessAlert from "../../../../hooks/useSuccessAlert";
 const AddProduct = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const showSuccess = useSuccessAlert();  
+  const showSuccess = useSuccessAlert();
   const { imgURL, imgLoading, handleImageUpload } = useImageUpload();
   const [date, setDate] = useState(new Date());
 
@@ -30,11 +30,15 @@ const AddProduct = () => {
     formState: { errors, isSubmitting },
     control,
     setValue,
+    watch
   } = useForm({
     defaultValues: {
       prices: [{ date: formatDate(new Date()), price: "" }],
     },
   });
+
+
+  const prices = watch("prices");
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -170,7 +174,7 @@ const AddProduct = () => {
               {...register("pricePerUnit", {
                 required: "Price per unit is required",
               })}
-              placeholder="e.g., ৳30/kg"
+              placeholder="e.g., $30 per kg"
               className="w-full border border-border rounded-md px-6 py-3 text-main text-base focus:outline-none focus:ring-2 focus:ring-accent"
             />
             {errors.pricePerUnit && (
@@ -190,7 +194,7 @@ const AddProduct = () => {
               accept="image/*"
               onChange={handleImageUpload}
               disabled={imgLoading}
-              className="file:bg-secondary file:text-white file:cursor-pointer file:px-6 file:py-2 file:border-0 file:mr-3 w-full border border-border rounded-md text-main text-base focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
+              className="file:bg-secondary file:text-white file:cursor-pointer file:px-6 file:py-3 file:border-0 file:mr-3 w-full border border-border rounded-md text-main text-base focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
               required
             />
             {imgLoading && (
@@ -226,44 +230,57 @@ const AddProduct = () => {
         <div className="space-y-4">
           <label className="text-text-secondary font-medium">Price History</label>
 
-          {fields.map((field, index) => (
-            <div
-              key={field.id}
-              className="flex flex-col w-full md:flex-row md:items-center md:gap-4 gap-2 mt-1"
-            >
-              {/* Price's Date */}
-              <div className="w-full">
-                <DatePicker
-                  selected={new Date(field.date || new Date())}
-                  onChange={(date) =>
-                    setValue(`prices.${index}.date`, date, { shouldValidate: true })
-                  }
-                  dateFormat="yyyy-MM-dd"
-                  className="w-full border border-border rounded-md px-6 py-3 text-main text-base focus:outline-none focus:ring-2 focus:ring-accent"
-                />
-              </div>
+          {fields.map((field, index) => {
+            const priceDate = prices?.[index]?.date || new Date();
+            return (
+              <div
+                key={field.id}
+                className="flex flex-col w-full md:flex-row md:items-center md:gap-4 gap-2 mt-1"
+              >
+                {/* Date Picker Field */}
+                <div className="w-full">
+                  <DatePicker
+                    selected={priceDate ? new Date(priceDate) : new Date()}
+                    onChange={(date) => {
+                      setValue(`prices.${index}.date`, date.toISOString().split("T")[0], {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                      });
+                    }}
+                    dateFormat="yyyy-MM-dd"
+                    wrapperClassName="w-full"
+                    className="w-full border border-border rounded-md px-6 py-3 text-main text-base focus:outline-none focus:ring-2 focus:ring-accent"
+                  />
+                  <input
+                    type="hidden"
+                    {...register(`prices.${index}.date`, {
+                      required: "Date is required",
+                    })}
+                  />
+                </div>
 
-              {/* Price input with remove button */}
-              <div className="flex w-full items-center gap-2">
-                <input
-                  {...register(`prices.${index}.price`, {
-                    required: "Price is required",
-                  })}
-                  placeholder="e.g., 28"
-                  className="w-full border border-border rounded-md px-6 py-3 text-main text-base focus:outline-none focus:ring-2 focus:ring-accent"
-                />
-                {fields.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => remove(index)}
-                    className="text-secondary font-bold text-xl cursor-pointer"
-                  >
-                    &times;
-                  </button>
-                )}
+                {/* Price input with remove button */}
+                <div className="flex w-full items-center gap-2">
+                  <input
+                    {...register(`prices.${index}.price`, {
+                      required: "Price is required",
+                    })}
+                    placeholder="e.g., $30 per kg"
+                    className="w-full border border-border rounded-md px-6 py-3 text-main text-base focus:outline-none focus:ring-2 focus:ring-accent"
+                  />
+                  {fields.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => remove(index)}
+                      className="text-secondary font-bold text-xl cursor-pointer"
+                    >
+                      &times;
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
           <button
             type="button"

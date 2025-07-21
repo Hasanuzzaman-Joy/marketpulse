@@ -17,7 +17,7 @@ const DashboardHome = () => {
             }else if (userRole === "vendor") {
                 navigate("/dashboard/my-products");
             } else if (userRole === "user") {
-                navigate("/apply-vendor");
+                navigate("/dashboard/price-trends");
             } else {
                 navigate("/forbidden");
             }

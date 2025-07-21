@@ -60,7 +60,7 @@ const AllUsers = () => {
 
   return (
     <div className="font-body text-main p-6 md:p-10 bg-white ">
-      <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+      <h2 className="text-3xl font-bold mb-6 flex items-center gap-2">
         <FaUsers className="text-primary" /> All Users
       </h2>
 
