@@ -59,7 +59,7 @@ const ProductTable = ({
                       "https://res.cloudinary.com/dvkiiyhaj/image/upload/v1752928833/ikhyvszgvsjzqqf8xcej.png"
                     }
                     alt={item.itemName}
-                    className="w-10 h-10 rounded-md object-cover border border-border"
+                    className="w-10 h-10 rounded-md object-cover border border-border p-1"
                   />
                   <span className="font-medium">{item.itemName}</span>
                 </div>

@@ -89,7 +89,7 @@ const DashboardLayout = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/manage-watchlist" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+            <NavLink to="/dashboard/manage-wishlist" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
               <FaTools /> Manage Watchlist
             </NavLink>
           </li>

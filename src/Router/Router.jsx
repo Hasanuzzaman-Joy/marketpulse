@@ -20,6 +20,9 @@ import MyAdvertisements from "../Pages/Dashboard/Vendor/MyAdvertisements/MyAdver
 import AdminAllProducts from "../Pages/Dashboard/Admin/AdminAllProducts/AdminAllProducts";
 import AllAdvertisementsAdmin from "../Pages/Dashboard/Admin/AllAdvertisementsAdmin/AllAdvertisementsAdmin";
 import ViewPriceTrends from "../Pages/Dashboard/User/PriceTrends/ViewPriceTrends";
+import ManageWishlist from "../Pages/Dashboard/User/ManageWishlist/ManageWishlist";
+import ProductDetails from "../Pages/DetailsPage/ProductDetails";
+import AllProducts from "../Pages/AllProducts/AllProducts";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +41,18 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/product-details/:id",
+        element: (
+          <PrivateRoute allowedRoles={["user", "vendor", "admin"]}>
+            <ProductDetails />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: "/products",
+        element: <AllProducts />,
       },
       {
         path: "/contact",
@@ -151,6 +166,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute allowedRoles={["user"]}>
             <ViewPriceTrends />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: "manage-wishlist",
+        element: (
+          <PrivateRoute allowedRoles={["user"]}>
+            <ManageWishlist />
           </PrivateRoute>
         )
       }

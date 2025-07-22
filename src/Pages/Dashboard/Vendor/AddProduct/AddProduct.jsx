@@ -37,7 +37,6 @@ const AddProduct = () => {
     },
   });
 
-
   const prices = watch("prices");
 
   const { fields, append, remove } = useFieldArray({
