@@ -3,6 +3,17 @@ import FeaturedProducts from "./FeaturedProducts";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
 import Loading from "../../shared/Loading";
+import Banner from "./Banner";
+import About from "./About";
+import CallToAction from "./CallToAction";
+import Container from "../../shared/Container";
+// import Faq from "./Faq";
+import { Suspense } from "react";
+import Testimonial from "./Testimonial";
+import AdSlider from "./AdSlider";
+
+// const faqData = fetch('/faq.json').then(res => res.json());
+const testimonialData = fetch('/testimonial.json').then(res => res.json());
 
 const Home = () => {
     const { user, loading } = useAuth();
@@ -20,9 +31,23 @@ const Home = () => {
     if (isLoading) return <Loading />;
 
     return (
-        <main className="px-4 md:px-8 lg:px-16">
-            <FeaturedProducts products={featuredProducts} />
-        </main>
+        <>
+            <Banner />
+            <main className="px-4 md:px-8 lg:px-16">
+                <Container>
+                    <About />
+                    <FeaturedProducts products={featuredProducts} />
+                    <Suspense fallback={<Loading />}>
+                        <Testimonial testimonialData={testimonialData}></Testimonial>
+                    </Suspense>
+                    <AdSlider />
+                </Container>
+                {/* <Suspense fallback={<Loading />}>
+                <Faq faqData={faqData} />
+            </Suspense> */}
+            </main>
+            <CallToAction />
+        </>
     );
 };
 

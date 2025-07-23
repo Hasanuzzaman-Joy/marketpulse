@@ -23,6 +23,9 @@ import ViewPriceTrends from "../Pages/Dashboard/User/PriceTrends/ViewPriceTrends
 import ManageWishlist from "../Pages/Dashboard/User/ManageWishlist/ManageWishlist";
 import ProductDetails from "../Pages/DetailsPage/ProductDetails";
 import AllProducts from "../Pages/AllProducts/AllProducts";
+import PaymentPage from "../Pages/DetailsPage/PaymentPage";
+import AdminOrdersPage from "../Pages/Dashboard/Admin/AdminOrdersPage/AdminOrdersPage";
+import MyOrders from "../Pages/Dashboard/User/MyOrders/MyOrders";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +56,14 @@ const router = createBrowserRouter([
       {
         path: "/products",
         element: <AllProducts />,
+      },
+      {
+        path: "/payment/:productId",
+        element: (
+          <PrivateRoute allowedRoles={["user"]}>
+            <PaymentPage />
+          </PrivateRoute>
+        )
       },
       {
         path: "/contact",
@@ -122,6 +133,14 @@ const router = createBrowserRouter([
         )
       },
       {
+        path: "all-orders",
+        element: (
+          <PrivateRoute allowedRoles={["admin"]}>
+            <AdminOrdersPage />
+          </PrivateRoute>
+        )
+      },
+      {
         path: "add-product",
         element: (
           <PrivateRoute allowedRoles={["vendor"]}>
@@ -174,6 +193,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute allowedRoles={["user"]}>
             <ManageWishlist />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: "my-orders",
+        element: (
+          <PrivateRoute allowedRoles={["user"]}>
+            <MyOrders />
           </PrivateRoute>
         )
       }

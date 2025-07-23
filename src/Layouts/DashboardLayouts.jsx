@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Outlet, useLocation, Link } from "react-router";
+import { NavLink, Outlet, useLocation, Link, useNavigation } from "react-router";
 import { FiLogOut, FiMenu, FiX } from "react-icons/fi";
 import { FaUserFriends, FaClipboardList, FaBullhorn, FaShoppingBasket, FaPlusSquare, FaBoxOpen, FaAd, FaChartBar, FaChartLine, FaTools, FaListAlt } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
@@ -9,22 +9,28 @@ import SidebarFooter from "../Pages/shared/SidebarFooter";
 import { AnimatePresence, motion } from "framer-motion";
 import useRole from "../hooks/useRole";
 import Loading from "../Pages/shared/Loading";
+import ScrollToTop from "../Pages/shared/ScrollToTop";
 
 const DashboardLayout = () => {
   const { user, logOut } = useAuth();
   const { userRole, roleLoading } = useRole();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigation = useNavigation();
 
   const getPageTitle = () => {
     const page = location.pathname.split("/")[2] || "Dashboard";
     return page.charAt(0).toUpperCase() + page.slice(1).replace("-", " ");
   };
 
-  if(roleLoading) return <Loading />;
+  if (roleLoading) return <Loading />;
 
   const menuItems = (
     <>
+    
+      {navigation.state === "loading" && <Loading />}
+      <ScrollToTop />
+      
       {/* For admin */}
       {
         user && userRole === "admin" &&
@@ -65,7 +71,7 @@ const DashboardLayout = () => {
             <NavLink to="/dashboard/add-product" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
               <FaPlusSquare /> Add Product
             </NavLink>
-          </li>    
+          </li>
           <li>
             <NavLink to="/dashboard/my-advertisements" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
               <FaChartBar /> My Advertisements
