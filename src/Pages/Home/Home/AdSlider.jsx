@@ -3,11 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import useAxios from "../../../hooks/useAxios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay, Pagination } from "swiper/modules";
-
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Loading from "../../shared/Loading";
+import ZoomIn from "../../shared/ZoomIn";
 
 const AdSlider = () => {
   const axiosInstance = useAxios();
@@ -56,8 +56,10 @@ const AdSlider = () => {
 
                 {/* Text Content (right) */}
                 <div className="bg-primary text-white p-6 flex flex-col justify-center">
-                  <h2 className="text-2xl font-bold mb-3">{ad.title}</h2>
-                  <p className="text-base">{ad.description}</p>
+                  <ZoomIn>
+                    <h2 className="text-2xl font-bold mb-3">{ad.title}</h2>
+                    <p className="text-base">{ad.description}</p>
+                  </ZoomIn>
                 </div>
               </div>
             </SwiperSlide>

@@ -13,7 +13,7 @@ const DashboardHome = () => {
     useEffect(() => {
         if (!loading && !roleLoading && user && userRole) {
             if (userRole === "admin") {
-                return navigate("/dashboard/all-users")
+                navigate("/dashboard/all-users")
             }else if (userRole === "vendor") {
                 navigate("/dashboard/my-products");
             } else if (userRole === "user") {

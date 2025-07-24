@@ -1,4 +1,3 @@
-import React from 'react';
 import { Navigate, useLocation } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import Loading from '../../Pages/shared/Loading';
@@ -9,7 +8,7 @@ const PrivateRoute = ({allowedRoles, children}) => {
     const location = useLocation();
     const{userRole, roleLoading} = useRole();
 
-    if(loading || roleLoading) return <Loading />
+    if(loading || roleLoading || !userRole) return <Loading />
     if(!user) return <Navigate to='/login' state={{from : location.pathname}} replace />
 
     if(!allowedRoles.includes(userRole)){

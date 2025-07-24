@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import FeaturedProducts from "./FeaturedProducts";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAxios from "../../../hooks/useAxios";
 import useAuth from "../../../hooks/useAuth";
 import Loading from "../../shared/Loading";
 import Banner from "./Banner";
@@ -21,16 +21,15 @@ const Home = () => {
         document.title = "MarketPulse"
     }, [])
 
-    const { user, loading } = useAuth();
-    const axiosSecure = useAxiosSecure();
+    const { user } = useAuth();
+    const axiosInstance= useAxios();
 
     const { data: featuredProducts = [], isLoading } = useQuery({
         queryKey: ["featuredProducts", user?.email],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/getAll-products`);
+            const res = await axiosInstance.get("/getAll-products");
             return res.data.slice(0, 8);
-        },
-        enabled: !loading && !!user?.email
+        }
     });
 
     if (isLoading) return <Loading />;

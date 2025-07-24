@@ -1,5 +1,6 @@
 import { use } from "react";
 import StarRatings from "react-star-ratings";
+import ZoomIn from "../../shared/ZoomIn";
 
 const Testimonial = ({ testimonialData }) => {
     const testimonial = use(testimonialData);
@@ -12,7 +13,8 @@ const Testimonial = ({ testimonialData }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {
                     testimonial.map((test, index) => (
-                        <div key={index} className="flex flex-col w-full p-1 mx-auto divide-y divide-gray-300 rounded-md shadow bg-white">
+                        <ZoomIn  key={index}>
+                        <div className="flex flex-col w-full p-1 mx-auto divide-y divide-gray-300 rounded-md shadow bg-white">
                             <div className="flex justify-between p-4">
                                 <div className="flex space-x-4">
                                     <div>
@@ -45,6 +47,7 @@ const Testimonial = ({ testimonialData }) => {
                                 ))}
                             </div>
                         </div>
+                        </ZoomIn>
                     ))
                 }
             </div>

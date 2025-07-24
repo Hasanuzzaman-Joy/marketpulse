@@ -17,6 +17,7 @@ import Button from "../shared/Button";
 import Container from "../shared/Container";
 import useAuth from "../../hooks/useAuth";
 import { toast, ToastContainer } from "react-toastify";
+import PriceComparisonChart from "./PriceComparisonChart";
 
 const ProductDetails = () => {
   const { user } = useAuth();
@@ -133,7 +134,8 @@ const ProductDetails = () => {
     );
   };
 
-  if (isLoading || authLoading) return <Loading />;
+  const [selectedDate, setSelectedDate] = useState("");
+  const [comparisonData, setComparisonData] = useState([]);
 
   const {
     itemName,
@@ -147,6 +149,36 @@ const ProductDetails = () => {
     marketDescription,
     itemDescription,
   } = product || {};
+
+  const formatDate = (d) => new Date(d).toISOString().split("T")[0];
+
+  useEffect(() => {
+    if (!selectedDate || !prices?.length || !date) return;
+
+    const todayPrice = prices.find(p => formatDate(p.date) === formatDate(date));
+    const prevPrice = prices.find(p => formatDate(p.date) === selectedDate);
+
+    if (todayPrice && prevPrice) {
+      setComparisonData([
+        {
+          name: new Date(selectedDate).toLocaleDateString(),
+          price: parseFloat(prevPrice.price),
+        },
+        {
+          name: new Date(date).toLocaleDateString(),
+          price: parseFloat(todayPrice.price),
+        },
+      ]);
+    } else {
+      setComparisonData([]);
+    }
+  }, [selectedDate, prices, date]);
+
+  const availableDates = prices
+    ?.map((p) => p.date)
+    .filter((d) => d !== date);
+
+  if (isLoading || authLoading) return <Loading />
 
   return (
     <Container>
@@ -225,13 +257,12 @@ const ProductDetails = () => {
                 userRole === "admin" ||
                 userRole === "vendor"
               }
-              className={`flex items-center gap-2 ${
-                addToWishlistMutation.isLoading ||
+              className={`flex items-center gap-2 ${addToWishlistMutation.isLoading ||
                 userRole === "admin" ||
                 userRole === "vendor"
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-primary hover:bg-yellow-500"
-              }`}
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-primary hover:bg-yellow-500"
+                }`}
               aria-label="Add to Watchlist"
             >
               <FaHeart /> Add to Watchlist
@@ -245,6 +276,33 @@ const ProductDetails = () => {
             </Button>
           </div>
         </div>
+      </div>
+
+      {/* CHART */}
+      <div className="mt-20 mx-auto">
+        {availableDates?.length > 0 && (
+          <div className="mt-8">
+            <h4 className="font-semibold text-3xl mb-2 text-secondary">
+              Compare Price with Previous Date
+            </h4>
+            <select
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded focus:outline-none cursor-pointer"
+            >
+              <option value="">Select a Previous Date</option>
+              {availableDates.map((d, idx) => (
+                <option key={idx} value={d}>
+                  {new Date(d).toLocaleDateString()}
+                </option>
+              ))}
+            </select>
+
+            {comparisonData.length > 0 && (
+              <PriceComparisonChart data={comparisonData} />
+            )}
+          </div>
+        )}
       </div>
 
       {/* COMMENT SECTION BELOW CARD */}

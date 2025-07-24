@@ -7,6 +7,7 @@ import useRole from "../../../hooks/useRole";
 import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router";
 import Loading from "../../shared/Loading";
+import ZoomIn from "../../shared/ZoomIn";
 
 const FeaturedProducts = ({ products }) => {
     const axiosSecure = useAxiosSecure();
@@ -46,8 +47,8 @@ const FeaturedProducts = ({ products }) => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {products.slice(0, 6).map((product) => (
+                    <ZoomIn key={product._id}>
                     <div
-                        key={product._id}
                         className="bg-white border border-border rounded shadow overflow-hidden transition hover:shadow"
                     >
                         {/* Upper Part */}
@@ -90,6 +91,7 @@ const FeaturedProducts = ({ products }) => {
                             </Link>
                         </div>
                     </div>
+                    </ZoomIn>
                 ))}
             </div>
             <ToastContainer />

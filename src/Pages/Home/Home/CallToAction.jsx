@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import Container from "../../shared/Container";
+import ZoomIn from "../../shared/ZoomIn";
 
 const CallToAction = () => {
     return (
@@ -12,6 +13,7 @@ const CallToAction = () => {
         >
             <Container>
                 <div className="relative z-10 text-center text-white">
+                    <ZoomIn>
                     <h2 className="text-4xl font-bold mb-4">
                         Stay Ahead of the Market
                     </h2>
@@ -23,6 +25,7 @@ const CallToAction = () => {
                             Explore Now
                         </button>
                     </Link>
+                    </ZoomIn>
                 </div>
             </Container>
         </section>

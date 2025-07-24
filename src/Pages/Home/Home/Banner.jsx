@@ -1,4 +1,4 @@
-import React from "react";
+import ZoomIn from "../../shared/ZoomIn";
 
 const Banner = () => {
     return (
@@ -15,12 +15,14 @@ const Banner = () => {
 
             {/* Content on top */}
             <div className="md:w-11/12 mx-auto absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-20">
-                <h1 className="text-white text-4xl md:text-6xl font-bold drop-shadow-lg">
-                    Fresh Market Prices at Your Fingertips
-                </h1>
-                <p className="mt-4 text-white text-lg md:text-2xl drop-shadow-md">
-                    Track real-time prices of fresh produce directly from your local markets
-                </p>
+                <ZoomIn>
+                    <h1 className="text-white text-4xl md:text-6xl font-bold drop-shadow-lg">
+                        Fresh Market Prices at Your Fingertips
+                    </h1>
+                    <p className="mt-4 text-white text-lg md:text-2xl drop-shadow-md">
+                        Track real-time prices of fresh produce directly from your local markets
+                    </p>
+                </ZoomIn>
             </div>
         </div>
     );
