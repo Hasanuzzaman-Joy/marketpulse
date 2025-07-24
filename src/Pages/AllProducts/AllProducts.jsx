@@ -45,8 +45,7 @@ const AllProducts = () => {
 
             if (sortOrder) query.append("sort", sortOrder);
             if (selectedDate) {
-                const isoDate = selectedDate.toISOString().split("T")[0]; 
-                query.append("date", isoDate);
+                query.append("date", selectedDate.toISOString().split("T")[0]);
             }
 
             const res = await axiosInstance.get(`/approved-products?${query.toString()}`);
@@ -56,6 +55,8 @@ const AllProducts = () => {
 
     const { products = [], totalPages = 1 } = data;
     const pages = [...Array(totalPages).keys()].map((i) => i + 1);
+
+    console.log(products)
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -132,7 +133,7 @@ const AllProducts = () => {
                                     </p>
                                     <p>
                                         <span className="font-semibold">Date:</span>{" "}
-                                        {format(new Date(product.date), "PPP")}
+                                        {format(new Date(product.date), "d MMMM, yyyy")}
                                     </p>
                                 </div>
 
