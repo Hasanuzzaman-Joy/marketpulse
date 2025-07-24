@@ -21,17 +21,17 @@ const FeaturedProducts = ({ products }) => {
             axiosSecure.post(`/wishlist?email=${user?.email}`, { productId }),
 
         onSuccess: () => {
-            toast.success("Added to wishlist");
+            toast.success("Added to watchlist");
             queryClient.invalidateQueries({ queryKey: ["wishlist"] });
         },
 
         onError: () => {
-            toast.error("Failed to add to wishlist");
+            toast.error("Already added to the watchlist");
         },
     });
     const handleAddToWishlist = (productId) => {
         if (!user?.email) {
-            toast.error("Please login first to add to wishlist");
+            toast.error("Please login first to add to watchlist");
             return;
         }
         addToWishlistMutation.mutate({ productId });
@@ -61,7 +61,7 @@ const FeaturedProducts = ({ products }) => {
                                         ? "cursor-not-allowed text-gray-400 hover:text-gray-400"
                                         : "cursor-pointer"
                                     }`}
-                                title="Add to Wishlist"
+                                title="Add to Watchlist"
                             >
                                 <FaHeart />
                             </button>

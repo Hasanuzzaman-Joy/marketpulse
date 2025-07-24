@@ -8,7 +8,7 @@ const PrivateRoute = ({allowedRoles, children}) => {
     const location = useLocation();
     const{userRole, roleLoading} = useRole();
 
-    if(loading || roleLoading || !userRole) return <Loading />
+    if(loading || roleLoading) return <Loading />
     if(!user) return <Navigate to='/login' state={{from : location.pathname}} replace />
 
     if(!allowedRoles.includes(userRole)){

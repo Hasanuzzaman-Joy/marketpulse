@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 
 const Button = ({
   type = "button",
@@ -8,10 +7,7 @@ const Button = ({
   className = "",
 }) => {
   return (
-    <motion.button
-      whileHover={{ scale: 1.1}}
-      whileTap={{ scale: 0.8 }}
-      transition={{ duration: "0.3", ease:"linear" }}
+    <button
       type={type}
       onClick={onClick}
       disabled={disabled}
@@ -23,7 +19,7 @@ const Button = ({
         ${className}`}
     >
       {children}
-    </motion.button>
+    </button>
   );
 };
 

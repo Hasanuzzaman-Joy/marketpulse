@@ -86,12 +86,12 @@ const Navbar = () => {
         </Link>
 
         {/* Middle - Desktop Menu */}
-        <ul className="hidden md:flex items-center gap-8 text-main text-base font-heading font-medium">
+        <ul className="hidden lg:flex items-center gap-8 text-main text-base font-heading font-medium">
           {menuItems}
         </ul>
 
         {/* Right - Desktop Auth Buttons */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-4">
           {!user ? (
             <>
               <Link to="/login">
@@ -121,12 +121,12 @@ const Navbar = () => {
         </div>
 
         {/* Hamburger Icon */}
-        <div className="md:hidden z-50">
+        <div className="lg:hidden z-50">
           <button onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? (
-              <FiX className="text-2xl text-main" />
+              <FiX className="text-2xl text-main cursor-pointer" />
             ) : (
-              <FiMenu className="text-2xl text-main" />
+              <FiMenu className="text-2xl text-main cursor-pointer" />
             )}
           </button>
         </div>
@@ -140,7 +140,7 @@ const Navbar = () => {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ duration: 0.4, ease: "easeInOut" }}
-              className="fixed top-0 left-0 w-3/4 sm:w-2/4 h-full bg-white shadow-lg p-6 md:hidden z-40"
+              className="fixed top-0 left-0 w-3/4 sm:w-2/4 h-full bg-white shadow-lg p-6 lg:hidden z-40"
             >
               {/* Close button */}
               <div className="flex justify-between items-center mb-4">
@@ -155,7 +155,7 @@ const Navbar = () => {
                   </h1>
                 </Link>
                 <button onClick={() => setMenuOpen(false)}>
-                  <FiX className="text-2xl text-main" />
+                  <FiX className="text-2xl text-main cursor-pointer" />
                 </button>
               </div>
 

@@ -129,7 +129,7 @@ const MyProducts = () => {
                       <span className="font-medium">{item.itemName}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4">{item.pricePerUnit}</td>
+                  <td className="px-6 py-4">${item.pricePerUnit}</td>
                   <td className="px-6 py-4">{item.marketName}</td>
                   <td className="px-6 py-4">{new Date(item.date).toLocaleDateString()}</td>
 
@@ -150,12 +150,15 @@ const MyProducts = () => {
                   {/* Actions */}
                   <td className="px-6 py-4 space-x-2 flex justify-start items-center gap-2">
                     {item.status === "rejected" ? (
+                      <>
                       <Button
                         className="bg-red-600 text-white px-3 py-2 rounded cursor-pointer"
                         onClick={() => openRejectionModal(item.rejectionReason, item.rejectionFeedback)}
                       >
                         View Rejection
                       </Button>
+                      <Button onClick={() => handleDelete(item._id)}>Delete</Button>
+                      </>
                     ) : (
                       <>
                         <Link to={`/dashboard/update-product/${item._id}`}>

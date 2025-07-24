@@ -95,7 +95,7 @@ const DashboardLayout = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/manage-wishlist" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
+            <NavLink to="/dashboard/manage-watchlist" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}>
               <FaTools /> Manage Watchlist
             </NavLink>
           </li>
@@ -163,7 +163,7 @@ const DashboardLayout = () => {
             <div className="flex items-center gap-3">
               {/* Mobile hamburger */}
               <button
-                className="lg:hidden text-2xl text-main"
+                className="lg:hidden text-2xl text-main cursor-pointer"
                 onClick={() => setMenuOpen(true)}
               >
                 <FiMenu />
@@ -222,7 +222,7 @@ const DashboardLayout = () => {
                 </Link>
                 <button
                   onClick={() => setMenuOpen(false)}
-                  className="text-2xl text-main"
+                  className="text-2xl text-main cursor-pointer"
                 >
                   <FiX />
                 </button>

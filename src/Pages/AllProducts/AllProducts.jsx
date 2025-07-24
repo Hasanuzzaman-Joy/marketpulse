@@ -20,7 +20,7 @@ const AllProducts = () => {
 
     const [page, setPage] = useState(1);
     const [limit] = useState(9);
-    const [sortOrder, setSortOrder] = useState(""); // "asc" or "desc"
+    const [sortOrder, setSortOrder] = useState("");
     const [selectedDate, setSelectedDate] = useState(null);
 
     const handlePage = (getPage) => {
@@ -45,7 +45,7 @@ const AllProducts = () => {
 
             if (sortOrder) query.append("sort", sortOrder);
             if (selectedDate) {
-                const isoDate = selectedDate.toISOString().split("T")[0]; // YYYY-MM-DD
+                const isoDate = selectedDate.toISOString().split("T")[0]; 
                 query.append("date", isoDate);
             }
 
@@ -56,7 +56,7 @@ const AllProducts = () => {
 
     const { products = [], totalPages = 1 } = data;
     const pages = [...Array(totalPages).keys()].map((i) => i + 1);
-    
+
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     }, [page]);
@@ -85,26 +85,26 @@ const AllProducts = () => {
                 </select>
 
                 {/* Date Filter */}
-                <DatePicker
-                    selected={selectedDate}
-                    onChange={(date) => {
-                        setPage(1);
-                        setSelectedDate(date);
-                    }}
-                    placeholderText="📅 Filter by Date"
-                    dateFormat="yyyy-MM-dd"
-                    className="border border-border rounded px-4 py-2 text-base cursor-pointer"
-                    isClearable
-                />
+                <div className="relative z-10">
+                    <DatePicker
+                        selected={selectedDate}
+                        onChange={(date) => {
+                            setPage(1);
+                            setSelectedDate(date);
+                        }}
+                        placeholderText="📅 Filter by Date"
+                        dateFormat="yyyy-MM-dd"
+                        className="!text-left !w-48 border border-border rounded px-4 py-2 text-base cursor-pointer"
+                        isClearable
+                    />
+                </div>
             </div>
 
             {/* Product Cards */}
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {products.map((product) => (
                     <ZoomIn key={product._id}>
-                        <div
-                            className="bg-white rounded overflow-hidden shadow-md border border-border hover:shadow-lg transition duration-300"
-                        >
+                        <div className="flex flex-col h-full bg-white rounded overflow-hidden shadow-md border border-border hover:shadow-lg transition duration-300">
                             <div className="bg-bg-alt">
                                 <img
                                     src={product.image}
@@ -112,36 +112,32 @@ const AllProducts = () => {
                                     className="h-60 w-full object-contain shadow p-6"
                                 />
                             </div>
-                            <div className="p-5 space-y-2">
-                                <h2 className="text-xl font-semibold text-main">
-                                    {product.itemName}
-                                </h2>
-                                <p>
-                                    {product.itemDescription}
-                                </p>
-                                <p>
-                                    <span className="font-semibold">Current Price:</span>{' '}
-                                    {new Intl.NumberFormat("en-US", {
-                                        style: "currency",
-                                        currency: "USD",
-                                    }).format(product.pricePerUnit)}{' '}
-                                    /kg
-                                </p>
-                                <p>
-                                    <span className="font-semibold">Market:</span>{" "}
-                                    {product.marketName}
-                                </p>
-                                <p>
-                                    <span className="font-semibold">Vendor:</span>{" "}
-                                    {product.vendorName}
-                                </p>
-                                <p>
-                                    <span className="font-semibold">Date:</span>{" "}
-                                    {format(new Date(product.date), "PPP")}
-                                </p>
+                            <div className="flex flex-col justify-between flex-1 p-5 space-y-2">
+                                <div className="space-y-2">
+                                    <h2 className="text-xl font-semibold text-main">{product.itemName}</h2>
+                                    <p>{product.itemDescription}</p>
+                                    <p>
+                                        <span className="font-semibold">Current Price:</span>{" "}
+                                        {new Intl.NumberFormat("en-US", {
+                                            style: "currency",
+                                            currency: "USD",
+                                        }).format(product.pricePerUnit)}{" "}
+                                        /kg
+                                    </p>
+                                    <p>
+                                        <span className="font-semibold">Market:</span> {product.marketName}
+                                    </p>
+                                    <p>
+                                        <span className="font-semibold">Vendor:</span> {product.vendorName}
+                                    </p>
+                                    <p>
+                                        <span className="font-semibold">Date:</span>{" "}
+                                        {format(new Date(product.date), "PPP")}
+                                    </p>
+                                </div>
 
                                 <Link to={`/product-details/${product._id}`}>
-                                    <Button className="mt-3">View Details</Button>
+                                    <Button className="mt-3 w-full">View Details</Button>
                                 </Link>
                             </div>
                         </div>
@@ -149,7 +145,7 @@ const AllProducts = () => {
                 ))}
             </div>
 
-            {/* 🔽 Pagination */}
+            {/* Pagination */}
             <Pagination
                 pages={pages}
                 handlePage={handlePage}

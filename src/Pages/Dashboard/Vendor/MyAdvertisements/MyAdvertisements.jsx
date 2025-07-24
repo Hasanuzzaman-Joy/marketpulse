@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
-import useSuccessAlert from "../../../../hooks/useSuccessAlert";
 import useAuth from "../../../../hooks/useAuth";
 import { MdCampaign } from "react-icons/md";
 import Button from "../../../shared/Button";
@@ -18,7 +17,6 @@ const MyAdvertisements = () => {
   }, [])
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const showSuccess = useSuccessAlert();
 
   const [selectedAd, setSelectedAd] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -53,10 +51,7 @@ const MyAdvertisements = () => {
     if (res.isConfirmed) {
       try {
         await axiosSecure.delete(`/delete-ad/${id}?email=${user?.email}`);
-        showSuccess({
-          title: "Deleted...",
-          text: "Your advertisement has been deleted.",
-        });
+        toast.success("Your advertisement has been deleted");
         refetch();
       } catch (err) {
         console.error("Delete failed:", err);

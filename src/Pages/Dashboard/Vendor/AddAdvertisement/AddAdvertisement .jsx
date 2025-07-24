@@ -6,9 +6,9 @@ import useAuth from "../../../../hooks/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import Button from "../../../shared/Button";
 import "react-toastify/dist/ReactToastify.css";
-import useSuccessAlert from "../../../../hooks/useSuccessAlert";
 import useImageUpload from "../../../../hooks/useImageUpload";
 import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 const AddAdvertisement = () => {
     useEffect(() => {
@@ -16,7 +16,7 @@ const AddAdvertisement = () => {
     }, [])
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
-    const showSuccess = useSuccessAlert();
+    const navigate = useNavigate();
     const { imgURL, imgLoading, handleImageUpload } = useImageUpload();
 
     const {
@@ -40,10 +40,10 @@ const AddAdvertisement = () => {
 
         try {
             await axiosSecure.post(`/advertisements?email=${user?.email}`, ad);
-            showSuccess({
-                title: "Advertisement Added 🎉",
-                text: "Your ad is pending approval and will be visible upon review.",
-                redirectTo: "/dashboard/my-advertisements",
+            toast.success("Advertisement Added 🎉", {
+                onClose: () => {
+                    navigate("/dashboard/my-advertisements");
+                },
             });
         } catch {
             toast.error("Failed to submit advertisement.");

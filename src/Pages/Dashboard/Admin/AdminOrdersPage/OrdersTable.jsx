@@ -1,6 +1,5 @@
-import React from "react";
 
-const OrdersTable = ({ orders }) => {
+const OrdersTable = ({ orders, currentPage = 1, itemsPerPage = 10 }) => {
   if (!orders.length) {
     return (
       <div className="flex flex-col items-center justify-center text-center space-y-3 min-h-[60vh] bg-gray-100 px-4">
@@ -30,7 +29,9 @@ const OrdersTable = ({ orders }) => {
         <tbody className="text-sm font-medium">
           {orders.map((order, index) => (
             <tr key={order._id} className="border-b border-border">
-              <td className="px-6 py-4 font-bold">{index + 1}</td>
+              <td className="px-6 py-4 font-bold">
+                {(currentPage - 1) * itemsPerPage + index + 1}
+              </td>
 
               <td className="px-6 py-4">{order.buyerName}</td>
               <td className="px-6 py-4 break-all">{order.buyerEmail}</td>
@@ -55,7 +56,9 @@ const OrdersTable = ({ orders }) => {
               </td>
 
               <td className="px-6 py-4">
-                {order.paidAt ? new Date(order.paidAt).toLocaleString() : "N/A"}
+                {order.paidAt
+                  ? new Date(order.paidAt).toLocaleString()
+                  : "N/A"}
               </td>
             </tr>
           ))}

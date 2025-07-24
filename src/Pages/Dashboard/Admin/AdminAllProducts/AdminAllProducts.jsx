@@ -111,16 +111,16 @@ const AdminAllProducts = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <ProductTable
-          products={products}
-          onView={setSelectedProduct}
-          onApprove={(id) => updateStatusMutation.mutate({ productId: id, newStatus: "approved" })}
-          onDelete={(id) => deleteProductMutation.mutate(id)}
-          onEdit={(id) => navigate(`/dashboard/update-product/${id}`)}
-          deleteLoading={deleteProductMutation.isLoading}
-          approveLoading={updateStatusMutation.isLoading}
-          onReject={(product) => setRejectProduct(product)}
-        />
+          <ProductTable
+            products={products}
+            onView={setSelectedProduct}
+            onApprove={(id) => updateStatusMutation.mutate({ productId: id, newStatus: "approved" })}
+            onDelete={(id) => deleteProductMutation.mutate(id)}
+            onEdit={(id) => navigate(`/dashboard/update-product/${id}`)}
+            deleteLoading={deleteProductMutation.isLoading}
+            approveLoading={updateStatusMutation.isLoading}
+            onReject={(product) => setRejectProduct(product)}
+          />
       )}
 
       {selectedProduct && (

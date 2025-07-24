@@ -189,7 +189,7 @@ const router = createBrowserRouter([
         )
       },
       {
-        path: "manage-wishlist",
+        path: "manage-watchlist",
         element: (
           <PrivateRoute allowedRoles={["user"]}>
             <ManageWishlist />

@@ -43,18 +43,18 @@ const ProductDetails = () => {
       axiosSecure.post(`/wishlist?email=${user?.email}`, { productId }),
 
     onSuccess: () => {
-      toast.success("Added to wishlist");
+      toast.success("Added to watchlist");
       queryClient.invalidateQueries({ queryKey: ["wishlist"] });
     },
 
     onError: () => {
-      toast.error("Failed to add to wishlist");
+      toast.error("Already added to the watchlist");
     },
   });
 
   const handleAddToWishlist = (productId) => {
     if (!user?.email) {
-      toast.error("Please login first to add to wishlist");
+      toast.error("Please login first to add to watchlist");
       return;
     }
     addToWishlistMutation.mutate({ productId });
@@ -282,7 +282,7 @@ const ProductDetails = () => {
       <div className="mt-20 mx-auto">
         {availableDates?.length > 0 && (
           <div className="mt-8">
-            <h4 className="font-semibold text-3xl mb-2 text-secondary">
+            <h4 className="font-semibold text-2xl md:text-3xl mb-3 text-secondary">
               Compare Price with Previous Date
             </h4>
             <select

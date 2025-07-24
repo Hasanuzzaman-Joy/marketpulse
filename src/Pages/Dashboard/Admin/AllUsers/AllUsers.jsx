@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
@@ -11,12 +11,14 @@ const roles = ["admin", "vendor", "user"];
 
 const AllUsers = () => {
   useEffect(() => {
-    document.title = "MarketPulse - All Users"
-  }, [])
+    document.title = "MarketPulse - All Users";
+  }, []);
 
   const { loading, user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
+
+  const [searchEmail, setSearchEmail] = useState("");
 
   // Fetch all users
   const { data: users = [], isLoading } = useQuery({
@@ -28,10 +30,18 @@ const AllUsers = () => {
     enabled: !loading && !!user?.email,
   });
 
+  // Live filtering based on input
+  const filteredUsers = users.filter((u) =>
+    u.email.toLowerCase().includes(searchEmail.toLowerCase())
+  );
+
   // Role update mutation
   const { mutate: updateRole, isPending } = useMutation({
     mutationFn: async ({ userId, role }) => {
-      const res = await axiosSecure.patch(`users/updateRole/${userId}?email=${user?.email}`, { role });
+      const res = await axiosSecure.patch(
+        `users/updateRole/${userId}?email=${user?.email}`,
+        { role }
+      );
       return res.data;
     },
     onSuccess: () => {
@@ -62,8 +72,12 @@ const AllUsers = () => {
   const totalVendors = users.filter((u) => u.role === "vendor").length;
   const totalNormal = users.filter((u) => u.role === "user").length;
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
-    <div className="font-body text-main p-6 md:p-10 bg-white ">
+    <div className="font-body text-main p-6 md:p-10 bg-white">
       <h2 className="text-3xl font-bold mb-6 flex items-center gap-2">
         <FaUsers className="text-primary" /> All Users
       </h2>
@@ -75,6 +89,23 @@ const AllUsers = () => {
         <StatCard title="Vendors" count={totalVendors} bg="bg-blue-100" />
         <StatCard title="Normal Users" count={totalNormal} bg="bg-yellow-100" />
       </div>
+
+      {/* Search form with input & submit button */}
+      <form onSubmit={handleSubmit} className="w-full md:max-w-xs flex mt-14 mb-6 gap-2">
+        <input
+          type="text"
+          placeholder="Search by email..."
+          value={searchEmail}
+          onChange={(e) => setSearchEmail(e.target.value)}
+          className="flex-grow px-4 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+        />
+        <button
+          type="submit"
+          className="px-4 py-2 bg-accent text-white rounded-md hover:bg-accent-dark transition"
+        >
+          Search
+        </button>
+      </form>
 
       {/* User Table */}
       <div className="overflow-x-auto bg-bg rounded shadow-sm">
@@ -89,8 +120,11 @@ const AllUsers = () => {
             </tr>
           </thead>
           <tbody className="text-sm font-medium">
-            {users.map((u, idx) => (
-              <tr key={u._id} className="border-b border-border hover:bg-gray-50 transition">
+            {filteredUsers.map((u, idx) => (
+              <tr
+                key={u._id}
+                className="border-b border-border hover:bg-gray-50 transition"
+              >
                 <td className="px-6 py-4 font-bold">{idx + 1}</td>
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
@@ -115,7 +149,8 @@ const AllUsers = () => {
                   >
                     {roles.map((roleOption) => (
                       <option key={roleOption} value={roleOption}>
-                        {roleOption.charAt(0).toUpperCase() + roleOption.slice(1)}
+                        {roleOption.charAt(0).toUpperCase() +
+                          roleOption.slice(1)}
                       </option>
                     ))}
                   </select>

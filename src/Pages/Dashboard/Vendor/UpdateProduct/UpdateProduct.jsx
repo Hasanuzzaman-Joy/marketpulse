@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
-import { useParams } from "react-router";
+import { useForm, useFieldArray, useWatch } from "react-hook-form";
+import { useNavigate, useParams } from "react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import CircularProgress from "@mui/material/CircularProgress";
 import { toast, ToastContainer } from "react-toastify";
@@ -10,7 +10,6 @@ import Button from "../../../shared/Button";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
-import useSuccessAlert from "../../../../hooks/useSuccessAlert";
 import useImageUpload from "../../../../hooks/useImageUpload";
 import useRole from "../../../../hooks/useRole";
 import Loading from "../../../shared/Loading";
@@ -19,8 +18,8 @@ const UpdateProduct = () => {
   const { id } = useParams();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const showSuccess = useSuccessAlert();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const { imgURL, imgLoading, handleImageUpload, setImgURL } = useImageUpload();
   const { userRole, roleLoading } = useRole();
 
@@ -49,6 +48,8 @@ const UpdateProduct = () => {
     control,
     name: "prices",
   });
+
+  const watchedPrices = useWatch({ control, name: "prices" });
 
   //  Fetch product data
   const { data: productData, isLoading } = useQuery({
@@ -90,11 +91,12 @@ const UpdateProduct = () => {
           ? "/dashboard/all-products"
           : "/dashboard/my-products";
 
-        showSuccess({
-          title: "Updated Successfully",
-          text: "Your product has been successfully updated.",
-          redirectTo: redirectPath,
+        toast.success("Your product has been successfully updated", {
+          onClose: () => {
+            navigate(redirectPath);
+          },
         });
+
       }
     },
     onError: () => {
@@ -238,42 +240,63 @@ const UpdateProduct = () => {
 
         <div className="space-y-4">
           <label className="text-text-secondary font-medium">Price History</label>
-          {fields.map((field, index) => (
-            <div key={field.id} className="flex flex-col md:flex-row gap-4 mt-1">
-              <div className="w-full">
-                <DatePicker
-                  selected={new Date(field.date)}
-                  onChange={(date) =>
-                    setValue(`prices.${index}.date`, date, { shouldValidate: true })
-                  }
-                  dateFormat="yyyy-MM-dd"
-                  className="w-full border border-border rounded-md px-6 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
-                />
-              </div>
+          {fields.map((field, index) => {
+            const priceDate = watchedPrices?.[index]?.date
+              ? new Date(watchedPrices[index].date)
+              : new Date();
+            return (
+              <div
+                key={field.id}
+                className="flex flex-col w-full md:flex-row md:items-center md:gap-4 gap-2 mt-1"
+              >
+                {/* Date Picker Field */}
+                <div className="w-full">
+                  <DatePicker
+                    selected={priceDate ? new Date(priceDate) : new Date()}
+                    onChange={(date) => {
+                      setValue(`prices.${index}.date`, date.toISOString().split("T")[0], {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                      });
+                    }}
+                    dateFormat="yyyy-MM-dd"
+                    wrapperClassName="w-full"
+                    className="w-full border border-border rounded-md px-6 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
+                  />
+                  <input
+                    type="hidden"
+                    {...register(`prices.${index}.date`, {
+                      required: "Date is required",
+                    })}
+                  />
+                </div>
 
-              <div className="flex w-full items-center gap-2">
-                <input
-                  {...register(`prices.${index}.price`, {
-                    required: "Price is required",
-                  })}
-                  className="w-full border border-border rounded-md px-6 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
-                />
-                {fields.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => remove(index)}
-                    className="text-secondary font-bold text-xl"
-                  >
-                    &times;
-                  </button>
-                )}
+                {/* Price input with remove button */}
+                <div className="flex w-full items-center gap-2">
+                  <input
+                    {...register(`prices.${index}.price`, {
+                      required: "Price is required",
+                    })}
+                    placeholder="e.g., $30 per kg"
+                    className="w-full border border-border rounded-md px-6 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
+                  />
+                  {fields.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => remove(index)}
+                      className="text-secondary font-bold text-xl cursor-pointer"
+                    >
+                      &times;
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
           <button
             type="button"
             onClick={() => append({ date: formatDate(new Date()), price: "" })}
-            className="text-secondary hover:text-accent font-medium"
+            className="text-secondary hover:text-accent font-medium cursor-pointer"
           >
             + Add Price Entry
           </button>

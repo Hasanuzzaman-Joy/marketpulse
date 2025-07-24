@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
 import Loading from "../../../shared/Loading";
+import Button from "../../../shared/Button";
+import { Link } from "react-router";
 
 const MyOrders = () => {
   useEffect(() => {
@@ -42,6 +44,7 @@ const MyOrders = () => {
             <th className="px-6 py-4">Market Name</th>
             <th className="px-6 py-4">Price</th>
             <th className="px-6 py-4">Date</th>
+            <th className="px-6 py-4">Actions</th>
           </tr>
         </thead>
         <tbody className="text-sm font-medium">
@@ -62,6 +65,9 @@ const MyOrders = () => {
               <td className="px-6 py-4">{order.marketName}</td>
               <td className="px-6 py-4">${parseFloat(order.price).toFixed(2)}</td>
               <td className="px-6 py-4">{new Date(order.paidAt).toLocaleString()}</td>
+              <td className="px-6 py-4">
+                <Link to={`/product-details/${order.product_id}`}><Button>View Details</Button></Link>
+              </td>
             </tr>
           ))}
         </tbody>

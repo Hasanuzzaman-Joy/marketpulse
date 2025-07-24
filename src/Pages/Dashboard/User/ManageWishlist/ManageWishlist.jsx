@@ -5,10 +5,10 @@ import { useNavigate } from "react-router";
 import Loading from "../../../shared/Loading";
 import { format } from "date-fns";
 import Swal from "sweetalert2";
-import useSuccessAlert from "../../../../hooks/useSuccessAlert";
 import { FaHeart, FaPlus, FaTrashAlt } from "react-icons/fa";
 import Button from "../../../shared/Button";
 import { useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 const ManageWishlist = () => {
     useEffect(() => {
@@ -18,7 +18,6 @@ const ManageWishlist = () => {
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
     const navigate = useNavigate();
-    const showSuccess = useSuccessAlert();
 
     // Fetch Wishlist
     const { data: wishlist = [], isLoading } = useQuery({
@@ -40,10 +39,7 @@ const ManageWishlist = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["wishlist", user?.email] });
-            showSuccess({
-                title: "Removed from Wishlist",
-                text: "Product successfully removed.",
-            });
+            toast.success("Product successfully removed from Wishlist")
         },
         onError: () => {
             Swal.fire({
@@ -75,7 +71,7 @@ const ManageWishlist = () => {
     return (
         <div className="font-body text-main p-6 md:p-10 bg-white">
             <h2 className="text-3xl font-bold mb-6 flex items-center gap-2">
-                <FaHeart className="text-primary" /> Manage Wishlist
+                <FaHeart className="text-primary" /> Manage Watchlist
             </h2>
 
             {/* Wishlist Table */}
@@ -111,7 +107,7 @@ const ManageWishlist = () => {
                                 <td className="px-6 py-4">{format(new Date(item.date), "dd MMMM, yyyy")}</td>
                                 <td className="px-6 py-4 flex gap-3">
                                     <button
-                                        onClick={() => navigate("/all-products")}
+                                        onClick={() => navigate("/products")}
                                         className="flex items-center gap-1 text-white px-3 py-2 rounded bg-accent hover:bg-secondary transition font-semibold cursor-pointer"
                                     >
                                         <FaPlus /> Add More
@@ -128,6 +124,7 @@ const ManageWishlist = () => {
                     </tbody>
                 </table>
             </div>
+            <ToastContainer />
         </div>
     );
 };
