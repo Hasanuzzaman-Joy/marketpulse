@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
 import Container from "../shared/Container";  
 import Button from "../shared/Button";
+import ZoomIn from "../shared/ZoomIn";
 
 const Contact = () => {
 
@@ -24,6 +25,7 @@ const Contact = () => {
           <div className="absolute bottom-0">
             <img src="https://i.ibb.co/ynmhfN1Q/ripped-paper-slider-2.png" alt="" />
           </div>
+          <ZoomIn>
           <p className="text-sm mb-2">
             <Link to="/" className="hover:underline">Home</Link> &gt;{" "}
             <Link to="/contact" className="hover:underline">Contact</Link>
@@ -31,6 +33,7 @@ const Contact = () => {
           <h2 className="text-3xl md:text-4xl font-bold tracking-wide">
             Contact Us
           </h2>
+          </ZoomIn>
         </div>
       </div>
 
@@ -40,6 +43,7 @@ const Contact = () => {
         {/* Left Column inside Container */}
         <Container>
           <div className="p-6 md:p-9 lg:p-16 bg-white space-y-4 flex flex-col justify-center">
+            <ZoomIn>
             <h3 className="text-2xl md:text-4xl font-heading font-bold text-secondary">
               Leave a Message
             </h3>
@@ -78,6 +82,7 @@ const Contact = () => {
                 <FaLinkedinIn />
               </a>
             </div>
+            </ZoomIn>
           </div>
         </Container>
 
@@ -85,6 +90,7 @@ const Contact = () => {
         <div className="bg-primary w-full">
           <Container>
             <div className="p-6 md:p-9 lg:p-16 flex items-center justify-center">
+              <ZoomIn>
               <div className="w-full max-w-md bg-white rounded shadow-md p-5 md:p-8 mx-auto">
                 <h4 className="text-xl font-semibold mb-4 text-main">
                   Need Help or Support?
@@ -113,6 +119,7 @@ const Contact = () => {
                   </p>
                 </form>
               </div>
+              </ZoomIn>
             </div>
           </Container>
         </div>
