@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import Loading from "../../../shared/Loading";
@@ -6,6 +6,9 @@ import OrdersTable from "./OrdersTable";
 import useAuth from "../../../../hooks/useAuth";
 
 const AdminOrdersPage = () => {
+  useEffect(() => {
+    document.title = "MarketPulse - All Orders"
+  }, [])
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 

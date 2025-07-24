@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -12,6 +12,9 @@ import useImageUpload from "../../../../hooks/useImageUpload";
 import useSuccessAlert from "../../../../hooks/useSuccessAlert";
 
 const AddProduct = () => {
+  useEffect(() => {
+    document.title = "MarketPulse - Add Product"
+  }, [])
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const showSuccess = useSuccessAlert();

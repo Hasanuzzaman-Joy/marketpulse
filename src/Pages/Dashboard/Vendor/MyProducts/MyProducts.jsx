@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useSuccessAlert from "../../../../hooks/useSuccessAlert";
@@ -11,6 +11,9 @@ import Loading from "../../../shared/Loading";
 import RejectionModal from "../../shared/RejectionModal";
 
 const MyProducts = () => {
+  useEffect(() => {
+    document.title = "MarketPulse - My Products"
+  }, [])
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const showSuccess = useSuccessAlert();
@@ -133,13 +136,12 @@ const MyProducts = () => {
                   {/* Status */}
                   <td className="px-6 py-4">
                     <span
-                      className={`px-3 py-1 rounded-md text-sm font-medium ${
-                        item.status === "approved"
+                      className={`px-3 py-1 rounded-md text-sm font-medium ${item.status === "approved"
                           ? "bg-green-100 text-green-700"
                           : item.status === "pending"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-red-100 text-red-600"
-                      }`}
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-red-100 text-red-600"
+                        }`}
                     >
                       {item.status}
                     </span>

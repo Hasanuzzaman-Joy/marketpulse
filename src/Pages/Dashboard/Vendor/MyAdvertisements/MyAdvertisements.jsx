@@ -7,12 +7,15 @@ import Button from "../../../shared/Button";
 import Loading from "../../../shared/Loading";
 import AdvertisementForm from "../../../shared/AdvertisementForm";
 import Modal from "../../../shared/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import RejectionModal from "../../shared/RejectionModal";
 import Swal from "sweetalert2";
 
 const MyAdvertisements = () => {
+  useEffect(() => {
+    document.title = "MarketPulse - My Advertisements"
+  }, [])
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const showSuccess = useSuccessAlert();
@@ -170,10 +173,10 @@ const MyAdvertisements = () => {
                   <td className="px-6 py-4">
                     <span
                       className={`px-3 py-1 rounded-md text-sm font-medium ${ad.status === "approved"
-                          ? "bg-green-100 text-green-700"
-                          : ad.status === "pending"
-                            ? "bg-yellow-100 text-yellow-700"
-                            : "bg-red-100 text-red-600"
+                        ? "bg-green-100 text-green-700"
+                        : ad.status === "pending"
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-red-100 text-red-600"
                         }`}
                     >
                       {ad.status || "pending"}

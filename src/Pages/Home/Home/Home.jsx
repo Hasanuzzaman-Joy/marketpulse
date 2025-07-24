@@ -8,7 +8,7 @@ import About from "./About";
 import CallToAction from "./CallToAction";
 import Container from "../../shared/Container";
 // import Faq from "./Faq";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import Testimonial from "./Testimonial";
 import AdSlider from "./AdSlider";
 
@@ -16,13 +16,18 @@ import AdSlider from "./AdSlider";
 const testimonialData = fetch('/testimonial.json').then(res => res.json());
 
 const Home = () => {
+
+    useEffect(() => {
+        document.title = "MarketPulse"
+    }, [])
+
     const { user, loading } = useAuth();
     const axiosSecure = useAxiosSecure();
 
     const { data: featuredProducts = [], isLoading } = useQuery({
         queryKey: ["featuredProducts", user?.email],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/all-products?email=${user?.email}`);
+            const res = await axiosSecure.get(`/getAll-products`);
             return res.data.slice(0, 8);
         },
         enabled: !loading && !!user?.email

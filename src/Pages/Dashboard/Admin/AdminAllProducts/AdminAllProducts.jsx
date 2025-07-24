@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
@@ -11,6 +11,9 @@ import ProductModal from "./ProductModal";
 import RejectProductModal from "./RejectProductModal";
 
 const AdminAllProducts = () => {
+  useEffect(() => {
+    document.title = "MarketPulse - All Products"
+  }, [])
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
@@ -121,7 +124,7 @@ const AdminAllProducts = () => {
       )}
 
       {selectedProduct && (
-        <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} 
+        <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)}
         />
       )}
 

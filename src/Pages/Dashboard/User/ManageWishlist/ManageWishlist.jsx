@@ -8,8 +8,12 @@ import Swal from "sweetalert2";
 import useSuccessAlert from "../../../../hooks/useSuccessAlert";
 import { FaHeart, FaPlus, FaTrashAlt } from "react-icons/fa";
 import Button from "../../../shared/Button";
+import { useEffect } from "react";
 
 const ManageWishlist = () => {
+    useEffect(() => {
+        document.title = "MarketPulse - Wishlist"
+    }, [])
     const { user, loading } = useAuth();
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();

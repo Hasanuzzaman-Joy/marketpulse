@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
@@ -10,6 +10,10 @@ import { FaUsers } from "react-icons/fa";
 const roles = ["admin", "vendor", "user"];
 
 const AllUsers = () => {
+  useEffect(() => {
+    document.title = "MarketPulse - All Users"
+  }, [])
+
   const { loading, user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
@@ -10,6 +10,9 @@ import RejectAdModal from "./RejectAdModal";
 import AdvertisementModal from "./AdvertisementModal";
 
 const AdminAllAdvertisements = () => {
+  useEffect(() => {
+    document.title = "MarketPulse - All Advertisements"
+  }, [])
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();

@@ -8,8 +8,12 @@ import Button from "../../../shared/Button";
 import "react-toastify/dist/ReactToastify.css";
 import useSuccessAlert from "../../../../hooks/useSuccessAlert";
 import useImageUpload from "../../../../hooks/useImageUpload";
+import { useEffect } from "react";
 
 const AddAdvertisement = () => {
+    useEffect(() => {
+        document.title = "MarketPulse - Add Advertisement"
+    }, [])
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const showSuccess = useSuccessAlert();

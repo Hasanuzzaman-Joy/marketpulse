@@ -4,11 +4,16 @@ import useAxios from "../../hooks/useAxios";
 import Loading from "../shared/Loading";
 import { format } from "date-fns";
 import Button from "../shared/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Pagination from "../shared/Pagination";
 import Container from "../shared/Container";
 
 const AllProducts = () => {
+
+    useEffect(()=>{
+        document.title = "MarketPulse - All Products"
+    }, [])
+
     const axiosInstance = useAxios();
 
     const [page, setPage] = useState(1);

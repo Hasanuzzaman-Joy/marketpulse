@@ -6,6 +6,10 @@ import SynchronizedLineChart from "./SynchronizedLineChart";
 import Loading from "../../../shared/Loading";
 
 const ViewPriceTrends = () => {
+  useEffect(() => {
+    document.title = "MarketPulse - Price Trends"
+  }, [])
+
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 

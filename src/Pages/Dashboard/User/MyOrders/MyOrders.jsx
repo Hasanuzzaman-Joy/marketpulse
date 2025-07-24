@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
 import Loading from "../../../shared/Loading";
 
 const MyOrders = () => {
+  useEffect(() => {
+    document.title = "MarketPulse - My Orders"
+  }, [])
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 

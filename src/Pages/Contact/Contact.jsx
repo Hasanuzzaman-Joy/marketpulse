@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router";
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
-import Container from "../shared/Container";  // adjust path if needed
+import Container from "../shared/Container";  
 import Button from "../shared/Button";
 
 const Contact = () => {
+
+  useEffect(() => {
+    document.title = "MarketPulse - Contact"
+  }, [])
+
   return (
     <div className="text-main font-body">
 
