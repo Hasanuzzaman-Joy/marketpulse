@@ -4,6 +4,7 @@ import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
 import Container from "../shared/Container";  
 import Button from "../shared/Button";
 import ZoomIn from "../shared/ZoomIn";
+import Banner from "../shared/Banner";
 
 const Contact = () => {
 
@@ -15,27 +16,14 @@ const Contact = () => {
     <div className="text-main font-body">
 
       {/* Banner  */}
-      <div className="relative w-full h-40 md:h-62">
-        <img
-          src="https://i.ibb.co/TMJmZN8w/contact.jpg"
-          alt="Contact Banner"
-          className="absolute w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70 flex flex-col justify-center items-center text-white font-heading text-center px-4">
-          <div className="absolute bottom-0">
-            <img src="https://i.ibb.co/ynmhfN1Q/ripped-paper-slider-2.png" alt="" />
-          </div>
-          <ZoomIn>
-          <p className="text-sm mb-2">
-            <Link to="/" className="hover:underline">Home</Link> &gt;{" "}
-            <Link to="/contact" className="hover:underline">Contact</Link>
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-wide">
-            Contact Us
-          </h2>
-          </ZoomIn>
-        </div>
-      </div>
+      <Banner
+        bgImage="https://i.ibb.co/TMJmZN8w/contact.jpg"
+        title="Contact Us"
+        breadcrumbLinks={[
+          { label: "Home", path: "/" },
+          { label: "Contact", path: "/contact" },
+        ]}
+      />
 
       {/* Contact Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-0 px-0 items-stretch md:min-h-[500px]">

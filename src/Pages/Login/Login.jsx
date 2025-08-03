@@ -26,42 +26,51 @@ const Login = () => {
   // Login with google
   const handleGoogle = () => {
     googleSign()
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user;
-        const lastSignedIn = new Date();
 
-        axiosInstance.patch("/register", { email: user.email, lastSignedIn })
-          .then(() => {
-            axiosInstance.post("/jwt", { email: user.email })
-              .then((res) => {
-                if (res.data) {
-                  const token = res.data?.token;
-                  localStorage.setItem("token", token);
-                }
-              })
+        try {
+          // First try to update last login
+          const updateResponse = await axiosInstance.patch("/update-last-login", {
+            email: user.email
+          });
+
+          // If user exists, proceed with JWT
+          const jwtResponse = await axiosInstance.post("/jwt", { email: user?.email });
+          localStorage.setItem("token", jwtResponse.data?.token);
+
+          successSwal({
+            title: "Login Successful 🎉",
+            text: "Welcome back to MarketPulse!",
+            redirectTo: from,
+          });
+        } catch (updateError) {
+          if (updateError.response?.status === 404) {
+            // User doesn't exist - register them first
+            await axiosInstance.post("/register", {
+              name: user?.displayName,
+              email: user?.email,
+              photo: user?.photoURL
+            });
+
+            // Then get JWT
+            const jwtResponse = await axiosInstance.post("/jwt", { email: user.email });
+            localStorage.setItem("token", jwtResponse.data?.token);
+
             successSwal({
-              title: "Login Successful 🎉",
-              text: "Welcome back to MarketPulse!",
+              title: "Registration Complete 🎉",
+              text: "Welcome to MarketPulse!",
               redirectTo: from,
             });
-          })
-          .catch(() => {
-            toast.error("Failed to update last signed-in time.", {
-              position: "top-right",
-              autoClose: 3000,
-              transition: Bounce,
-            });
-          })
-          .finally(() => setLoading(false));
+          } else {
+            throw updateError;
+          }
+        }
       })
       .catch((error) => {
-        toast.error(`Google Sign-In Failed: ${error.message}`, {
-          position: "top-right",
-          autoClose: 3000,
-          transition: Bounce,
-        });
-        setLoading(false);
-      });
+        toast.error(`Login Failed: ${error.message}`);
+      })
+      .finally(() => setLoading(false));
   };
 
   // Login with form
@@ -75,39 +84,28 @@ const Login = () => {
 
     login(email, password)
       .then(() => {
-        const lastSignedIn = new Date();
-        axiosInstance.patch("/register", { email, lastSignedIn })
-          .then(() => {
-            axiosInstance.post("/jwt", { email })
-              .then((res) => {
-                if (res.data) {
-                  const token = res.data?.token;
-                  localStorage.setItem("token", token);
-                }
-              })
-            successSwal({
-              title: "Login Successful 🎉",
-              text: "Welcome back to MarketPulse!",
-              redirectTo: from,
-            });
-          })
-          .catch(() => {
-            toast.error("Failed to update last signed-in time.", {
-              position: "top-right",
-              autoClose: 3000,
-              transition: Bounce,
-            });
-          })
-          .finally(() => setLoading(false));
+        // Only update last login for existing users
+        return axiosInstance.patch("/update-last-login", { email });
+      })
+      .then(() => {
+        return axiosInstance.post("/jwt", { email });
+      })
+      .then((res) => {
+        localStorage.setItem("token", res.data?.token);
+        successSwal({
+          title: "Login Successful 🎉",
+          text: "Welcome back to MarketPulse!",
+          redirectTo: from,
+        });
       })
       .catch((error) => {
-        toast.error(`Login Failed: ${error.message}`, {
-          position: "top-right",
-          autoClose: 3000,
-          transition: Bounce,
-        });
-        setLoading(false);
-      });
+        if (error.response?.status === 404) {
+          toast.error("Account not found. Please register first.");
+        } else {
+          toast.error(`Login Failed: ${error.message}`);
+        }
+      })
+      .finally(() => setLoading(false));
   };
 
   return (

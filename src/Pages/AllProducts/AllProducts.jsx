@@ -10,6 +10,7 @@ import Container from "../shared/Container";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ZoomIn from "../shared/ZoomIn";
+import Banner from "../shared/Banner";
 
 const AllProducts = () => {
     useEffect(() => {
@@ -65,96 +66,103 @@ const AllProducts = () => {
     if (isLoading) return <Loading />;
 
     return (
-        <Container>
-            <h1 className="text-3xl font-bold mb-8 text-center font-heading text-secondary">
-                <ZoomIn>
-                    Explore Our Products Collection
-                </ZoomIn>
-            </h1>
+        <>
 
-            {/* Filters & Sorting */}
-            <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
-                {/* Sort */}
-                <select
-                    className="border border-border rounded px-4 py-2 text-base cursor-pointer"
-                    value={sortOrder}
-                    onChange={(e) => setSortOrder(e.target.value)}
-                >
-                    <option value="">Sort by Price</option>
-                    <option value="asc">Price: Low to High</option>
-                    <option value="desc">Price: High to Low</option>
-                </select>
-
-                {/* Date Filter */}
-                <div className="relative z-10">
-                    <DatePicker
-                        selected={selectedDate}
-                        onChange={(date) => {
-                            setPage(1);
-                            setSelectedDate(date);
-                        }}
-                        placeholderText="📅 Filter by Date"
-                        dateFormat="yyyy-MM-dd"
-                        className="!text-left !w-48 border border-border rounded px-4 py-2 text-base cursor-pointer"
-                        isClearable
-                    />
-                </div>
-            </div>
-
-            {/* Product Cards */}
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {products.map((product) => (
-                    <ZoomIn key={product._id}>
-                        <div className="flex flex-col h-full bg-white rounded overflow-hidden shadow-md border border-border hover:shadow-lg transition duration-300">
-                            <div className="bg-bg-alt">
-                                <img
-                                    src={product.image}
-                                    alt={product.itemName}
-                                    className="h-60 w-full object-contain shadow p-6"
-                                />
-                            </div>
-                            <div className="flex flex-col justify-between flex-1 p-5 space-y-2">
-                                <div className="space-y-2">
-                                    <h2 className="text-xl font-semibold text-main">{product.itemName}</h2>
-                                    <p>{product.itemDescription}</p>
-                                    <p>
-                                        <span className="font-semibold">Current Price:</span>{" "}
-                                        {new Intl.NumberFormat("en-US", {
-                                            style: "currency",
-                                            currency: "USD",
-                                        }).format(product.pricePerUnit)}{" "}
-                                        /kg
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">Market:</span> {product.marketName}
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">Vendor:</span> {product.vendorName}
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">Date:</span>{" "}
-                                        {format(new Date(product.date), "d MMMM, yyyy")}
-                                    </p>
-                                </div>
-
-                                <Link to={`/product-details/${product._id}`}>
-                                    <Button className="mt-3 w-full">View Details</Button>
-                                </Link>
-                            </div>
-                        </div>
-                    </ZoomIn>
-                ))}
-            </div>
-
-            {/* Pagination */}
-            <Pagination
-                pages={pages}
-                handlePage={handlePage}
-                handleNext={handleNext}
-                handlePrv={handlePrv}
-                currentPage={page}
+            {/* Banner  */}
+            <Banner
+                bgImage="https://i.ibb.co/TMJmZN8w/contact.jpg"
+                title=" Explore Our Products Collection"
+                breadcrumbLinks={[
+                    { label: "Home", path: "/" },
+                    { label: "Products", path: "/products" },
+                ]}
             />
-        </Container>
+
+            <Container>
+                {/* Filters & Sorting */}
+                <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
+                    {/* Sort */}
+                    <select
+                        className="border border-border rounded px-4 py-2 text-base cursor-pointer"
+                        value={sortOrder}
+                        onChange={(e) => setSortOrder(e.target.value)}
+                    >
+                        <option value="">Sort by Price</option>
+                        <option value="asc">Price: Low to High</option>
+                        <option value="desc">Price: High to Low</option>
+                    </select>
+
+                    {/* Date Filter */}
+                    <div className="relative z-10">
+                        <DatePicker
+                            selected={selectedDate}
+                            onChange={(date) => {
+                                setPage(1);
+                                setSelectedDate(date);
+                            }}
+                            placeholderText="📅 Filter by Date"
+                            dateFormat="yyyy-MM-dd"
+                            className="!text-left !w-48 border border-border rounded px-4 py-2 text-base cursor-pointer"
+                            isClearable
+                        />
+                    </div>
+                </div>
+
+                {/* Product Cards */}
+                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {products.map((product) => (
+                        <ZoomIn key={product._id}>
+                            <div className="flex flex-col h-full bg-white rounded overflow-hidden shadow-md border border-border hover:shadow-lg transition duration-300">
+                                <div className="bg-bg-alt">
+                                    <img
+                                        src={product.image}
+                                        alt={product.itemName}
+                                        className="h-60 w-full object-contain shadow p-6"
+                                    />
+                                </div>
+                                <div className="flex flex-col justify-between flex-1 p-5 space-y-2">
+                                    <div className="space-y-2">
+                                        <h2 className="text-xl font-semibold text-main">{product.itemName}</h2>
+                                        <p>{product.itemDescription}</p>
+                                        <p>
+                                            <span className="font-semibold">Current Price:</span>{" "}
+                                            {new Intl.NumberFormat("en-US", {
+                                                style: "currency",
+                                                currency: "USD",
+                                            }).format(product.pricePerUnit)}{" "}
+                                            /kg
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold">Market:</span> {product.marketName}
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold">Vendor:</span> {product.vendorName}
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold">Date:</span>{" "}
+                                            {format(new Date(product.date), "d MMMM, yyyy")}
+                                        </p>
+                                    </div>
+
+                                    <Link to={`/product-details/${product._id}`}>
+                                        <Button className="mt-3 w-full">View Details</Button>
+                                    </Link>
+                                </div>
+                            </div>
+                        </ZoomIn>
+                    ))}
+                </div>
+
+                {/* Pagination */}
+                <Pagination
+                    pages={pages}
+                    handlePage={handlePage}
+                    handleNext={handleNext}
+                    handlePrv={handlePrv}
+                    currentPage={page}
+                />
+            </Container>
+        </>
     );
 };
 

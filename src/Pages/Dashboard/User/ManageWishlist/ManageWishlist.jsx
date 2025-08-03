@@ -74,56 +74,63 @@ const ManageWishlist = () => {
                 <FaHeart className="text-primary" /> Manage Watchlist
             </h2>
 
+
             {/* Wishlist Table */}
-            <div className="overflow-x-auto bg-bg rounded shadow-sm">
-                <table className="min-w-full text-left text-base text-main">
-                    <thead className="bg-secondary text-white text-sm font-medium">
-                        <tr>
-                            <th className="px-6 py-4">#</th>
-                            <th className="px-6 py-4">Product</th>
-                            <th className="px-6 py-4">Market</th>
-                            <th className="px-6 py-4">Date</th>
-                            <th className="px-6 py-4">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody className="text-sm font-medium">
-                        {wishlist.map((item, idx) => (
-                            <tr key={item._id} className="border-b border-border hover:bg-gray-50 transition">
-                                <td className="px-6 py-4 font-bold">{idx + 1}</td>
-                                <td className="px-5 py-2">
-                                    <div className="flex items-center gap-3">
-                                        <img
-                                            src={
-                                                item.image ||
-                                                "https://res.cloudinary.com/dvkiiyhaj/image/upload/v1752928833/ikhyvszgvsjzqqf8xcej.png"
-                                            }
-                                            alt={item.itemName}
-                                            className="w-12 h-12 rounded-md object-cover border border-border p-1"
-                                        />
-                                        <span className="font-medium">{item.itemName}</span>
-                                    </div>
-                                </td>
-                                <td className="px-6 py-4">{item.marketName}</td>
-                                <td className="px-6 py-4">{format(new Date(item.date), "dd MMMM, yyyy")}</td>
-                                <td className="px-6 py-4 flex gap-3">
-                                    <button
-                                        onClick={() => navigate("/products")}
-                                        className="flex items-center gap-1 text-white px-3 py-2 rounded bg-accent hover:bg-secondary transition font-semibold cursor-pointer"
-                                    >
-                                        <FaPlus /> Add More
-                                    </button>
-                                    <Button
-                                        className="flex items-center gap-1"
-                                        onClick={() => handleDelete(item._id)}
-                                    >
-                                        <FaTrashAlt /> Remove
-                                    </Button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            {
+                wishlist.length === 0 ?
+                    <><h3 className="text-2xl font-bold text-secondary mb-2">No Products Found</h3></> :
+                    <>
+                        <div className="overflow-x-auto bg-bg rounded shadow-sm">
+                            <table className="min-w-full text-left text-base text-main">
+                                <thead className="bg-secondary text-white text-sm font-medium">
+                                    <tr>
+                                        <th className="px-6 py-4">#</th>
+                                        <th className="px-6 py-4">Product</th>
+                                        <th className="px-6 py-4">Market</th>
+                                        <th className="px-6 py-4">Date</th>
+                                        <th className="px-6 py-4">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="text-sm font-medium">
+                                    {wishlist.map((item, idx) => (
+                                        <tr key={item._id} className="border-b border-border hover:bg-gray-50 transition">
+                                            <td className="px-6 py-4 font-bold">{idx + 1}</td>
+                                            <td className="px-5 py-2">
+                                                <div className="flex items-center gap-3">
+                                                    <img
+                                                        src={
+                                                            item.image ||
+                                                            "https://res.cloudinary.com/dvkiiyhaj/image/upload/v1752928833/ikhyvszgvsjzqqf8xcej.png"
+                                                        }
+                                                        alt={item.itemName}
+                                                        className="w-12 h-12 rounded-md object-cover border border-border p-1"
+                                                    />
+                                                    <span className="font-medium">{item.itemName}</span>
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4">{item.marketName}</td>
+                                            <td className="px-6 py-4">{format(new Date(item.date), "dd MMMM, yyyy")}</td>
+                                            <td className="px-6 py-4 flex gap-3">
+                                                <button
+                                                    onClick={() => navigate("/products")}
+                                                    className="flex items-center gap-1 text-white px-3 py-2 rounded bg-accent hover:bg-secondary transition font-semibold cursor-pointer"
+                                                >
+                                                    <FaPlus /> Add More
+                                                </button>
+                                                <Button
+                                                    className="flex items-center gap-1"
+                                                    onClick={() => handleDelete(item._id)}
+                                                >
+                                                    <FaTrashAlt /> Remove
+                                                </Button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+            }
             <ToastContainer />
         </div>
     );

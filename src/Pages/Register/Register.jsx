@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Button from "../shared/Button";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../hooks/useAuth";
@@ -15,6 +15,7 @@ const Register = () => {
   const axiosInstance = useAxios();
   const successSwal = useSuccessAlert();
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "MarketPulse - Register";
@@ -22,39 +23,52 @@ const Register = () => {
 
   // Register with google
   const handleGoogle = () => {
+    setLoading(true);
     googleSign()
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user;
         const userData = {
           name: user.displayName,
           email: user.email,
-          photo: user.photoURL,
+          photo: user.photoURL || "https://res.cloudinary.com/dvkiiyhaj/image/upload/v1752397720/caop8dbhrpw73sgdv9kx.jpg",
         };
 
-        // Save user info to your backend
-        axiosInstance.post("/register", userData)
-          .then(() => {
-            axiosInstance.post("/jwt", { email: user.email })
-              .then((res) => {
-                if (res.data) {
-                  const token = res.data?.token;
-                  localStorage.setItem("token", token);
-                }
-              })
-            successSwal({
-              title: "Registration Successful 🎉",
-              text: "Welcome to MarketPulse!",
-              redirectTo: "/",
-            });
-          })
-          .catch(() => {
-            toast.error("Failed to save user data after Google sign-in.", {
+        try {
+          // Try to register the user
+          await axiosInstance.post("/register", userData);
+
+          // Get JWT token after successful registration
+          const jwtResponse = await axiosInstance.post("/jwt", { email: user.email });
+          localStorage.setItem("token", jwtResponse.data?.token);
+
+          // Show success and redirect
+          successSwal({
+            title: "Registration Successful 🎉",
+            text: "Welcome to MarketPulse!",
+            redirectTo: "/",
+          });
+        } catch (error) {
+          if (error.response?.status === 400 && error.response?.data?.error === "User already exists") {
+            // User exists - get JWT and redirect to home
+            const jwtResponse = await axiosInstance.post("/jwt", { email: user.email });
+            localStorage.setItem("token", jwtResponse.data?.token);
+
+            toast.success("Welcome back! Redirecting to homepage...", {
               position: "top-right",
-              autoClose: 3000,
+              autoClose: 2000,
               transition: Bounce,
             });
-          })
-          .finally(() => setLoading(false));
+            setTimeout(() => navigate("/"), 2000);
+          } else {
+            // Other errors - still redirect but show message
+            toast.error("Account created but encountered an issue. Redirecting...", {
+              position: "top-right",
+              autoClose: 2000,
+              transition: Bounce,
+            });
+            setTimeout(() => navigate("/"), 2000);
+          }
+        }
       })
       .catch((err) => {
         toast.error(`Google Sign-in Failed: ${err.message}`, {
@@ -62,8 +76,8 @@ const Register = () => {
           autoClose: 3000,
           transition: Bounce,
         });
-        setLoading(false);
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   // Register with form
@@ -76,10 +90,6 @@ const Register = () => {
     const email = form.email.value;
     const password = form.password.value;
     const photoURL = form.photo.value.trim();
-
-    const imageURL =
-      photoURL ||
-      "https://res.cloudinary.com/dvkiiyhaj/image/upload/v1752397720/caop8dbhrpw73sgdv9kx.jpg";
 
     // Password Validations 
     if (!/[A-Z]/.test(password)) {
@@ -112,6 +122,11 @@ const Register = () => {
       return;
     }
 
+
+    const imageURL =
+      photoURL ||
+      "https://res.cloudinary.com/dvkiiyhaj/image/upload/v1752397720/caop8dbhrpw73sgdv9kx.jpg";
+
     const userData = { name, email, photo: imageURL };
 
     // SignUp Process 
@@ -135,7 +150,7 @@ const Register = () => {
           });
       })
       .catch((err) => {
-        toast.error(`Registration Failed, ${err.message}`, {
+        toast.error(`${err.message}`, {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
