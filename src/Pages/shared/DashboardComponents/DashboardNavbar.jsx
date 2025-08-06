@@ -19,7 +19,7 @@ const DashboardNavbar = ({ user, setMenuOpen }) => (
       <div className="hidden lg:flex items-center gap-3">
         <span className="font-medium font-heading text-base">Welcome, {user?.displayName || "User"}</span>
         {user?.photoURL ? (
-          <img src={user.photoURL} alt="User" className="w-10 h-10 rounded-full border-2 border-accent" />
+          <img src={user?.photoURL} alt="User" className="w-10 h-10 rounded-full border-2 border-accent" />
         ) : (
           <FaUserCircle className="text-2xl text-textSecondary" />
         )}

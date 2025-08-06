@@ -1,8 +1,9 @@
 import ZoomIn from "../../shared/ZoomIn";
+import FeatureBanner from "./FeatureBanner";
 
 const Banner = () => {
     return (
-        <div className="relative w-full h-[400px] md:h-[600px] overflow-hidden">
+        <div className="relative w-full h-[400px] md:h-[600px]">
             {/* Image */}
             <img
                 src="https://res.cloudinary.com/dvkiiyhaj/image/upload/v1753277025/r4m9bf53g3nt0aus0hbt.jpg"
@@ -23,6 +24,9 @@ const Banner = () => {
                         Track real-time prices of fresh produce directly from your local markets
                     </p>
                 </ZoomIn>
+            </div>
+            <div className="absolute left-1/2 transform -translate-x-1/2 translate-y-1/2 bottom-0 z-30 w-full">
+                <FeatureBanner />
             </div>
         </div>
     );

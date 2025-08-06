@@ -32,7 +32,7 @@ const MobileDrawer = ({ menuOpen, setMenuOpen, menuItems, user, logOut }) => (
           <>
             <div className="flex items-center gap-2 mb-4">
               {user?.photoURL ? (
-                <img src={user.photoURL} alt="User" className="w-10 h-10 rounded-full border-2 border-accent" />
+                <img src={user?.photoURL} alt="User" className="w-10 h-10 rounded-full border-2 border-accent" />
               ) : (
                 <FaUserCircle className="text-2xl text-textSecondary" />
               )}

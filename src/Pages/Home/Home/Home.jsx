@@ -11,6 +11,8 @@ import Container from "../../shared/Container";
 import { Suspense, useEffect } from "react";
 import Testimonial from "./Testimonial";
 import AdSlider from "./AdSlider";
+import FeaturedCategory from "./FeaturedCategory";
+import Ad from "./Ad";
 
 // const faqData = fetch('/faq.json').then(res => res.json());
 const testimonialData = fetch('/testimonial.json').then(res => res.json());
@@ -37,6 +39,8 @@ const Home = () => {
     return (
         <>
             <Banner />
+            <FeaturedCategory />
+            <Ad />
             <main className="px-4 md:px-8 lg:px-16">
                 <Container>
                     <About />
