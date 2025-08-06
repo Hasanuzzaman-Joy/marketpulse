@@ -41,7 +41,7 @@ const Discount = () => {
       {/* Left Image with gradient overlay */}
       <div className="relative w-1/4">
         <img
-          src="https://res.cloudinary.com/dvkiiyhaj/image/upload/v1754464892/btngr7imdpi3ucstvqvf.jpg"
+          src="https://res.cloudinary.com/dvkiiyhaj/image/upload/v1754466684/hytx9kfhtprd1bnabg75.jpg"
           alt="Discount Left"
           className="w-full h-full object-contain rounded-l-xl"
         />
@@ -75,7 +75,7 @@ const Discount = () => {
       {/* Right Image with gradient overlay */}
       <div className="relative w-1/4">
         <img
-          src="https://res.cloudinary.com/dvkiiyhaj/image/upload/v1754464903/ghmuj5rrbqhyeq2sfnzo.jpg"
+          src="https://res.cloudinary.com/dvkiiyhaj/image/upload/v1754466682/we7fpyutqacqsm1wtec4.jpg"
           alt="Discount Right"
           className="w-full h-full object-contain rounded-r-xl"
         />

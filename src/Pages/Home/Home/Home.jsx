@@ -14,6 +14,7 @@ import AdSlider from "./AdSlider";
 import FeaturedCategory from "./FeaturedCategory";
 import Ad from "./Ad";
 import Discount from "./Discount";
+import OurPartners from "./OurPartners";
 
 // const faqData = fetch('/faq.json').then(res => res.json());
 const testimonialData = fetch('/testimonial.json').then(res => res.json());
@@ -51,6 +52,7 @@ const Home = () => {
                         <Testimonial testimonialData={testimonialData}></Testimonial>
                     </Suspense>
                     <AdSlider />
+                    <OurPartners />
                 </Container>
                 {/* <Suspense fallback={<Loading />}>
                 <Faq faqData={faqData} />
