@@ -26,12 +26,12 @@ const FeatureBanner = () => {
       {items.map((item, idx) => (
         <div key={idx} className="flex-1 flex flex-col justify-center px-4">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 flex items-center justify-center bg-gray-100 rounded-full">
+            <div className="w-14 h-14 flex items-center justify-center bg-green-100 rounded-full">
               {item.icon}
             </div>
             <div>
-              <h3 className="text-lg font-semibold">{item.title}</h3>
-              <p className="text-sm text-gray-600">{item.subtitle}</p>
+              <h3 className="text-lg font-semibold font-heading mb-1">{item.title}</h3>
+              <p className="text-sm text-gray-500">{item.subtitle}</p>
             </div>
           </div>
         </div>

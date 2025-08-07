@@ -5,13 +5,13 @@ import Button from "../shared/Button";
 import { FiLogOut, FiMenu, FiX } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { motion, AnimatePresence } from "motion/react"
-// import useRole from "../../hooks/useRole";
+import useRole from "../../hooks/useRole";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  // const { userRole, roleLoading } = useRole();
+  const { userRole, roleLoading } = useRole();
 
   // Scroll shrink effect
   useEffect(() => {
@@ -24,6 +24,7 @@ const Navbar = () => {
 
   const handleLinkClick = () => setMenuOpen(false);
 
+  // Navbar Menu
   const menuItems = (
     <>
       <li>
@@ -49,7 +50,7 @@ const Navbar = () => {
           </NavLink>
         </li>
       }
-      {/* {
+      {
         !roleLoading && userRole === "user" &&
         <li>
           <NavLink
@@ -63,7 +64,7 @@ const Navbar = () => {
             Become A Seller
           </NavLink>
         </li>
-      } */}
+      }
     </>
   );
 
@@ -72,7 +73,7 @@ const Navbar = () => {
       className={`w-full z-50 bg-white sticky top-0 shadow transition-all duration-500 ease-in-out ${isScrolled ? "py-3" : "py-5"
         }`}
     >
-      <nav className="w-11/12 mx-auto flex items-center justify-between md:px-4 relative">
+      <nav className="max-w-screen-xl mx-auto flex items-center justify-between md:px-4 relative">
         {/* Left - Logo */}
         <Link to="/" className="flex items-center gap-2">
           <img

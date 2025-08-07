@@ -35,7 +35,7 @@ const FeaturedCategory = () => {
   ];
 
   return (
-    <section className="w-full mx-auto px-4 mt-20">
+    <section className="w-full md:max-w-screen-xl mx-auto px-4 mt-30">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 text-center">
         {categories.map(({ icon, title, subtitle }, idx) => (
           <div key={idx} className="flex flex-col items-center">
@@ -49,10 +49,10 @@ const FeaturedCategory = () => {
             </div>
 
             {/* Title */}
-            <h4 className="text-lg font-semibold text-gray-800">{title}</h4>
+            <h4 className="text-lg font-bold text-gray-800 mb-1">{title}</h4>
 
             {/* Subtitle */}
-            <p className="text-sm text-gray-500">{subtitle}</p>
+            <p className="text-base text-gray-500">{subtitle}</p>
           </div>
         ))}
       </div>

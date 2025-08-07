@@ -29,7 +29,29 @@
     "avatar": "https://i.ibb.co/tMS2M3jr/Screenshot-7.png",
     "feedback": [
       "Finally, a platform that tracks real market prices! I’ve used MarketPulse to monitor essentials in my neighborhood regularly.",
-      "The daily updates and clean design of MarketPulse keep me informed and prepared. Highly recommended for every household!"
+      "The daily updates and clean design of MarketPulse keep me informed and prepared."
+    ]
+  },
+  {
+    "id": 1,
+    "name": "Selina Stefen",
+    "date": "3 days ago",
+    "rating": 4.9,
+    "avatar": "https://i.ibb.co.com/vKBWJW7/tes-2.png",
+    "feedback": [
+      "MarketPulse made it effortless to keep track of daily product price changes. It’s now part of my daily routine!",
+      "The market trend insights on MarketPulse are a game-changer. I feel more confident shopping smartly and planning my budget."
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Shariful Islam",
+    "date": "1 week ago",
+    "rating": 5,
+    "avatar": "https://i.ibb.co/k2Mgmxt4/Screenshot-12.png",
+    "feedback": [
+      "Perfect for price-conscious shoppers! I love how easy it is to compare prices across different local markets on MarketPulse.",
+      "The interface of MarketPulse is smooth and mobile-friendly. I even share product trends with my friends before we shop."
     ]
   }
 ]

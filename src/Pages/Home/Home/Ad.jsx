@@ -26,7 +26,7 @@ const adsData = [
 
 export default function Ad() {
     return (
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+        <section className="w-full max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mt-20">
             {adsData.map((ad) => (
                 <div
                     key={ad.id}

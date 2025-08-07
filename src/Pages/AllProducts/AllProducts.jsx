@@ -78,7 +78,6 @@ const AllProducts = () => {
                 ]}
             />
 
-            <Container>
                 {/* Filters & Sorting */}
                 <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
                     {/* Sort */}
@@ -161,7 +160,6 @@ const AllProducts = () => {
                     handlePrv={handlePrv}
                     currentPage={page}
                 />
-            </Container>
         </>
     );
 };

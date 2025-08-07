@@ -37,7 +37,6 @@ const PaymentPage = () => {
   }
 
   return (
-    <Container>
       <div className="max-w-xl mx-auto p-6 bg-[#efefef] rounded shadow-md">
         <h2 className="text-3xl font-heading text-center font-bold mb-6 text-primary">
           Pay for: {product.itemName}
@@ -50,7 +49,6 @@ const PaymentPage = () => {
           />
         </Elements>
       </div>
-    </Container>
   );
 };
 

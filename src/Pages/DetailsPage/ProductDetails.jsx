@@ -181,7 +181,7 @@ const ProductDetails = () => {
   if (isLoading || authLoading) return <Loading />
 
   return (
-    <Container>
+    <>
       {/* Product Card */}
       <div className="w-full bg-[#f4f3f3] rounded-xl shadow-lg border border-gray-200 overflow-hidden grid lg:grid-cols-2">
         {/* Product Image Section */}
@@ -381,7 +381,7 @@ const ProductDetails = () => {
       </div>
 
       <ToastContainer />
-    </Container>
+    </>
   );
 };
 

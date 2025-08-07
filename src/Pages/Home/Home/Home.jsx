@@ -5,12 +5,9 @@ import useAuth from "../../../hooks/useAuth";
 import Loading from "../../shared/Loading";
 import Banner from "./Banner";
 import About from "./About";
-import CallToAction from "./CallToAction";
-import Container from "../../shared/Container";
 // import Faq from "./Faq";
 import { Suspense, useEffect } from "react";
 import Testimonial from "./Testimonial";
-import AdSlider from "./AdSlider";
 import FeaturedCategory from "./FeaturedCategory";
 import Ad from "./Ad";
 import Discount from "./Discount";
@@ -26,7 +23,7 @@ const Home = () => {
     }, [])
 
     const { user } = useAuth();
-    const axiosInstance= useAxios();
+    const axiosInstance = useAxios();
 
     const { data: featuredProducts = [], isLoading } = useQuery({
         queryKey: ["featuredProducts", user?.email],
@@ -45,20 +42,16 @@ const Home = () => {
             <Ad />
             <Discount />
             <main className="px-4 md:px-8 lg:px-16">
-                <Container>
-                    <About />
-                    <FeaturedProducts products={featuredProducts} />
-                    <Suspense fallback={<Loading />}>
-                        <Testimonial testimonialData={testimonialData}></Testimonial>
-                    </Suspense>
-                    <AdSlider />
-                    <OurPartners />
-                </Container>
+                <About />
+                <FeaturedProducts products={featuredProducts} />
+                <Suspense fallback={<Loading />}>
+                    <Testimonial testimonialData={testimonialData}></Testimonial>
+                </Suspense>
+                <OurPartners />
                 {/* <Suspense fallback={<Loading />}>
                 <Faq faqData={faqData} />
             </Suspense> */}
             </main>
-            <CallToAction />
         </>
     );
 };

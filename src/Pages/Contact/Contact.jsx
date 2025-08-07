@@ -29,7 +29,6 @@ const Contact = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-0 px-0 items-stretch md:min-h-[500px]">
 
         {/* Left Column inside Container */}
-        <Container>
           <div className="p-6 md:p-9 lg:p-16 bg-white space-y-4 flex flex-col justify-center">
             <ZoomIn>
             <h3 className="text-2xl md:text-4xl font-heading font-bold text-secondary">
@@ -72,11 +71,9 @@ const Contact = () => {
             </div>
             </ZoomIn>
           </div>
-        </Container>
 
         {/* Right Column - Full width background */}
         <div className="bg-primary w-full">
-          <Container>
             <div className="p-6 md:p-9 lg:p-16 flex items-center justify-center">
               <ZoomIn>
               <div className="w-full max-w-md bg-white rounded shadow-md p-5 md:p-8 mx-auto">
@@ -109,7 +106,6 @@ const Contact = () => {
               </div>
               </ZoomIn>
             </div>
-          </Container>
         </div>
       </div>
 

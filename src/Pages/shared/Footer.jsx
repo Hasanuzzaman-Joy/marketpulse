@@ -7,7 +7,6 @@ const Footer = () => {
   return (
     <footer className="font-body bg-primary text-white">
       {/* === Main Footer === */}
-      <Container>
         <div className="relative pt-16 pb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* 1. Logo and About */}
           <div className="relative z-20">
@@ -116,7 +115,6 @@ const Footer = () => {
             </div>
           </div>
         </div>
-      </Container>
 
       {/* === Bottom Footer === */}
       <div className="bg-secondary text-white py-4 text-center text-sm">
