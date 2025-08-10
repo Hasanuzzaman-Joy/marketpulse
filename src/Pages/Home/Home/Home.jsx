@@ -40,18 +40,15 @@ const Home = () => {
             <Banner />
             <FeaturedCategory />
             <Ad />
+            <FeaturedProducts products={featuredProducts} />
+            <OurPartners />
             <Discount />
-            <main className="px-4 md:px-8 lg:px-16">
-                <About />
-                <FeaturedProducts products={featuredProducts} />
-                <Suspense fallback={<Loading />}>
-                    <Testimonial testimonialData={testimonialData}></Testimonial>
-                </Suspense>
-                <OurPartners />
-                {/* <Suspense fallback={<Loading />}>
+            <Suspense fallback={<Loading />}>
+                <Testimonial testimonialData={testimonialData}></Testimonial>
+            </Suspense>
+            {/* <Suspense fallback={<Loading />}>
                 <Faq faqData={faqData} />
             </Suspense> */}
-            </main>
         </>
     );
 };

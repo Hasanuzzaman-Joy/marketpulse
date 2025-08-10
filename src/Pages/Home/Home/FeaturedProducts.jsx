@@ -7,7 +7,6 @@ import useRole from "../../../hooks/useRole";
 import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router";
 import Loading from "../../shared/Loading";
-import ZoomIn from "../../shared/ZoomIn";
 
 const FeaturedProducts = ({ products }) => {
     const axiosSecure = useAxiosSecure();
@@ -40,19 +39,18 @@ const FeaturedProducts = ({ products }) => {
     if (authLoading) return <Loading />
 
     return (
-        <section className="mb-12 my-10">
-            <h2 className="text-3xl font-heading font-bold text-secondary mb-6">
+        <section className="w-full md:max-w-screen-xl mx-auto px-4 my-24">
+            <h2 className="text-2xl md:text-3xl font-heading font-bold text-secondary mb-6">
                 Featured Products
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {products.slice(0, 6).map((product) => (
-                    <ZoomIn key={product._id}>
-                    <div
-                        className="bg-white border border-border rounded shadow overflow-hidden transition hover:shadow"
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {products.slice(0, 8).map((product) => (
+                    <div key={product._id}
+                        className="bg-gray-100/30 py-2 border border-border rounded-2xl shadow overflow-hidden transition hover:shadow"
                     >
                         {/* Upper Part */}
-                        <div className="relative bg-bg-alt h-40 flex justify-center items-center">
+                        <div className="relative h-40 flex justify-center items-center">
                             {/* Wishlist Icon */}
                             <button
                                 onClick={() => handleAddToWishlist(product._id)}
@@ -70,7 +68,7 @@ const FeaturedProducts = ({ products }) => {
                             <img
                                 src={product.image}
                                 alt={product.itemName}
-                                className="h-32 object-contain"
+                                className="h-30 object-contain"
                             />
                         </div>
 
@@ -79,19 +77,15 @@ const FeaturedProducts = ({ products }) => {
                             <h3 className="text-xl font-heading font-bold text-primary">
                                 {product.itemName}
                             </h3>
-                            <p className="text-base font-medium py-1">
+                            <p className="text-base text-gray-900 font-normal py-1">
                                 Price : $ {product.pricePerUnit}
                             </p>
-                            <p className="text-base font-medium">{product.marketName}</p>
-                            <p className="text-base font-medium py-1 mb-5">
-                                {format(new Date(product.date), "dd MMMM, yyyy")}
-                            </p>
+                            <p className="text-base text-gray-900 font-normal mb-5">{product.marketName}</p>
                             <Link to={`/product-details/${product._id}`} className="text-white px-3 py-2 rounded bg-secondary hover:bg-accent transition font-semibold cursor-pointer">
                                 View Details
                             </Link>
                         </div>
                     </div>
-                    </ZoomIn>
                 ))}
             </div>
             <ToastContainer />

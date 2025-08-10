@@ -1,4 +1,4 @@
-import React from "react";
+import Button from "../../shared/Button";
 import { FaShoppingCart, FaFireAlt, FaLeaf } from "react-icons/fa";
 
 const adsData = [
@@ -26,7 +26,7 @@ const adsData = [
 
 export default function Ad() {
     return (
-        <section className="w-full max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mt-20">
+        <section className="w-full md:max-w-screen-xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-6 mt-20">
             {adsData.map((ad) => (
                 <div
                     key={ad.id}
@@ -34,20 +34,20 @@ export default function Ad() {
                 >
                     {/* Text Content */}
                     <div className="space-y-2 max-w-[60%]">
-                        <div className="flex items-center gap-2 text-sm font-semibold">
+                        <div className="flex items-center gap-2 text-base font-semibold">
                             {ad.icon}
                             <span>{ad.title}</span>
                         </div>
-                        <h3 className="text-lg font-bold leading-tight">{ad.subtitle}</h3>
-                        <p className="text-sm text-gray-600">{ad.discount}</p>
-                        <button className="mt-3 px-4 py-2 text-sm bg-black text-white rounded-full hover:bg-gray-800 transition">
+                        <h3 className="text-2xl md:text-3xl font-bold leading-tight">{ad.subtitle}</h3>
+                        <p className="text-base text-gray-600">{ad.discount}</p>
+                        <Button className="mt-3">
                             <FaShoppingCart className="inline-block mr-1 w-4 h-4" />
                             Shop Now
-                        </button>
+                        </Button>
                     </div>
 
                     {/* Image */}
-                    <div className="max-w-[40%]">
+                    <div className="max-w-[60%]">
                         <img
                             src={ad.image}
                             alt={ad.title}
