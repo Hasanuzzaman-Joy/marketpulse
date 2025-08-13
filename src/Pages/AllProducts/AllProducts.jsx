@@ -1,16 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router";
 import useAxios from "../../hooks/useAxios";
 import Loading from "../shared/Loading";
-import { format } from "date-fns";
-import Button from "../shared/Button";
 import { useEffect, useState } from "react";
 import Pagination from "../shared/Pagination";
-import Container from "../shared/Container";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import ZoomIn from "../shared/ZoomIn";
 import Banner from "../shared/Banner";
+import ProductCard from "./ProductCard";
 
 const AllProducts = () => {
     useEffect(() => {
@@ -20,7 +16,7 @@ const AllProducts = () => {
     const axiosInstance = useAxios();
 
     const [page, setPage] = useState(1);
-    const [limit] = useState(9);
+    const [limit] = useState(12);
     const [sortOrder, setSortOrder] = useState("");
     const [selectedDate, setSelectedDate] = useState(null);
 
@@ -57,8 +53,6 @@ const AllProducts = () => {
     const { products = [], totalPages = 1 } = data;
     const pages = [...Array(totalPages).keys()].map((i) => i + 1);
 
-    console.log(products)
-
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     }, [page]);
@@ -67,7 +61,6 @@ const AllProducts = () => {
 
     return (
         <>
-
             {/* Banner  */}
             <Banner
                 bgImage="https://i.ibb.co/TMJmZN8w/contact.jpg"
@@ -78,6 +71,7 @@ const AllProducts = () => {
                 ]}
             />
 
+            <div className="w-full md:max-w-screen-xl mx-auto px-4 md:py-10 py-20">
                 {/* Filters & Sorting */}
                 <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
                     {/* Sort */}
@@ -108,48 +102,8 @@ const AllProducts = () => {
                 </div>
 
                 {/* Product Cards */}
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {products.map((product) => (
-                        <ZoomIn key={product._id}>
-                            <div className="flex flex-col h-full bg-white rounded overflow-hidden shadow-md border border-border hover:shadow-lg transition duration-300">
-                                <div className="bg-bg-alt">
-                                    <img
-                                        src={product.image}
-                                        alt={product.itemName}
-                                        className="h-60 w-full object-contain shadow p-6"
-                                    />
-                                </div>
-                                <div className="flex flex-col justify-between flex-1 p-5 space-y-2">
-                                    <div className="space-y-2">
-                                        <h2 className="text-xl font-semibold text-main">{product.itemName}</h2>
-                                        <p>{product.itemDescription}</p>
-                                        <p>
-                                            <span className="font-semibold">Current Price:</span>{" "}
-                                            {new Intl.NumberFormat("en-US", {
-                                                style: "currency",
-                                                currency: "USD",
-                                            }).format(product.pricePerUnit)}{" "}
-                                            /kg
-                                        </p>
-                                        <p>
-                                            <span className="font-semibold">Market:</span> {product.marketName}
-                                        </p>
-                                        <p>
-                                            <span className="font-semibold">Vendor:</span> {product.vendorName}
-                                        </p>
-                                        <p>
-                                            <span className="font-semibold">Date:</span>{" "}
-                                            {format(new Date(product.date), "d MMMM, yyyy")}
-                                        </p>
-                                    </div>
-
-                                    <Link to={`/product-details/${product._id}`}>
-                                        <Button className="mt-3 w-full">View Details</Button>
-                                    </Link>
-                                </div>
-                            </div>
-                        </ZoomIn>
-                    ))}
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <ProductCard products={products} />
                 </div>
 
                 {/* Pagination */}
@@ -160,6 +114,7 @@ const AllProducts = () => {
                     handlePrv={handlePrv}
                     currentPage={page}
                 />
+            </div>
         </>
     );
 };

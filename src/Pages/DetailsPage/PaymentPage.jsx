@@ -5,7 +5,6 @@ import { loadStripe } from "@stripe/stripe-js";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import CheckoutForm from "./CheckoutForm";
 import Loading from "../shared/Loading";
-import Container from "../shared/Container";
 import { toast } from "react-toastify";
 
 const stripePromise = loadStripe(import.meta.env.VITE_PUBLISHABLE_KEY);

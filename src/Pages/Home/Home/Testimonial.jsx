@@ -11,7 +11,7 @@ const Testimonial = ({ testimonialData }) => {
     const testimonial = use(testimonialData);
 
     return (
-        <section className="w-full bg-gray-100 relative bg-fixed bg-cover bg-center bg-no-repeat mt-14 py-6 px-5 md:px-10">
+        <section className="w-full bg-gray-100 relative bg-fixed bg-cover bg-center bg-no-repeat py-6 px-5 md:px-10">
             <div className="w-full md:max-w-screen-xl mx-auto mt-10 px-4 flex flex-col md:flex-row gap-10">
                 {/* Left side: Title + Subtitle + Rating */}
                 <div className="w-full md:w-[35%] flex flex-col justify-start">

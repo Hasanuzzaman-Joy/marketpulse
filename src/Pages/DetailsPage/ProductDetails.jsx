@@ -14,7 +14,6 @@ import {
   FaRegStar,
 } from "react-icons/fa";
 import Button from "../shared/Button";
-import Container from "../shared/Container";
 import useAuth from "../../hooks/useAuth";
 import { toast, ToastContainer } from "react-toastify";
 import PriceComparisonChart from "./PriceComparisonChart";

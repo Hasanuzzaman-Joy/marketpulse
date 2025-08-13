@@ -10,7 +10,7 @@ import Forbidden from "../Pages/Forbidden/Forbidden";
 import DashboardLayouts from "../Layouts/DashboardLayouts";
 import AllUsers from "../Pages/Dashboard/Admin/AllUsers/AllUsers";
 import PrivateRoute from "./ProtectedRoutes/PrivateRoute";
-// import ApplyVendor from "../Pages/Dashboard/Vendor/ApplyVendor/ApplyVendor";
+import ApplyVendor from "../Pages/Dashboard/Vendor/ApplyVendor/ApplyVendor";
 import AddProduct from "../Pages/Dashboard/Vendor/AddProduct/AddProduct";
 import AddAdvertisement from "../Pages/Dashboard/Vendor/AddAdvertisement/AddAdvertisement ";
 import MyProducts from "../Pages/Dashboard/Vendor/MyProducts/MyProducts";
@@ -73,14 +73,14 @@ const router = createBrowserRouter([
           </PrivateRoute>
         )
       },
-      // {
-      //   path: "/apply-vendor",
-      //   element: (
-      //     <PrivateRoute allowedRoles={["user", "admin"]}>
-      //       <ApplyVendor />
-      //     </PrivateRoute>
-      //   )
-      // },
+      {
+        path: "/apply-vendor",
+        element: (
+          <PrivateRoute allowedRoles={["user", "admin"]}>
+            <ApplyVendor />
+          </PrivateRoute>
+        )
+      },
       {
         path: "/loading",
         element: <Loading />,

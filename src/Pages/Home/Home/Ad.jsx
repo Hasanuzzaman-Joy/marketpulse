@@ -30,7 +30,7 @@ export default function Ad() {
             {adsData.map((ad) => (
                 <div
                     key={ad.id}
-                    className={`flex items-center justify-between p-6 rounded-2xl shadow-sm ${ad.bgColor}`}
+                    className={`flex items-center justify-between p-6 border-[1px] border-border rounded-2xl shadow-xl ${ad.bgColor}`}
                 >
                     {/* Text Content */}
                     <div className="space-y-2 max-w-[60%]">

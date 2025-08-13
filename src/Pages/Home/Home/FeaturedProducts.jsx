@@ -1,5 +1,4 @@
 import { FaHeart } from "react-icons/fa";
-import { format } from "date-fns";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
@@ -47,17 +46,17 @@ const FeaturedProducts = ({ products }) => {
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {products.slice(0, 8).map((product) => (
                     <div key={product._id}
-                        className="bg-gray-100/30 py-2 border border-border rounded-2xl shadow overflow-hidden transition hover:shadow"
+                        className="bg-gray-100/30 pb-2 border border-border rounded-2xl shadow-xl overflow-hidden transition hover:shadow"
                     >
                         {/* Upper Part */}
-                        <div className="relative h-40 flex justify-center items-center">
+                        <div className="relative bg-green-400/10 h-40 flex justify-center items-center">
                             {/* Wishlist Icon */}
                             <button
                                 onClick={() => handleAddToWishlist(product._id)}
                                 disabled={addToWishlistMutation.isLoading || userRole === "admin" || userRole === "vendor"}
                                 className={`absolute top-3 right-3 bg-white text-accent p-2 rounded-full shadow-md hover:text-red-500 transition ${addToWishlistMutation.isLoading || userRole === "admin" || userRole === "vendor"
-                                        ? "cursor-not-allowed text-gray-400 hover:text-gray-400"
-                                        : "cursor-pointer"
+                                    ? "cursor-not-allowed text-gray-400 hover:text-gray-400"
+                                    : "cursor-pointer"
                                     }`}
                                 title="Add to Watchlist"
                             >
@@ -78,7 +77,11 @@ const FeaturedProducts = ({ products }) => {
                                 {product.itemName}
                             </h3>
                             <p className="text-base text-gray-900 font-normal py-1">
-                                Price : $ {product.pricePerUnit}
+                                Price : {" "}
+                                {new Intl.NumberFormat("en-US", {
+                                    style: "currency",
+                                    currency: "USD",
+                                }).format(product.pricePerUnit)}{" "}
                             </p>
                             <p className="text-base text-gray-900 font-normal mb-5">{product.marketName}</p>
                             <Link to={`/product-details/${product._id}`} className="text-white px-3 py-2 rounded bg-secondary hover:bg-accent transition font-semibold cursor-pointer">

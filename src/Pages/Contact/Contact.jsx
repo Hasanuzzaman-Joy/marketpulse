@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router";
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
-import Container from "../shared/Container";  
 import Button from "../shared/Button";
 import ZoomIn from "../shared/ZoomIn";
 import Banner from "../shared/Banner";

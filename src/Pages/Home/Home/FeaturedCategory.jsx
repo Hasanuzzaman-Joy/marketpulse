@@ -40,7 +40,7 @@ const FeaturedCategory = () => {
         {categories.map(({ icon, title, subtitle }, idx) => (
           <div key={idx} className="flex flex-col items-center">
             {/* Circle background with image */}
-            <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
+            <div className="w-20 h-20 bg-indigo-100 rounded-full shadow-xl flex items-center justify-center mb-4">
               <img
                 src={icon}
                 alt={title}

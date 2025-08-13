@@ -1,13 +1,12 @@
 import React from "react";
 import { Link } from "react-router";
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
-import Container from "./Container";
 
 const Footer = () => {
   return (
     <footer className="font-body bg-primary text-white">
       {/* === Main Footer === */}
-        <div className="relative pt-16 pb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="relative w-full md:max-w-screen-xl mx-auto px-4 pt-16 pb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* 1. Logo and About */}
           <div className="relative z-20">
             <div className="flex items-center gap-2 mb-4">

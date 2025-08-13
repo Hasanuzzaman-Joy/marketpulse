@@ -6,7 +6,7 @@ const Pagination = ({ pages, handlePage, handlePrv, handleNext, currentPage }) =
     const isLastPage = currentPage === pages.length;
 
     return (
-        <div className="flex justify-center items-center mt-7 mb-10 gap-2">
+        <div className="flex justify-center items-center mt-20 gap-2">
             {/* Previous Button */}
             <Button
                 onClick={!isFirstPage ? handlePrv : null}

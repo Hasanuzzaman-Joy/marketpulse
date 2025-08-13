@@ -22,7 +22,7 @@ const FeatureBanner = () => {
   ];
 
   return (
-    <div className="w-full h-[100px] flex border border-gray-300 divide-x divide-gray-300 bg-white shadow-lg rounded-md max-w-6xl mx-auto">
+    <div className="w-full md:max-w-screen-xl h-[100px] flex border border-gray-300 divide-x divide-gray-300 bg-white shadow-lg rounded-md mx-auto px-4">
       {items.map((item, idx) => (
         <div key={idx} className="flex-1 flex flex-col justify-center px-4">
           <div className="flex items-center gap-4">
