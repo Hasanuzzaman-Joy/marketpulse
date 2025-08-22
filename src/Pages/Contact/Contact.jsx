@@ -56,9 +56,9 @@ const Contact = () => {
       />
 
       {/* Contact Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-0 px-0 items-stretch md:min-h-[500px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full md:max-w-screen-xl mx-auto px-4 items-stretch md:min-h-[500px]">
         {/* Left Column */}
-        <div className="p-6 md:p-9 lg:p-16 bg-white space-y-4 flex flex-col justify-center">
+        <div className="py-6 md:py-9 lg:py-16 bg-white space-y-4 flex flex-col justify-center">
           <h3 className="text-2xl md:text-4xl font-heading font-bold text-secondary">
             Leave a Message
           </h3>
@@ -101,7 +101,7 @@ const Contact = () => {
 
         {/* Right Column */}
         <div className="bg-primary w-full">
-          <div className="p-6 md:p-9 lg:p-16 flex items-center justify-center">
+          <div className="py-6 md:py-9 lg:py-16 flex items-center justify-center">
             <div className="w-full max-w-md bg-white rounded shadow-md p-5 md:p-8 mx-auto">
               <h4 className="text-xl font-semibold mb-4 text-main">
                 Need Help or Support?

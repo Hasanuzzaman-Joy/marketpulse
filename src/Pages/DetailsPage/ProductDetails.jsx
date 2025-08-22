@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useRole from "../../hooks/useRole";
 import Loading from "../shared/Loading";
@@ -9,7 +9,7 @@ import {
   FaCalendarAlt,
   FaUser,
   FaCartPlus,
-  FaHeart,
+  FaShoppingBag,
   FaStar,
   FaRegStar,
 } from "react-icons/fa";
@@ -22,8 +22,7 @@ const ProductDetails = () => {
   const { user } = useAuth();
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
-  const { userRole, authLoading } = useRole();
-  const queryClient = useQueryClient();
+  const { authLoading } = useRole();
   const navigate = useNavigate();
 
   // Product data fetch
@@ -35,29 +34,6 @@ const ProductDetails = () => {
     },
     enabled: !authLoading,
   });
-
-  // Wishlist mutation
-  const addToWishlistMutation = useMutation({
-    mutationFn: ({ productId }) =>
-      axiosSecure.post(`/wishlist?email=${user?.email}`, { productId }),
-
-    onSuccess: () => {
-      toast.success("Added to watchlist");
-      queryClient.invalidateQueries({ queryKey: ["wishlist"] });
-    },
-
-    onError: () => {
-      toast.error("Already added to the watchlist");
-    },
-  });
-
-  const handleAddToWishlist = (productId) => {
-    if (!user?.email) {
-      toast.error("Please login first to add to watchlist");
-      return;
-    }
-    addToWishlistMutation.mutate({ productId });
-  };
 
   // Comments state
   const [rating, setRating] = useState(0);
@@ -154,8 +130,8 @@ const ProductDetails = () => {
   useEffect(() => {
     if (!selectedDate || !prices?.length || !date) return;
 
-    const todayPrice = prices.find(p => formatDate(p.date) === formatDate(date));
-    const prevPrice = prices.find(p => formatDate(p.date) === selectedDate);
+    const todayPrice = prices.find((p) => formatDate(p.date) === formatDate(date));
+    const prevPrice = prices.find((p) => formatDate(p.date) === selectedDate);
 
     if (todayPrice && prevPrice) {
       setComparisonData([
@@ -177,7 +153,37 @@ const ProductDetails = () => {
     ?.map((p) => p.date)
     .filter((d) => d !== date);
 
-  if (isLoading || authLoading) return <Loading />
+  // Add to cart functionalities
+  const addToCartMutation = useMutation({
+    mutationFn: (cartItem) =>
+      axiosSecure.post(`/cart?email=${user?.email}`, cartItem),
+
+    onSuccess: () => {
+      toast.success("Added to Cart");
+    },
+
+    onError: () => {
+      toast.error("Failed to add to cart");
+    },
+  });
+
+  const handleAddToCart = () => {
+    if (!user?.email) {
+      toast.error("Please login to add items to cart");
+      return;
+    }
+    const cartItem = {
+      productId: product._id,
+      itemName,
+      pricePerUnit,
+      image,
+      buyerEmail : user?.email,
+      date: new Date().toISOString(),
+    };
+    addToCartMutation.mutate(cartItem);
+  };
+
+  if (isLoading || authLoading) return <Loading />;
 
   return (
     <>
@@ -248,32 +254,25 @@ const ProductDetails = () => {
           </div>
 
           {/* Buttons */}
-          <div className="flex flex-wrap gap-4 mt-4">
-            <Button
-              onClick={() => handleAddToWishlist(product._id)}
-              disabled={
-                addToWishlistMutation.isLoading ||
-                userRole === "admin" ||
-                userRole === "vendor"
-              }
-              className={`flex items-center gap-2 ${addToWishlistMutation.isLoading ||
-                userRole === "admin" ||
-                userRole === "vendor"
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-primary hover:bg-yellow-500"
-                }`}
-              aria-label="Add to Watchlist"
-            >
-              <FaHeart /> Add to Watchlist
-            </Button>
+          {user && (
+            <div className="flex flex-wrap gap-4 mt-4">
+              <Button
+                onClick={handleAddToCart}
+                className="flex items-center gap-2 bg-primary hover:bg-yellow-500"
+                aria-label="Add to Cart"
+              >
+                <FaCartPlus /> Add to Cart
+              </Button>
 
-            <Button
-              onClick={() => navigate(`/payment/${product._id}`)}
-              className="flex items-center gap-2 bg-accent hover:bg-yellow-500"
-            >
-              <FaCartPlus /> Buy Product
-            </Button>
-          </div>
+              <Button
+                onClick={() => navigate(`/payment/${product._id}`)}
+                className="flex items-center gap-2 bg-accent hover:bg-yellow-500"
+              >
+                <FaShoppingBag /> Buy Product
+              </Button>
+            </div>
+          )}
+          
         </div>
       </div>
 

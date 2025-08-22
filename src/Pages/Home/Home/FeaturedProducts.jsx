@@ -56,7 +56,6 @@ const FeaturedProducts = ({ products }) => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {products.slice(0, 8).map((product) => {
-                    const randomRating = (Math.random() * 0.5 + 4.5).toFixed(1);
                     return (
                         <div key={product._id} className="bg-gray-100/30 pb-2 border border-border rounded-2xl shadow-xl overflow-hidden transition hover:shadow">
                             {/* Upper Part */}
@@ -90,8 +89,8 @@ const FeaturedProducts = ({ products }) => {
                                     </h3>
                                     {/* Star Rating */}
                                     <div className="flex items-center text-yellow-500 space-x-1">
-                                        {renderStars(Number(randomRating))}
-                                        <span className="text-primary font-medium text-base">{randomRating}</span>
+                                        {renderStars(Number(product.rating))}
+                                        <span className="text-primary font-medium text-base">{product.rating}</span>
                                     </div>
                                 </div>
 

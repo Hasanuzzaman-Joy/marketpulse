@@ -36,17 +36,19 @@ const ApplyVendor = () => {
       </div>
 
       {/* Form Section */}
-      <div className="w-full md:max-w-screen-xl mx-auto p-4 md:p-12 bg-white rounded shadow-xl my-10">
-        <h3 className="text-3xl font-heading font-bold mb-2 text-secondary">
-          Ready to Grow Your Business?
-        </h3>
-        <p className="text-text-secondary mb-8 leading-relaxed">
-          Apply now to become a verified vendor on Market Pulse. Share your
-          details below and we will get back to you shortly.
-        </p>
+      <div className="w-full md:max-w-screen-xl mx-auto px-4">
+        <div className="w-full p-4 md:p-16 bg-white rounded shadow-xl my-10">
+          <h3 className="text-3xl font-heading font-bold mb-2 text-secondary">
+            Ready to Grow Your Business?
+          </h3>
+          <p className="text-text-secondary mb-8 leading-relaxed">
+            Apply now to become a verified vendor on Market Pulse. Share your
+            details below and we will get back to you shortly.
+          </p>
 
-        {/* Form */}
-        <VendorForm user={user} navigate={navigate} />
+          {/* Form */}
+          <VendorForm user={user} navigate={navigate} />
+        </div>
       </div>
 
       <ToastContainer />

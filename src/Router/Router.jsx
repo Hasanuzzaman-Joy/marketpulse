@@ -26,6 +26,7 @@ import AllProducts from "../Pages/AllProducts/AllProducts";
 import PaymentPage from "../Pages/DetailsPage/PaymentPage";
 import AdminOrdersPage from "../Pages/Dashboard/Admin/AdminOrdersPage/AdminOrdersPage";
 import MyOrders from "../Pages/Dashboard/User/MyOrders/MyOrders";
+import ManageCart from "../Pages/Cart/ManageCart";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute allowedRoles={["user", "admin"]}>
             <ApplyVendor />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: "/cart",
+        element: (
+          <PrivateRoute allowedRoles={["user", "vendor","admin"]}>
+            <ManageCart />
           </PrivateRoute>
         )
       },

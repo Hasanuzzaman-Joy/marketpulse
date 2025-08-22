@@ -52,7 +52,6 @@ const ProductCard = ({ products }) => {
     return (
         <>
             {products.map((product) => {
-                const randomRating = (Math.random() * 0.5 + 4.5).toFixed(1);
                 return (
                     <div key={product._id} className="bg-gray-100/30 pb-2 border border-border rounded-2xl shadow-xl overflow-hidden transition hover:shadow">
                         {/* Upper Part */}
@@ -92,8 +91,8 @@ const ProductCard = ({ products }) => {
                                 </h3>
                                 {/* Star Rating with value */}
                                 <div className="flex items-center text-yellow-500 space-x-1">
-                                    {renderStars(Number(randomRating))}
-                                    <span className="text-primary font-medium text-base">{randomRating}</span>
+                                    {renderStars(Number(product.rating))}
+                                    <span className="text-primary font-medium text-base">{product.rating}</span>
                                 </div>
                             </div>
 
