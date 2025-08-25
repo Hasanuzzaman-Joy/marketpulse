@@ -36,8 +36,9 @@ const PaymentPage = () => {
   }
 
   return (
-      <div className="max-w-xl mx-auto p-6 bg-[#efefef] rounded shadow-md">
-        <h2 className="text-3xl font-heading text-center font-bold mb-6 text-primary">
+    <section className="w-full bg-gray-100 py-10">
+      <div className="w-full md:w-1/2 mx-auto px-4 bg-secondary py-10">
+        <h2 className="text-3xl font-heading text-center font-bold mb-6 text-white">
           Pay for: {product.itemName}
         </h2>
 
@@ -48,6 +49,7 @@ const PaymentPage = () => {
           />
         </Elements>
       </div>
+    </section>
   );
 };
 

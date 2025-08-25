@@ -35,16 +35,13 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        index: true,
-        element: <Home />,
+        index: true, element: <Home />,
       },
       {
-        path: "/login",
-        element: <Login />,
+        path: "/login", element: <Login />,
       },
       {
-        path: "/register",
-        element: <Register />,
+        path: "/register", element: <Register />,
       },
       {
         path: "/product-details/:id",
@@ -55,8 +52,7 @@ const router = createBrowserRouter([
         )
       },
       {
-        path: "/products",
-        element: <AllProducts />,
+        path: "/products", element: <AllProducts />,
       },
       {
         path: "/payment/:productId",
@@ -85,18 +81,16 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: (
-          <PrivateRoute allowedRoles={["user", "vendor","admin"]}>
+          <PrivateRoute allowedRoles={["user", "vendor", "admin"]}>
             <ManageCart />
           </PrivateRoute>
         )
       },
       {
-        path: "/loading",
-        element: <Loading />,
+        path: "/loading", element: <Loading />,
       },
       {
-        path: "/forbidden",
-        element: <Forbidden />,
+        path: "/forbidden", element: <Forbidden />,
       },
     ],
   },

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import Loading from "../../../shared/Loading";
 import { format } from "date-fns";
 import Swal from "sweetalert2";
-import { FaHeart, FaPlus, FaTrashAlt } from "react-icons/fa";
+import { FaHeart, FaPlus, FaTrashAlt, FaBoxOpen, FaShoppingBag } from "react-icons/fa";
 import Button from "../../../shared/Button";
 import { useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
@@ -29,8 +29,6 @@ const ManageWishlist = () => {
         enabled: !loading && !!user?.email,
     });
 
-    console.log(wishlist)
-
     // Mutation to delete wishlist item
     const deleteWishlistMutation = useMutation({
         mutationFn: async (productId) => {
@@ -39,13 +37,13 @@ const ManageWishlist = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["wishlist", user?.email] });
-            toast.success("Product successfully removed from Wishlist")
+            toast.success("Product successfully removed from watchlist")
         },
         onError: () => {
             Swal.fire({
                 icon: "error",
                 title: "Error",
-                text: "Failed to remove item from wishlist.",
+                text: "Failed to remove item from watchlist.",
             });
         },
     });
@@ -53,7 +51,7 @@ const ManageWishlist = () => {
     const handleDelete = (productId) => {
         Swal.fire({
             title: "Are you sure?",
-            text: "You want to remove this item from your wishlist?",
+            text: "You want to remove this item from your watchlist?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#0a472e",
@@ -78,7 +76,13 @@ const ManageWishlist = () => {
             {/* Wishlist Table */}
             {
                 wishlist.length === 0 ?
-                    <><h3 className="text-2xl font-bold text-secondary mb-2">No Products Found</h3></> :
+                    (
+                        <div className="flex flex-col items-center justify-center min-h-[40vh] bg-gray-100 p-6 md:p-10 rounded">
+                            <FaBoxOpen className="text-6xl text-secondary mb-4" />
+                            <h3 className="text-2xl font-bold text-secondary mb-2">No Products Found</h3>
+                            <p className="text-text-secondary text-lg mb-4">Your watchlist is empty.</p>
+                        </div>
+                    ) :
                     <>
                         <div className="overflow-x-auto bg-bg rounded shadow-sm">
                             <table className="min-w-full text-left text-base text-main">

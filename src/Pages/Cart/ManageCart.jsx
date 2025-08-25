@@ -5,11 +5,13 @@ import Loading from "../shared/Loading";
 import Button from "../shared/Button";
 import { FaTrashAlt } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router";
 
 const ManageCart = () => {
     const { user, loading } = useAuth();
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
 
     // Fetch cart items
     const { data: cartItems = [], isLoading } = useQuery({
@@ -20,6 +22,30 @@ const ManageCart = () => {
         },
         enabled: !!user?.email && !loading,
     });
+
+    // Mutation for updating item quantity
+    const updateQuantityMutation = useMutation({
+        mutationFn: ({ itemId, action }) =>
+            axiosSecure.patch(`/cart/update/${itemId}?email=${user?.email}&action=${action}`),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["cart", user?.email] });
+        },
+        onError: () => {
+            toast.error("Failed to update cart");
+        },
+    });
+
+    // Handler for decreasing quantity
+    const handleDecrease = (item) => {
+        if (item.quantity > 1) {
+            updateQuantityMutation.mutate({ itemId: item._id, action: "decrease" });
+        }
+    };
+
+    // Handler for increasing quantity
+    const handleIncrease = (item) => {
+        updateQuantityMutation.mutate({ itemId: item._id, action: "increase" });
+    };
 
     // Mutation for removing an item
     const removeItemMutation = useMutation({
@@ -44,8 +70,29 @@ const ManageCart = () => {
 
     if (loading || isLoading) return <Loading />;
 
+    // New handler for Proceed to Checkout
+    const handleProceedToCheckout = async () => {
+        if (!cartItems.length) return toast.error("Cart is empty");
+
+        const orderData = {
+            buyerName: user?.displayName,
+            buyerEmail: user?.email,
+        };
+
+        try {
+            const res = await axiosSecure.post(`/create-order?email=${user?.displayName}`, orderData);
+            if (res.data.insertedId) {
+                toast.success("Order created successfully");
+                navigate("/payment", { state: { totalPrice, orderId: res.data.insertedId } });
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to create order");
+        }
+    };
+
     return (
-        <section className="text-main font-body p-6 md:p-10 bg-white">
+        <section className="w-full md:max-w-screen-xl mx-auto px-4 text-main font-body py-6 md:py-10 bg-white">
             {/* Title & Subtitle */}
             <div className="mb-8 text-center">
                 <h2 className="text-4xl font-bold text-secondary mb-2">Your Shopping Cart</h2>
@@ -54,10 +101,10 @@ const ManageCart = () => {
                 </p>
             </div>
 
-            {/* Table + Form Row */}
-            <div className="flex flex-col lg:flex-row gap-8">
+            {/* Table + Form */}
+            <div className="flex flex-col lg:flex-row gap-8 items-start">
                 {/* Cart Table */}
-                <div className="w-full lg:w-[65%] overflow-x-auto bg-bg rounded shadow-sm">
+                <div className="w-full lg:w-[65%] overflow-x-auto bg-gray-100 rounded shadow-sm">
                     <table className="min-w-full text-left text-base text-main">
                         <thead className="bg-secondary text-white text-sm font-medium">
                             <tr>
@@ -83,9 +130,15 @@ const ManageCart = () => {
                                     </td>
                                     <td className="px-6 py-4">${parseFloat(item.pricePerUnit).toFixed(2)}</td>
                                     <td className="px-6 py-4 flex items-center gap-2">
-                                        <Button>-</Button>
+                                        <Button
+                                            onClick={() => handleDecrease(item)}
+                                            disabled={item.quantity === 1} 
+                                            className={item.quantity === 1 ? "opacity-50 cursor-not-allowed" : ""}
+                                        >
+                                            -
+                                        </Button>
                                         <span>{item.quantity}</span>
-                                        <Button>+</Button>
+                                        <Button onClick={() => handleIncrease(item)}>+</Button>
                                     </td>
                                     <td className="px-6 py-4">${(item.pricePerUnit * item.quantity).toFixed(2)}</td>
                                     <td className="px-6 py-4">
@@ -134,9 +187,14 @@ const ManageCart = () => {
                             name="address"
                             placeholder="Write Full Address Details Here"
                             rows={4}
+                            required
                             className="w-full px-3 py-2 bg-white text-gray-600 rounded resize-y border-none focus:ring-2 focus:ring-accent focus:outline-none"
                         />
-                        <button className="w-full text-white px-3 py-2 rounded bg-accent hover:bg-secondary border-[1px] border-white transition font-semibold cursor-pointer">
+                        <button 
+                            type="button"
+                            onClick={handleProceedToCheckout}
+                            className="w-full text-white px-3 py-2 rounded bg-accent hover:bg-secondary border-[1px] border-white transition font-semibold cursor-pointer"
+                        >
                             Proceed to Checkout (${totalPrice.toFixed(2)})
                         </button>
                     </form>
