@@ -8,6 +8,7 @@ import Loading from "../../../shared/Loading";
 import AdvertisementTable from "./AdvertisementTable";
 import RejectAdModal from "./RejectAdModal";
 import AdvertisementModal from "./AdvertisementModal";
+import { FaBullhorn } from "react-icons/fa";
 
 const AdminAllAdvertisements = () => {
   useEffect(() => {
@@ -95,10 +96,10 @@ const AdminAllAdvertisements = () => {
   return (
     <div className="p-6 md:p-10 bg-white text-main font-body">
       <div className="mb-8 space-y-2">
-        <h2 className="text-3xl font-heading font-bold text-secondary">
-          All Advertisements
+        <h2 className="text-3xl text-primary font-bold mb-2 flex items-center gap-2">
+          <FaBullhorn />  All Advertisements
         </h2>
-        <p className="text-text-secondary text-base md:text-lg">
+        <p className="text-text-secondary text-base md:text-lg mb-6">
           Manage and review advertisements submitted by vendors.
         </p>
       </div>

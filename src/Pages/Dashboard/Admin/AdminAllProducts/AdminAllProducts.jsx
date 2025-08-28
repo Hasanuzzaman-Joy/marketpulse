@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import Loading from "../../../shared/Loading";
 import ProductTable from "./ProductTable";
 import ProductModal from "./ProductModal";
-import RejectProductModal from "./RejectProductModal";
+import RejectProductModal from "./RejectProductModal";import { FaClipboardList } from "react-icons/fa";
 
 const AdminAllProducts = () => {
   useEffect(() => {
@@ -100,10 +100,10 @@ const AdminAllProducts = () => {
   });
 
   return (
-    <div className="p-6 md:p-10 bg-white text-main font-body">
+    <div className="bg-white text-main font-body shadow-sm p-6 md:p-10">
       <div className="mb-8 space-y-2">
-        <h2 className="text-3xl font-heading font-bold text-secondary">All Products</h2>
-        <p className="text-text-secondary text-base md:text-lg">
+        <h2 className="text-3xl text-primary font-bold mb-2 flex items-center gap-2"><FaClipboardList /> All Products</h2>
+        <p className="text-text-secondary text-base md:text-lg mb-6">
           Overview of all vendor-created products. You can review and manage their statuses.
         </p>
       </div>

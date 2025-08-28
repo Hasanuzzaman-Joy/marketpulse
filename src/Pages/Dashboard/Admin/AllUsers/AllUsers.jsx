@@ -77,16 +77,16 @@ const AllUsers = () => {
   };
 
   return (
-    <div className="font-body text-main p-6 md:p-10 bg-white">
-      <h2 className="text-3xl font-bold mb-6 flex items-center gap-2">
-        <FaUsers className="text-primary" /> All Users
+    <div className="font-body text-main shadow-sm p-6 md:p-10 bg-white">
+      <h2 className="text-3xl text-primary font-bold mb-6 flex items-center gap-2">
+        <FaUsers /> All Users
       </h2>
 
       {/* Stat Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
         <StatCard title="Total Users" count={totalUsers} bg="bg-green-100" />
         <StatCard title="Admins" count={totalAdmins} bg="bg-pink-100" />
-        <StatCard title="Vendors" count={totalVendors} bg="bg-blue-100" />
+        <StatCard title="Vendors" count={totalVendors} bg="bg-blue-100"/>
         <StatCard title="Normal Users" count={totalNormal} bg="bg-yellow-100" />
       </div>
 
@@ -110,7 +110,7 @@ const AllUsers = () => {
       {/* User Table */}
       <div className="overflow-x-auto bg-bg rounded shadow-sm">
         <table className="min-w-full text-left text-base text-main">
-          <thead className="bg-secondary text-white text-sm font-medium">
+          <thead className="bg-secondary text-white text-base font-medium">
             <tr>
               <th className="px-6 py-4">#</th>
               <th className="px-6 py-4">Name</th>
@@ -119,7 +119,7 @@ const AllUsers = () => {
               <th className="px-6 py-4">Set Role</th>
             </tr>
           </thead>
-          <tbody className="text-sm font-medium">
+          <tbody className="text-sm font-semibold">
             {filteredUsers.map((u, idx) => (
               <tr
                 key={u._id}

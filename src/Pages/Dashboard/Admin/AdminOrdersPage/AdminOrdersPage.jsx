@@ -5,6 +5,7 @@ import Loading from "../../../shared/Loading";
 import Pagination from "../../../shared/Pagination";
 import OrdersTable from "./OrdersTable";
 import useAuth from "../../../../hooks/useAuth";
+import { FaShoppingBasket } from "react-icons/fa";
 
 const AdminOrdersPage = () => {
   useEffect(() => {
@@ -24,7 +25,9 @@ const AdminOrdersPage = () => {
   const { data = {}, isLoading } = useQuery({
     queryKey: ["adminOrders", page, limit],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/admin/orders?email=${user?.email}&page=${page}&limit=${limit}`);
+      const res = await axiosSecure.get(
+        `/admin/orders?email=${user?.email}&page=${page}&limit=${limit}`
+      );
       return res.data;
     },
   });
@@ -35,13 +38,11 @@ const AdminOrdersPage = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">All Paid Orders</h1>
-      <OrdersTable
-        orders={orders}
-        currentPage={page}
-        itemsPerPage={limit}
-      />
+    <div className="font-body text-main shadow-sm p-6 md:p-10 bg-white">
+      <h1 className="text-3xl text-primary font-bold mb-6 flex items-center gap-2">
+        <FaShoppingBasket /> All Paid Orders 
+      </h1>
+      <OrdersTable orders={orders} currentPage={page} itemsPerPage={limit} />
       <Pagination
         pages={pages}
         handlePage={handlePage}

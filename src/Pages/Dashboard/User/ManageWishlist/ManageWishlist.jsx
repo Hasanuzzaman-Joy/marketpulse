@@ -9,6 +9,7 @@ import { FaHeart, FaPlus, FaTrashAlt, FaBoxOpen, FaShoppingBag } from "react-ico
 import Button from "../../../shared/Button";
 import { useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
+import ZoomIn from "../../../shared/ZoomIn";
 
 const ManageWishlist = () => {
     useEffect(() => {
@@ -68,8 +69,8 @@ const ManageWishlist = () => {
 
     return (
         <div className="font-body text-main p-6 md:p-10 bg-white">
-            <h2 className="text-3xl font-bold mb-6 flex items-center gap-2">
-                <FaHeart className="text-primary" /> Manage Watchlist
+            <h2 className="text-3xl text-primary font-bold mb-6 flex items-center gap-2">
+                <FaHeart /> Manage Watchlist
             </h2>
 
 
@@ -84,9 +85,10 @@ const ManageWishlist = () => {
                         </div>
                     ) :
                     <>
+                    <ZoomIn>
                         <div className="overflow-x-auto bg-bg rounded shadow-sm">
                             <table className="min-w-full text-left text-base text-main">
-                                <thead className="bg-secondary text-white text-sm font-medium">
+                                <thead className="bg-secondary text-white text-base font-medium">
                                     <tr>
                                         <th className="px-6 py-4">#</th>
                                         <th className="px-6 py-4">Product</th>
@@ -95,7 +97,7 @@ const ManageWishlist = () => {
                                         <th className="px-6 py-4">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody className="text-sm font-medium">
+                                <tbody className="text-sm font-semibold">
                                     {wishlist.map((item, idx) => (
                                         <tr key={item._id} className="border-b border-border hover:bg-gray-50 transition">
                                             <td className="px-6 py-4 font-bold">{idx + 1}</td>
@@ -133,6 +135,7 @@ const ManageWishlist = () => {
                                 </tbody>
                             </table>
                         </div>
+                        </ZoomIn>
                     </>
             }
             <ToastContainer />

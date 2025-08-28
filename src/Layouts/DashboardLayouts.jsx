@@ -1,18 +1,6 @@
 import { useState } from "react";
 import { NavLink, Outlet, useNavigation } from "react-router";
-import {
-  FaUserFriends,
-  FaClipboardList,
-  FaBullhorn,
-  FaShoppingBasket,
-  FaPlusSquare,
-  FaBoxOpen,
-  FaAd,
-  FaChartBar,
-  FaChartLine,
-  FaTools,
-  FaListAlt,
-} from "react-icons/fa";
+import { FaUserFriends, FaClipboardList, FaBullhorn, FaShoppingBasket, FaPlusSquare, FaBoxOpen, FaAd,FaChartBar, FaChartLine, FaTools, FaListAlt } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import useRole from "../hooks/useRole";
 import ScrollToTop from "../Pages/shared/ScrollToTop";
@@ -33,9 +21,6 @@ const DashboardLayout = () => {
 
   const menuItems = (
     <>
-      {navigation.state === "loading" && <Loading />}
-      <ScrollToTop />
-
       {user && userRole === "admin" && (
         <>
           <li><NavLink to="/dashboard/all-users" className="flex items-center gap-2 nav-link" onClick={() => setMenuOpen(false)}><FaUserFriends /> All Users</NavLink></li>
@@ -74,6 +59,8 @@ const DashboardLayout = () => {
 
   return (
     <div className="flex h-screen overflow-hidden">
+      {navigation.state === "loading" && <Loading />}
+      <ScrollToTop />
       <Sidebar menuItems={menuItems} logOut={logOut} />
       <div className="lg:ml-64 flex flex-col w-full h-screen">
         <DashboardNavbar user={user} setMenuOpen={setMenuOpen} />

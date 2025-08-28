@@ -13,7 +13,7 @@ const RootLayouts = () => {
             <ScrollToTop />
             {/* Navbar */}
             <Navbar />
-            {/* Main Outlet */}
+            {/* Outlet */}
             <main>
                 <Outlet />
             </main>

@@ -4,6 +4,8 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
 import SynchronizedLineChart from "./SynchronizedLineChart";
 import Loading from "../../../shared/Loading";
+import { FaChartLine } from "react-icons/fa";
+import ZoomIn from "../../../shared/ZoomIn";
 
 const ViewPriceTrends = () => {
   useEffect(() => {
@@ -37,8 +39,8 @@ const ViewPriceTrends = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-start gap-6 mb-8">
         {/* Title Section */}
         <div>
-          <h2 className="text-3xl font-heading font-bold text-secondary mb-1">
-            Price Trends
+          <h2 className="text-3xl text-primary font-bold mb-6 flex items-center gap-2">
+            <FaChartLine /> Price Trends
           </h2>
           <p className="text-text-secondary text-sm md:text-base">
             {selectedProduct

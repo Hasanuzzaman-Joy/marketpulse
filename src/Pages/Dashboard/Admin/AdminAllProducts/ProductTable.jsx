@@ -37,7 +37,7 @@ const ProductTable = ({
   return (
     <div className="overflow-x-auto bg-bg rounded shadow-sm">
       <table className="min-w-full text-left text-base text-main">
-        <thead className="bg-secondary text-white text-sm font-medium">
+        <thead className="bg-secondary text-white text-base font-medium">
           <tr>
             <th className="px-6 py-4">#</th>
             <th className="px-6 py-4">Item Name</th>
@@ -47,7 +47,7 @@ const ProductTable = ({
             <th className="px-6 py-4 text-center">Actions</th>
           </tr>
         </thead>
-        <tbody className="text-sm font-medium">
+        <tbody className="text-sm font-semibold">
           {products.map((item, index) => (
             <tr key={item._id} className="border-b border-border">
               <td className="px-6 py-4 font-bold">{index + 1}</td>

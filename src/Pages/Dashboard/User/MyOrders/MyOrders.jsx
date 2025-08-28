@@ -6,6 +6,7 @@ import Loading from "../../../shared/Loading";
 import Button from "../../../shared/Button";
 import { Link } from "react-router";
 import { FaShoppingBag, FaBoxOpen } from "react-icons/fa";
+import ZoomIn from "../../../shared/ZoomIn";
 
 const MyOrders = () => {
   useEffect(() => {
@@ -29,8 +30,8 @@ const MyOrders = () => {
 
   return (
     <div className="overflow-x-auto bg-white rounded shadow-sm p-6 md:p-10">
-      <h2 className="text-3xl font-bold mb-6 flex items-center gap-2">
-        <FaShoppingBag className="text-primary" /> My Orders
+      <h2 className="text-3xl text-primary font-bold mb-6 flex items-center gap-2">
+        <FaShoppingBag /> My Orders
       </h2>
 
       {/* No Orders Found */}
@@ -49,8 +50,9 @@ const MyOrders = () => {
 
       {/* Orders Table */}
       {orders.length > 0 && (
+        <ZoomIn>
         <table className="min-w-full text-left text-base text-main">
-          <thead className="bg-secondary text-white text-sm font-medium">
+          <thead className="bg-secondary text-white text-base font-medium">
             <tr>
               <th className="px-6 py-4">#</th>
               <th className="px-6 py-4">Product</th>
@@ -60,7 +62,7 @@ const MyOrders = () => {
               <th className="px-6 py-4">Actions</th>
             </tr>
           </thead>
-          <tbody className="text-sm font-medium">
+          <tbody className="text-sm font-semibold">
             {orders.map((order, idx) => (
               <tr key={order._id} className="border-b border-border">
                 <td className="px-6 py-4 font-bold">{idx + 1}</td>
@@ -87,6 +89,7 @@ const MyOrders = () => {
             ))}
           </tbody>
         </table>
+        </ZoomIn>
       )}
     </div>
   );

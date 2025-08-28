@@ -47,9 +47,6 @@ const Home = () => {
             <Suspense fallback={<Loading />}>
                 <Testimonial testimonialData={testimonialData}></Testimonial>
             </Suspense>
-            <Suspense fallback={<Loading />}>
-                <Faq faqData={faqData} />
-            </Suspense>
         </>
     );
 };

@@ -30,7 +30,7 @@ const Testimonial = ({ testimonialData }) => {
                             starSpacing="2px"
                             name="averageRating"
                         />
-                        <span className="text-lg font-semibold text-[#242253]">5.0 Average</span>
+                        <span className="text-lg font-semibold text-primary">5.0 Average</span>
                     </div>
                 </div>
 
@@ -70,8 +70,8 @@ const Testimonial = ({ testimonialData }) => {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <h4 className="font-bold text-[#242253]">{test.name}</h4>
-                                                    <span className="text-xs">{test.date}</span>
+                                                    <h4 className="font-bold text-primary">{test.name}</h4>
+                                                    <span className="text-sm">{test.date}</span>
                                                 </div>
                                             </div>
                                             <div className="flex flex-col items-center space-x-2 ">
@@ -83,7 +83,7 @@ const Testimonial = ({ testimonialData }) => {
                                                     starSpacing="1px"
                                                     name="rating"
                                                 />
-                                                <div className="text-base font-bold text-[#242253]">{test.rating}</div>
+                                                <div className="text-base font-bold text-secondary">{test.rating}</div>
                                             </div>
                                         </div>
                                         <div className="p-4 space-y-2 text-sm">

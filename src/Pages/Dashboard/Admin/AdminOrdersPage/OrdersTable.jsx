@@ -16,25 +16,21 @@ const OrdersTable = ({ orders, currentPage = 1, itemsPerPage = 10 }) => {
   return (
     <div className="overflow-x-auto bg-white rounded shadow-sm">
       <table className="min-w-full text-left text-base text-main">
-        <thead className="bg-secondary text-white text-sm font-medium">
+        <thead className="bg-secondary text-white text-base font-medium">
           <tr>
             <th className="px-6 py-4">#</th>
-            <th className="px-6 py-4">Buyer Name</th>
-            <th className="px-6 py-4">Buyer Email</th>
             <th className="px-6 py-4">Product</th>
             <th className="px-6 py-4">Price</th>
-            <th className="px-6 py-4">Paid At</th>
+            <th className="px-6 py-4">Buyer Name</th>
+            <th className="px-6 py-4">Buyer Email</th>
           </tr>
         </thead>
-        <tbody className="text-sm font-medium">
+        <tbody className="text-sm font-semibold">
           {orders.map((order, index) => (
             <tr key={order._id} className="border-b border-border">
               <td className="px-6 py-4 font-bold">
                 {(currentPage - 1) * itemsPerPage + index + 1}
               </td>
-
-              <td className="px-6 py-4">{order.buyerName}</td>
-              <td className="px-6 py-4 break-all">{order.buyerEmail}</td>
 
               <td className="px-6 py-4 flex items-center gap-3">
                 <img
@@ -54,12 +50,9 @@ const OrdersTable = ({ orders, currentPage = 1, itemsPerPage = 10 }) => {
                   ? order.price.toFixed(2)
                   : order.price || "N/A"}
               </td>
-
-              <td className="px-6 py-4">
-                {order.paidAt
-                  ? new Date(order.paidAt).toLocaleString()
-                  : "N/A"}
-              </td>
+              
+              <td className="px-6 py-4">{order.buyerName}</td>
+              <td className="px-6 py-4 break-all">{order.buyerEmail}</td>
             </tr>
           ))}
         </tbody>
