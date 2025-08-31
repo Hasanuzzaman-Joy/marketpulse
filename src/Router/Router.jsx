@@ -27,6 +27,7 @@ import PaymentPage from "../Pages/DetailsPage/PaymentPage";
 import AdminOrdersPage from "../Pages/Dashboard/Admin/AdminOrdersPage/AdminOrdersPage";
 import MyOrders from "../Pages/Dashboard/User/MyOrders/MyOrders";
 import ManageCart from "../Pages/Cart/ManageCart";
+import Profile from "../Pages/Dashboard/Profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -206,6 +207,10 @@ const router = createBrowserRouter([
             <MyOrders />
           </PrivateRoute>
         )
+      },
+      {
+        path: "profile",
+        element: <Profile />
       }
     ],
   },
