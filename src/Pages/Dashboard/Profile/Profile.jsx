@@ -6,9 +6,10 @@ import useImageUpload from "../../../hooks/useImageUpload";
 import Swal from "sweetalert2";
 import Loading from "../../shared/Loading";
 import Button from "../../shared/Button";
+import { FaUserCircle } from "react-icons/fa";
 
 const Profile = () => {
-  const { user, loading, modifiedProfile } = useAuth();
+  const { user, loading, setUser, modifiedProfile } = useAuth();
   const { userRole } = useRole();
   const axiosSecure = useAxiosSecure();
   const { imgURL, imgLoading, handleImageUpload } = useImageUpload();
@@ -36,42 +37,69 @@ const Profile = () => {
 
     const newPhoto = removePhoto ? null : imgURL || user?.photoURL;
     const updatedName = e.target.name.value;
-    console.log(updatedName)
 
     try {
       // Update backend
-      await axiosSecure.patch(`/users/updateProfile?email=${user?.email}`, {
-        name: updatedName,
-        photo: newPhoto,
-      });
+      const res = await axiosSecure.patch(
+        `/users/updateProfile?email=${user?.email}`,
+        {
+          name: updatedName,
+          photo: newPhoto,
+        }
+      );
 
-      // Update Firebase profile
-      if (modifiedProfile) {
-        await modifiedProfile(updatedName, newPhoto);
+      // Update in firebase
+      if (res.data.modifiedCount > 0) {
+        if (modifiedProfile) {
+          await modifiedProfile(updatedName, newPhoto);
+
+          // Update user
+          if (setUser) {
+            setUser({
+              ...user,
+              displayName: updatedName,
+              photoURL: newPhoto,
+            });
+          }
+        }
+
+        Swal.fire({
+          icon: "success",
+          title: "Profile Updated",
+          text: "Your profile has been successfully updated.",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      } else {
+        Swal.fire({
+          icon: "info",
+          title: "No Changes",
+          text: "Nothing was updated in your profile.",
+          confirmButtonColor: "#0a472e",
+          cancelButtonColor: "#a8b324",
+        });
       }
-
-      Swal.fire({
-        icon: "success",
-        title: "Profile Updated",
-        text: "Your profile has been successfully updated.",
-        timer: 2000,
-        showConfirmButton: false,
-      });
     } catch (err) {
-      console.error(err);
       Swal.fire({
         icon: "error",
         title: "Failed",
         text: "Could not update profile.",
       });
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setIsSubmitting(false);
   };
 
   return (
     <div className="font-body text-main p-6 md:p-10 bg-white rounded shadow-sm w-full mx-auto">
-      <h2 className="text-3xl text-primary font-bold mb-16">My Profile</h2>
+      <div className="mb-8 space-y-2">
+        <h2 className="text-3xl text-primary font-bold flex items-center gap-2">
+          <FaUserCircle /> My Profile
+        </h2>
+        <p className="text-text-secondary text-base md:text-lg mb-6">
+          View and update your personal information.
+        </p>
+      </div>
 
       <form
         onSubmit={handleSubmit}
