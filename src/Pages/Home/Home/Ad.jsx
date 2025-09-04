@@ -31,7 +31,7 @@ export default function Ad() {
       {adsData.map((ad) => (
         <ZoomIn key={ad.id}>
           <div
-            className={`flex items-center justify-between p-6 border-[1px] border-border rounded-2xl shadow-xl ${ad.bgColor}`}
+            className={`flex h-auto md:h-70 items-center justify-between p-4 md:p-6 border-[1px] border-border rounded-2xl shadow-xl ${ad.bgColor}`}
           >
             {/* Text Content */}
             <div className="space-y-2 max-w-[60%]">
@@ -43,7 +43,7 @@ export default function Ad() {
                 {ad.subtitle}
               </h3>
               <p className="text-base text-gray-600">{ad.discount}</p>
-              <Button className="mt-3">
+              <Button className="mt-5">
                 <FaShoppingCart className="inline-block mr-1 w-4 h-4" />
                 Shop Now
               </Button>

@@ -1,18 +1,6 @@
 import { useState } from "react";
 import { NavLink, Outlet, useNavigation } from "react-router";
-import {
-  FaUserFriends,
-  FaClipboardList,
-  FaBullhorn,
-  FaShoppingBasket,
-  FaPlusSquare,
-  FaBoxOpen,
-  FaAd,
-  FaChartBar,
-  FaChartLine,
-  FaTools,
-  FaListAlt,
-  FaUserCircle
+import { FaUserFriends, FaClipboardList, FaBullhorn, FaShoppingBasket, FaPlusSquare, FaBoxOpen, FaAd, FaChartBar, FaChartLine, FaTools, FaListAlt, FaUserCircle,
 } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import useRole from "../hooks/useRole";
@@ -45,7 +33,6 @@ const DashboardLayout = () => {
               <FaUserFriends /> All Users
             </NavLink>
           </li>
-
           <li>
             <NavLink
               to="/dashboard/all-products"
@@ -55,7 +42,6 @@ const DashboardLayout = () => {
               <FaClipboardList /> All Products
             </NavLink>
           </li>
-
           <li>
             <NavLink
               to="/dashboard/all-advertisement"
@@ -65,7 +51,6 @@ const DashboardLayout = () => {
               <FaBullhorn /> All Advertisements
             </NavLink>
           </li>
-
           <li>
             <NavLink
               to="/dashboard/all-orders"
@@ -73,6 +58,15 @@ const DashboardLayout = () => {
               onClick={() => setMenuOpen(false)}
             >
               <FaShoppingBasket /> All Orders
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/dashboard/vendor-requests"
+              className="flex items-center gap-2 nav-link"
+              onClick={() => setMenuOpen(false)}
+            >
+              <FaClipboardList /> Vendor Requests
             </NavLink>
           </li>
         </>
@@ -89,7 +83,6 @@ const DashboardLayout = () => {
               <FaBoxOpen /> My Products
             </NavLink>
           </li>
-
           <li>
             <NavLink
               to="/dashboard/add-product"
@@ -99,7 +92,6 @@ const DashboardLayout = () => {
               <FaPlusSquare /> Add Product
             </NavLink>
           </li>
-
           <li>
             <NavLink
               to="/dashboard/my-advertisements"
@@ -109,7 +101,6 @@ const DashboardLayout = () => {
               <FaChartBar /> My Advertisements
             </NavLink>
           </li>
-
           <li>
             <NavLink
               to="/dashboard/add-advertisement"
@@ -133,7 +124,6 @@ const DashboardLayout = () => {
               <FaChartLine /> View Price Trends
             </NavLink>
           </li>
-
           <li>
             <NavLink
               to="/dashboard/manage-watchlist"
@@ -143,7 +133,6 @@ const DashboardLayout = () => {
               <FaTools /> Manage Watchlist
             </NavLink>
           </li>
-
           <li>
             <NavLink
               to="/dashboard/my-orders"

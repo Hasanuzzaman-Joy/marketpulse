@@ -28,6 +28,7 @@ import AdminOrdersPage from "../Pages/Dashboard/Admin/AdminOrdersPage/AdminOrder
 import MyOrders from "../Pages/Dashboard/User/MyOrders/MyOrders";
 import ManageCart from "../Pages/Cart/ManageCart";
 import Profile from "../Pages/Dashboard/Profile/Profile";
+import VendorRequest from "../Pages/Dashboard/Admin/VendorRequest/VendorRequest";
 
 const router = createBrowserRouter([
   {
@@ -141,6 +142,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute allowedRoles={["admin"]}>
             <AdminOrdersPage />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: "vendor-requests",
+        element: (
+          <PrivateRoute allowedRoles={["admin"]}>
+            <VendorRequest />
           </PrivateRoute>
         )
       },

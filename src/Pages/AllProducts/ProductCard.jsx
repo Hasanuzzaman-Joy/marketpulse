@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { format } from "date-fns";
 import { FaStar, FaStarHalfAlt, FaRegStar, FaHeart } from "react-icons/fa";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import useRole from "../../hooks/useRole";
@@ -127,6 +127,7 @@ const ProductCard = ({ products }) => {
           </ZoomIn>
         );
       })}
+      <ToastContainer />
     </>
   );
 };

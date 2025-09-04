@@ -15,7 +15,7 @@ const FeaturedProducts = ({ products }) => {
   const queryClient = useQueryClient();
   const { userRole, authLoading } = useRole();
 
-  // Mutation to add wishlist
+  // Mutation to add watchlist
   const addToWishlistMutation = useMutation({
     mutationFn: ({ productId }) =>
       axiosSecure.post(`/wishlist?email=${user?.email}`, { productId }),

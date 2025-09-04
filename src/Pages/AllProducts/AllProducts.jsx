@@ -78,7 +78,7 @@ const AllProducts = () => {
         <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
           {/* Sort */}
           <select
-            className="border border-border rounded px-4 py-2 text-base cursor-pointer"
+            className="w-48 px-4 py-3 border-accent border-2 rounded-md text-[#414040] font-base font-medium focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
           >
@@ -97,7 +97,7 @@ const AllProducts = () => {
               }}
               placeholderText="📅 Filter by Date"
               dateFormat="yyyy-MM-dd"
-              className="!text-left !w-48 border border-border rounded px-4 py-2 text-base cursor-pointer"
+              className="w-full px-4 py-3 border-accent border-2 rounded-md placeholder-[#414040] font-base focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
               isClearable
             />
           </div>
