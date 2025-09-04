@@ -58,9 +58,8 @@ const FeaturedProducts = ({ products }) => {
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.slice(0, 8).map((product) => {
           return (
-            <ZoomIn>
+            <ZoomIn key={product._id}>
               <div
-                key={product._id}
                 className="bg-gray-100/30 pb-2 border border-border rounded-2xl shadow-xl overflow-hidden transition hover:shadow"
               >
                 {/* Upper Part */}

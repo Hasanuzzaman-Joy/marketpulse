@@ -14,8 +14,7 @@ const Register = () => {
     document.title = "MarketPulse - Register";
   }, []);
 
-  const { loading, setLoading, googleSign, signUp, modifiedProfile } =
-    useAuth();
+  const { loading, setLoading, googleSign, signUp, modifiedProfile } = useAuth();
   const axiosInstance = useAxios();
   const successSwal = useSuccessAlert();
   const navigate = useNavigate();
@@ -39,10 +38,6 @@ const Register = () => {
 
         try {
           await axiosInstance.post("/register", userData);
-          const jwtResponse = await axiosInstance.post("/jwt", {
-            email: user.email,
-          });
-          localStorage.setItem("token", jwtResponse.data?.token);
 
           successSwal({
             title: "Registration Successful 🎉",
@@ -54,10 +49,7 @@ const Register = () => {
             error.response?.status === 400 &&
             error.response?.data?.error === "User already exists"
           ) {
-            const jwtResponse = await axiosInstance.post("/jwt", {
-              email: user.email,
-            });
-            localStorage.setItem("token", jwtResponse.data?.token);
+            // User already exists
             toast.success("Welcome back! Redirecting to homepage...", {
               position: "top-right",
               autoClose: 2000,
@@ -119,23 +111,13 @@ const Register = () => {
       imgURL ||
       "https://res.cloudinary.com/dvkiiyhaj/image/upload/v1752397720/caop8dbhrpw73sgdv9kx.jpg";
 
-    const userData = { name, email, photo: imageURL };
-
     signUp(email, password)
       .then(() => {
         modifiedProfile(name, imageURL);
-        axiosInstance.post("/register", userData).then(() => {
-          axiosInstance.post("/jwt", { email }).then((res) => {
-            if (res.data) {
-              const token = res.data?.token;
-              localStorage.setItem("token", token);
-            }
-          });
-          successSwal({
-            title: "Registration Successful 🎉",
-            text: "Welcome to MarketPulse!",
-            redirectTo: "/",
-          });
+        successSwal({
+          title: "Registration Successful 🎉",
+          text: "Welcome to MarketPulse!",
+          redirectTo: "/",
         });
       })
       .catch((err) => {

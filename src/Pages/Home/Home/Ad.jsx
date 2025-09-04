@@ -29,9 +29,8 @@ export default function Ad() {
   return (
     <section className="w-full md:max-w-screen-xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-6 mt-20">
       {adsData.map((ad) => (
-        <ZoomIn>
+        <ZoomIn key={ad.id}>
           <div
-            key={ad.id}
             className={`flex items-center justify-between p-6 border-[1px] border-border rounded-2xl shadow-xl ${ad.bgColor}`}
           >
             {/* Text Content */}
