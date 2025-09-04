@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import Loading from "../../shared/Loading";
 import Button from "../../shared/Button";
 import { FaUserCircle } from "react-icons/fa";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Profile = () => {
   const { user, loading, setUser, modifiedProfile } = useAuth();
@@ -118,7 +119,14 @@ const Profile = () => {
           />
           <div className="flex flex-col gap-2">
             <label className="px-4 py-2 bg-accent text-white rounded-md cursor-pointer hover:bg-accent-dark transition text-center">
-              {imgLoading ? "Uploading..." : "Change Image"}
+              {imgLoading ? (
+                <div className="flex justify-center items-center gap-2">
+                  <CircularProgress size={20} sx={{ color: "#ffffff" }} />{" "}
+                  Uploading...
+                </div>
+              ) : (
+                "Change Image"
+              )}
               <input
                 type="file"
                 accept="image/*"
@@ -145,7 +153,7 @@ const Profile = () => {
               type="text"
               defaultValue={user?.displayName || ""}
               name="name"
-              className="px-6 py-3 border border-border rounded-md bg-white text-main text-base focus:outline-none focus:ring-2 focus:ring-accent cursor-not-allowed"
+              className="px-6 py-3 border border-border rounded-md bg-white text-main text-base focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
 
@@ -177,7 +185,14 @@ const Profile = () => {
           disabled={isSubmitting || imgLoading}
           className="px-6 py-3 bg-accent text-white rounded-md hover:bg-accent-dark transition"
         >
-          {isSubmitting ? "Updating..." : "Update Profile"}
+          {isSubmitting ? (
+            <div className="flex justify-center items-center gap-2">
+              <CircularProgress size={20} sx={{ color: "#ffffff" }} />{" "}
+              Updating...
+            </div>
+          ) : (
+            "Update Profile"
+          )}
         </Button>
       </form>
     </div>
