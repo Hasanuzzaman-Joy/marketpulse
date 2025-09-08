@@ -4,15 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useRole from "../../hooks/useRole";
 import Loading from "../shared/Loading";
-import {
-  FaStore,
-  FaCalendarAlt,
-  FaUser,
-  FaCartPlus,
-  FaShoppingBag,
-  FaStar,
-  FaRegStar,
-} from "react-icons/fa";
+import { FaStore, FaCalendarAlt, FaUser, FaCartPlus, FaShoppingBag, FaStar, FaRegStar } from "react-icons/fa";
 import Button from "../shared/Button";
 import useAuth from "../../hooks/useAuth";
 import { toast, ToastContainer } from "react-toastify";

@@ -29,6 +29,7 @@ import MyOrders from "../Pages/Dashboard/User/MyOrders/MyOrders";
 import ManageCart from "../Pages/Cart/ManageCart";
 import Profile from "../Pages/Dashboard/Profile/Profile";
 import VendorRequest from "../Pages/Dashboard/Admin/VendorRequest/VendorRequest";
+import CartCheckout from "../Pages/Cart/CartCheckout";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,9 @@ const router = createBrowserRouter([
       },
       {
         path: "/products", element: <AllProducts />,
+      },
+      {
+        path: "/cart-checkout", element: <CartCheckout />,
       },
       {
         path: "/payment/:productId",

@@ -5,7 +5,7 @@ import useAuth from "../../../../hooks/useAuth";
 import Loading from "../../../shared/Loading";
 import Button from "../../../shared/Button";
 import { Link } from "react-router";
-import { FaShoppingBag, FaBoxOpen } from "react-icons/fa";
+import { FaShoppingBag, FaBoxOpen, FaBoxes } from "react-icons/fa";
 import ZoomIn from "../../../shared/ZoomIn";
 
 const MyOrders = () => {
@@ -28,11 +28,26 @@ const MyOrders = () => {
 
   if (isLoading) return <Loading />;
 
+  // Calculate total number of items 
+  const totalItems = orders.reduce((total, order) => {
+    if (order.type === "multiple") {
+      return total + (order.products?.length || 0);
+    }
+    return total + 1;
+  }, 0);
+
   return (
     <div className="overflow-x-auto bg-white rounded shadow-sm p-6 md:p-10">
-      <h2 className="text-3xl text-primary font-bold mb-6 flex items-center gap-2">
-        <FaShoppingBag /> My Orders
-      </h2>
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+        <h2 className="text-3xl text-primary font-bold flex items-center gap-2">
+          <FaShoppingBag /> My Orders
+        </h2>
+        {orders.length > 0 && (
+          <div className="mt-2 md:mt-0 text-lg text-text-secondary">
+            {orders.length} order{orders.length !== 1 ? 's' : ''} • {totalItems} item{totalItems !== 1 ? 's' : ''}
+          </div>
+        )}
+      </div>
 
       {/* No Orders Found */}
       {orders.length === 0 && (
@@ -48,48 +63,109 @@ const MyOrders = () => {
         </div>
       )}
 
-      {/* Orders Table */}
+      {/* Orders List */}
       {orders.length > 0 && (
-        <ZoomIn>
-        <table className="min-w-full text-left text-base text-main">
-          <thead className="bg-secondary text-white text-base font-medium">
-            <tr>
-              <th className="px-6 py-4">#</th>
-              <th className="px-6 py-4">Product</th>
-              <th className="px-6 py-4">Market Name</th>
-              <th className="px-6 py-4">Price</th>
-              <th className="px-6 py-4">Date</th>
-              <th className="px-6 py-4">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="text-sm font-semibold">
-            {orders.map((order, idx) => (
-              <tr key={order._id} className="border-b border-border">
-                <td className="px-6 py-4 font-bold">{idx + 1}</td>
-                <td className="px-6 py-4 flex items-center gap-3">
-                  <img
-                    src={
-                      order.productImage ||
-                      "https://res.cloudinary.com/dvkiiyhaj/image/upload/v1752928833/ikhyvszgvsjzqqf8xcej.png"
-                    }
-                    alt={order.productName}
-                    className="w-10 h-10 rounded-md object-cover border border-border p-1"
-                  />
-                  <span>{order.productName}</span>
-                </td>
-                <td className="px-6 py-4">{order.marketName}</td>
-                <td className="px-6 py-4">${parseFloat(order.price).toFixed(2)}</td>
-                <td className="px-6 py-4">{new Date(order.paidAt).toLocaleString()}</td>
-                <td className="px-6 py-4">
-                  <Link to={`/product-details/${order.product_id}`}>
-                    <Button>View Details</Button>
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        </ZoomIn>
+        <div className="space-y-6">
+          {orders.map((order, idx) => (
+            <ZoomIn key={order._id}>
+              <div className="border border-border rounded-lg overflow-hidden">
+                {/* Order Header */}
+                <div className="bg-gray-50 px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <span className="font-semibold">Order #{orders.length - idx}</span>
+                    <span className="text-text-secondary mx-2">•</span>
+                    <span className="text-text-secondary">
+                      {new Date(order.paidAt).toLocaleDateString()}
+                    </span>
+                    <span className="text-text-secondary mx-2">•</span>
+                    <span className="text-text-secondary">
+                      {new Date(order.paidAt).toLocaleTimeString()}
+                    </span>
+                  </div>
+                  <div className="mt-2 sm:mt-0 flex items-center gap-2">
+                    {order.type === "multiple" ? (
+                      <>
+                        <FaBoxes className="text-secondary" />
+                        <span className="text-text-secondary">
+                          {order.products.length} items
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <FaShoppingBag className="text-secondary" />
+                        <span className="text-text-secondary">1 item</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {/* Order Content */}
+                <div className="p-6">
+                  {order.type === "single" ? (
+                    // Single Product Order
+                    <div className="flex flex-col md:flex-row md:items-center gap-4">
+                      <img
+                        src={
+                          order.productImage ||
+                          "https://res.cloudinary.com/dvkiiyhaj/image/upload/v1752928833/ikhyvszgvsjzqqf8xcej.png"
+                        }
+                        alt={order.productName}
+                        className="w-16 h-16 rounded-md object-cover border border-border p-1"
+                      />
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-lg">{order.productName}</h3>
+                        <p className="text-text-secondary">{order.marketName}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-lg">${parseFloat(order.price).toFixed(2)}</p>
+                        <Link to={`/product-details/${order.product_id}`}>
+                          <Button className="mt-2">View Details</Button>
+                        </Link>
+                      </div>
+                    </div>
+                  ) : (
+                    // Multiple Products Order
+                    <div>
+                      <div className="space-y-4">
+                        {order.products.map((product, productIdx) => (
+                          <div key={productIdx} className="flex flex-col md:flex-row md:items-center gap-4 pb-4 border-b border-border last:border-b-0">
+                            <img
+                              src={
+                                product.productImage ||
+                                "https://res.cloudinary.com/dvkiiyhaj/image/upload/v1752928833/ikhyvszgvsjzqqf8xcej.png"
+                              }
+                              alt={product.productName}
+                              className="w-16 h-16 rounded-md object-cover border border-border p-1"
+                            />
+                            <div className="flex-1">
+                              <h3 className="font-semibold text-lg">{product.productName}</h3>
+                              <p className="text-text-secondary">{product.marketName}</p>
+                              <p className="text-text-secondary">Qty: {product.quantity}</p>
+                            </div>
+                            <div className="text-right">
+                              <p className="font-bold text-lg">${parseFloat(product.price).toFixed(2)}</p>
+                              <Link to={`/product-details/${product.product_id}`}>
+                                <Button className="mt-2">View Details</Button>
+                              </Link>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      {/* Order Total */}
+                      <div className="flex justify-between items-center mt-6 pt-4 border-t border-border">
+                        <span className="text-lg font-semibold">Order Total:</span>
+                        <span className="text-xl font-bold text-primary">
+                          ${parseFloat(order.totalAmount).toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </ZoomIn>
+          ))}
+        </div>
       )}
     </div>
   );

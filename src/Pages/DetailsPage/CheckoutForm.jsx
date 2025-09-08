@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import Button from "../shared/Button";
 import { toast, ToastContainer } from "react-toastify";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 
-const CheckoutForm = ({ productId, price, onSuccess }) => {
+const CheckoutForm = ({ productId, price, cartItems, onSuccess }) => {
     const stripe = useStripe();
     const elements = useElements();
     const axiosSecure = useAxiosSecure();
@@ -16,6 +15,9 @@ const CheckoutForm = ({ productId, price, onSuccess }) => {
     const [loading, setLoading] = useState(false);
     const [name, setName] = useState(user?.displayName || "");
     const [email, setEmail] = useState(user?.email || "");
+
+    // Determine the mode: single product or cart
+    const isCartCheckout = Array.isArray(cartItems) && cartItems.length > 0;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,22 +31,40 @@ const CheckoutForm = ({ productId, price, onSuccess }) => {
         setLoading(true);
 
         try {
-            const numericPrice = parseFloat(price);
-            if (isNaN(numericPrice)) {
-                toast.error("Invalid price.");
-                setLoading(false);
-                return;
+            let clientSecret;
+            let endpoint;
+            let requestData;
+
+            if (isCartCheckout) {
+                // --- CART CHECKOUT FLOW ---
+                endpoint = `/create-payment-intent-cart?email=${user?.email}`;
+                requestData = {
+                    items: cartItems, 
+                    buyerEmail: email,
+                    buyerName: name,
+                };
+            } else {
+                // --- SINGLE PRODUCT CHECKOUT FLOW ---
+                endpoint = `/create-payment-intent?email=${user?.email}`;
+                const numericPrice = parseFloat(price);
+                if (isNaN(numericPrice)) {
+                    toast.error("Invalid price.");
+                    setLoading(false);
+                    return;
+                }
+                requestData = {
+                    productId,
+                    price: numericPrice,
+                    buyerName: name,
+                    buyerEmail: email,
+                };
             }
 
-            // Step 1: create payment intent from backend
-            const { data: clientSecret } = await axiosSecure.post("/create-payment-intent", {
-                productId,
-                price: numericPrice,
-                buyerName: name,
-                buyerEmail: email,
-            });
+            // Create payment intent
+            const { data } = await axiosSecure.post(endpoint, requestData);
+            clientSecret = data.clientSecret;
 
-            // Step 2: confirm payment on client
+            // Confirm payment
             const cardElement = elements.getElement(CardElement);
             const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: {
@@ -63,7 +83,8 @@ const CheckoutForm = ({ productId, price, onSuccess }) => {
             }
 
             if (paymentIntent.status === "succeeded") {
-                toast.success("Payment successful!", {
+                let successMessage = "Payment successful!";
+                toast.success(successMessage, {
                     autoClose: 3000,
                     onClose: () => {
                         navigate("/dashboard/my-orders");
@@ -72,11 +93,17 @@ const CheckoutForm = ({ productId, price, onSuccess }) => {
                 onSuccess?.();
             }
         } catch (err) {
-            toast.error("Payment failed. Try again.");
+            console.error("Payment error:", err);
+            toast.error("Payment failed. Please try again.");
         } finally {
             setLoading(false);
         }
     };
+
+    // Calculate display price
+    const displayPrice = isCartCheckout
+        ? cartItems.reduce((total, item) => total + item.pricePerUnit * item.quantity, 0)
+        : parseFloat(price);
 
     return (
         <>
@@ -103,15 +130,15 @@ const CheckoutForm = ({ productId, price, onSuccess }) => {
                             style: {
                                 base: {
                                     fontSize: "16px",
-                                    color: "#1C1C1C",          
-                                    fontFamily: "inherit",      
+                                    color: "#1C1C1C",
+                                    fontFamily: "inherit",
                                     "::placeholder": {
-                                        color: "#666666",           
+                                        color: "#666666",
                                     },
-                                    backgroundColor: "#FFFFFF",   
+                                    backgroundColor: "#FFFFFF",
                                 },
                                 invalid: {
-                                    color: "#9e2146",          
+                                    color: "#9e2146",
                                 },
                             },
                         }}
@@ -122,7 +149,7 @@ const CheckoutForm = ({ productId, price, onSuccess }) => {
                     disabled={!stripe || loading}
                     className="text-white px-10 py-2 rounded bg-accent hover:bg-secondary transition font-semibold font-heading border-[1px] border-white flex items-center gap-2 cursor-pointer"
                 >
-                    {loading ? "Processing..." : `Pay $${parseFloat(price).toFixed(2)}`}
+                    {loading ? "Processing..." : `Pay $${displayPrice.toFixed(2)}`}
                 </button>
             </form>
             <ToastContainer />
