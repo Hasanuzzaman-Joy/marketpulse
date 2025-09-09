@@ -1,5 +1,7 @@
 
 const OrdersTable = ({ orders, currentPage = 1, itemsPerPage = 10 }) => {
+
+  // Handle case when there are no orders
   if (!orders.length) {
     return (
       <div className="flex flex-col items-center justify-center text-center space-y-3 min-h-[60vh] bg-gray-100 px-4">
@@ -21,7 +23,7 @@ const OrdersTable = ({ orders, currentPage = 1, itemsPerPage = 10 }) => {
             <th className="px-6 py-4">#</th>
             <th className="px-6 py-4">Product</th>
             <th className="px-6 py-4">Price</th>
-            <th className="px-6 py-4">Buyer Name</th>
+            <th className="px-6 py-4">Vendor Email</th>
             <th className="px-6 py-4">Buyer Email</th>
           </tr>
         </thead>
@@ -51,7 +53,7 @@ const OrdersTable = ({ orders, currentPage = 1, itemsPerPage = 10 }) => {
                   : order.price || "N/A"}
               </td>
               
-              <td className="px-6 py-4">{order.buyerName}</td>
+              <td className="px-6 py-4">{order.vendorEmail}</td>
               <td className="px-6 py-4 break-all">{order.buyerEmail}</td>
             </tr>
           ))}

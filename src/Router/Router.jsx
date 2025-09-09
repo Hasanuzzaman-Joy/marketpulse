@@ -30,6 +30,7 @@ import ManageCart from "../Pages/DetailsPage/Cart/ManageCart";
 import Profile from "../Pages/Dashboard/Profile/Profile";
 import VendorRequest from "../Pages/Dashboard/Admin/VendorRequest/VendorRequest";
 import CartCheckout from "../Pages/DetailsPage/Cart/CartCheckout";
+import VendorOrdersPage from "../Pages/Dashboard/Vendor/VendorOrders/VendorOrders";
 
 const router = createBrowserRouter([
   {
@@ -199,6 +200,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute allowedRoles={["vendor"]}>
             <MyAdvertisements />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: "Orders",
+        element: (
+          <PrivateRoute allowedRoles={["vendor"]}>
+            <VendorOrdersPage />
           </PrivateRoute>
         )
       },

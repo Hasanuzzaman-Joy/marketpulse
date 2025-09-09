@@ -3,13 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import Loading from "../../../shared/Loading";
 import Pagination from "../../../shared/Pagination";
-import OrdersTable from "./OrdersTable";
+import VendorOrdersTable from "./VendorOrdersTable";
 import useAuth from "../../../../hooks/useAuth";
 import { FaShoppingBasket } from "react-icons/fa";
 
-const AdminOrdersPage = () => {
+const VendorOrdersPage = () => {
   useEffect(() => {
-    document.title = "MarketPulse - All Orders";
+    document.title = "MarketPulse - My Orders";
   }, []);
 
   const axiosSecure = useAxiosSecure();
@@ -23,9 +23,9 @@ const AdminOrdersPage = () => {
   const handlePrv = () => setPage((prev) => Math.max(prev - 1, 1));
   const handleNext = () => setPage((prev) => prev + 1);
 
-  // Fetch orders with React Query
+  // Fetch vendor orders
   const { data = {}, isLoading } = useQuery({
-    queryKey: ["adminOrders", page, limit],
+    queryKey: ["vendorOrders", page, limit],
     queryFn: async () => {
       const res = await axiosSecure.get(
         `/admin/orders?email=${user?.email}&page=${page}&limit=${limit}`
@@ -43,9 +43,9 @@ const AdminOrdersPage = () => {
   return (
     <div className="font-body text-main shadow-sm p-6 md:p-10 bg-white">
       <h1 className="text-3xl text-primary font-bold mb-6 flex items-center gap-2">
-        <FaShoppingBasket /> All Paid Orders 
+        <FaShoppingBasket /> Orders Details
       </h1>
-      <OrdersTable orders={orders} currentPage={page} itemsPerPage={limit} />
+      <VendorOrdersTable orders={orders} currentPage={page} itemsPerPage={limit} />
       <Pagination
         pages={pages}
         handlePage={handlePage}
@@ -57,4 +57,4 @@ const AdminOrdersPage = () => {
   );
 };
 
-export default AdminOrdersPage;
+export default VendorOrdersPage;
