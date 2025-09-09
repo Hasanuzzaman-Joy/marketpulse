@@ -6,10 +6,12 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import CheckoutForm from "./CheckoutForm";
 import Loading from "../shared/Loading";
 import { toast } from "react-toastify";
+import useAuth from "../../hooks/useAuth";
 
 const stripePromise = loadStripe(import.meta.env.VITE_PUBLISHABLE_KEY);
 
 const PaymentPage = () => {
+  const {user, loading} = useAuth();
   const { productId } = useParams();
   const axiosSecure = useAxiosSecure();
 
@@ -20,9 +22,8 @@ const PaymentPage = () => {
       const res = await axiosSecure.get(`/single-product/${productId}`);
       return res.data;
     },
+    enabled: user?.email && !!productId,
   });
-
-  if (isLoading) return <Loading />;
 
   if (!product) {
     toast.error("Product not found.");
@@ -34,6 +35,8 @@ const PaymentPage = () => {
     toast.error("Invalid price.");
     return null;
   }
+
+  if (!user && loading && isLoading) return <Loading />;
 
   return (
     <section className="w-full bg-gray-100 py-10">

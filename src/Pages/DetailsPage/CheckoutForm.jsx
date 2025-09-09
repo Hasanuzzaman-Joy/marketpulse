@@ -4,29 +4,32 @@ import { toast, ToastContainer } from "react-toastify";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import Loading from "../shared/Loading";
 
 const CheckoutForm = ({ productId, price, cartItems, onSuccess }) => {
     const stripe = useStripe();
     const elements = useElements();
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
-    const { user } = useAuth();
-
-    const [loading, setLoading] = useState(false);
-    const [name, setName] = useState(user?.displayName || "");
-    const [email, setEmail] = useState(user?.email || "");
+    const { user, loading, setLoading } = useAuth();
+    const [address, setAddress] = useState("");
 
     // Determine the mode: single product or cart
     const isCartCheckout = Array.isArray(cartItems) && cartItems.length > 0;
+
+    // Function to clear user's cart AFTER successful payment
+    const clearUserCart = async () => {
+        try {
+            await axiosSecure.delete(`/clear-cart?email=${user?.email}`);
+        } catch (error) {
+            // console.error('Error clearing cart:', error);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!stripe || !elements) return;
-        if (!name.trim() || !email.trim()) {
-            toast.error("Please enter your name and email");
-            return;
-        }
 
         setLoading(true);
 
@@ -39,9 +42,10 @@ const CheckoutForm = ({ productId, price, cartItems, onSuccess }) => {
                 // --- CART CHECKOUT FLOW ---
                 endpoint = `/create-payment-intent-cart?email=${user?.email}`;
                 requestData = {
-                    items: cartItems, 
-                    buyerEmail: email,
-                    buyerName: name,
+                    items: cartItems,
+                    buyerEmail: user?.email,
+                    buyerName: user?.displayName,
+                    buyerAddress: address
                 };
             } else {
                 // --- SINGLE PRODUCT CHECKOUT FLOW ---
@@ -55,8 +59,9 @@ const CheckoutForm = ({ productId, price, cartItems, onSuccess }) => {
                 requestData = {
                     productId,
                     price: numericPrice,
-                    buyerName: name,
-                    buyerEmail: email,
+                    buyerEmail: user?.email,
+                    buyerName: user?.displayName,
+                    buyerAddress: address
                 };
             }
 
@@ -70,8 +75,8 @@ const CheckoutForm = ({ productId, price, cartItems, onSuccess }) => {
                 payment_method: {
                     card: cardElement,
                     billing_details: {
-                        name,
-                        email,
+                        name: user?.displayName,
+                        email: user?.email,
                     },
                 },
             });
@@ -83,7 +88,11 @@ const CheckoutForm = ({ productId, price, cartItems, onSuccess }) => {
             }
 
             if (paymentIntent.status === "succeeded") {
-                let successMessage = "Payment successful!";
+                if (isCartCheckout) {
+                    await clearUserCart();
+                }
+
+                let successMessage = "Payment successful";
                 toast.success(successMessage, {
                     autoClose: 3000,
                     onClose: () => {
@@ -105,23 +114,31 @@ const CheckoutForm = ({ productId, price, cartItems, onSuccess }) => {
         ? cartItems.reduce((total, item) => total + item.pricePerUnit * item.quantity, 0)
         : parseFloat(price);
 
+    if (loading && !user) return <Loading />;
+
     return (
         <>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <input
                     type="text"
                     placeholder="Your Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={user?.displayName}
                     className="w-full px-3 py-2 bg-white text-gray-600 rounded border-none focus-within:ring-2 focus-within:ring-accent"
                     required
                 />
                 <input
                     type="email"
                     placeholder="Your Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={user?.email}
                     className="w-full px-3 py-2 bg-white text-gray-600 rounded border-none focus-within:ring-2 focus-within:ring-accent"
+                    required
+                />
+                <textarea
+                    placeholder="Full Address"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    className="w-full px-3 py-2 bg-white text-gray-600 rounded border-none focus-within:ring-2 focus-within:ring-accent"
+                    rows={3}
                     required
                 />
                 <div className="w-full border bg-white border-gray-300 px-4 py-2 rounded focus-within:ring-2 focus-within:ring-accent">

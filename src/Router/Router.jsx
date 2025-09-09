@@ -15,7 +15,7 @@ import AddProduct from "../Pages/Dashboard/Vendor/AddProduct/AddProduct";
 import AddAdvertisement from "../Pages/Dashboard/Vendor/AddAdvertisement/AddAdvertisement ";
 import MyProducts from "../Pages/Dashboard/Vendor/MyProducts/MyProducts";
 import UpdateProduct from "../Pages/Dashboard/Vendor/UpdateProduct/UpdateProduct";
-import DashboardHome from "../Pages/Dashboard/DashboardHome";
+import DashboardHome from "../Pages/Dashboard/DashboardHome/DashboardHome";
 import MyAdvertisements from "../Pages/Dashboard/Vendor/MyAdvertisements/MyAdvertisements";
 import AdminAllProducts from "../Pages/Dashboard/Admin/AdminAllProducts/AdminAllProducts";
 import AllAdvertisementsAdmin from "../Pages/Dashboard/Admin/AllAdvertisementsAdmin/AllAdvertisementsAdmin";
@@ -26,10 +26,10 @@ import AllProducts from "../Pages/AllProducts/AllProducts";
 import PaymentPage from "../Pages/DetailsPage/PaymentPage";
 import AdminOrdersPage from "../Pages/Dashboard/Admin/AdminOrdersPage/AdminOrdersPage";
 import MyOrders from "../Pages/Dashboard/User/MyOrders/MyOrders";
-import ManageCart from "../Pages/Cart/ManageCart";
+import ManageCart from "../Pages/DetailsPage/Cart/ManageCart";
 import Profile from "../Pages/Dashboard/Profile/Profile";
 import VendorRequest from "../Pages/Dashboard/Admin/VendorRequest/VendorRequest";
-import CartCheckout from "../Pages/Cart/CartCheckout";
+import CartCheckout from "../Pages/DetailsPage/Cart/CartCheckout";
 
 const router = createBrowserRouter([
   {
@@ -58,7 +58,12 @@ const router = createBrowserRouter([
         path: "/products", element: <AllProducts />,
       },
       {
-        path: "/cart-checkout", element: <CartCheckout />,
+        path: "/cart-checkout",  
+        element: (
+          <PrivateRoute allowedRoles={["user"]}>
+            <CartCheckout />
+          </PrivateRoute>
+        )
       },
       {
         path: "/payment/:productId",

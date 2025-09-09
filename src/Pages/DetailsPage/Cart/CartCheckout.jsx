@@ -2,7 +2,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router";
-import CheckoutForm from "../DetailsPage/CheckoutForm"; 
+import CheckoutForm from "../CheckoutForm"; 
 
 const stripePromise = loadStripe(import.meta.env.VITE_PUBLISHABLE_KEY);
 

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import useAuth from '../../hooks/useAuth';
+import useAuth from '../../../hooks/useAuth';
 import { useNavigate } from 'react-router';
-import useRole from '../../hooks/useRole';
-import Loading from '../shared/Loading';
+import useRole from '../../../hooks/useRole';
+import Loading from '../../shared/Loading';
 
 const DashboardHome = () => {
 
