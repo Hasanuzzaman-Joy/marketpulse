@@ -21,7 +21,30 @@ const MyOrders = () => {
     queryFn: async () => {
       if (!user?.email) return [];
       const res = await axiosSecure.get(`/orders?email=${user?.email}`);
-      return res.data;
+
+      // Normalize backend data for frontend rendering
+      return res.data.map(order => {
+        if (order.type === "multiple") {
+          return {
+            ...order,
+            products: order.items || [],
+            totalAmount: order.totalAmount || order.amount,
+            paidAt: order.paidAt || order.items[0]?.paidAt,
+          };
+        } else if (order.type === "single") {
+          const item = order.items[0] || {};
+          return {
+            ...order,
+            product_id: item.product_id,
+            productName: item.productName,
+            marketName: item.marketName,
+            productImage: item.productImage,
+            price: item.price,
+            paidAt: order.paidAt || item.paidAt,
+          };
+        }
+        return order;
+      });
     },
     enabled: !!user?.email,
   });
