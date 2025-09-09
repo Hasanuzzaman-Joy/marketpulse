@@ -28,6 +28,7 @@ const FeaturedProducts = ({ products }) => {
     },
   });
 
+  // Add to wishlist
   const handleAddToWishlist = (productId) => {
     if (!user?.email) {
       toast.error("Please login first to add to watchlist");
@@ -50,8 +51,8 @@ const FeaturedProducts = ({ products }) => {
   if (authLoading) return <Loading />;
 
   return (
-    <section className="w-full md:max-w-screen-xl mx-auto px-4 my-24">
-      <h2 className="text-2xl md:text-3xl font-heading font-bold text-secondary mb-6">
+    <section className="w-full md:max-w-screen-xl mx-auto px-4 my-20">
+      <h2 className="text-2xl md:text-3xl font-heading font-bold text-primary mb-6">
         Featured Products
       </h2>
 
@@ -59,9 +60,7 @@ const FeaturedProducts = ({ products }) => {
         {products.slice(0, 8).map((product) => {
           return (
             <ZoomIn key={product._id}>
-              <div
-                className="bg-gray-100/30 pb-2 border border-border rounded-2xl shadow-xl overflow-hidden transition hover:shadow"
-              >
+              <div className="bg-gray-100/30 pb-2 border border-border rounded-2xl shadow-xl overflow-hidden transition hover:shadow">
                 {/* Upper Part */}
                 <div className="relative bg-green-400/10 h-40 flex justify-center items-center">
                   {/* Wishlist Icon */}
@@ -107,19 +106,19 @@ const FeaturedProducts = ({ products }) => {
                     </div>
                   </div>
 
-                  <p className="text-base text-gray-900 font-normal mt-2">
-                    <span className="font-medium text-primary">Price:</span>{" "}
+                  <p className="text-base text-gray-900 font-normal mt-4">
+                    <span className="font-semibold text-primary">Price:</span>{" "}
                     {new Intl.NumberFormat("en-US", {
                       style: "currency",
                       currency: "USD",
                     }).format(product.pricePerUnit)}
                   </p>
                   <p className="text-base text-gray-900 font-normal">
-                    <span className="font-medium text-primary">Market:</span>{" "}
+                    <span className="font-semibold text-primary">Market:</span>{" "}
                     {product.marketName}
                   </p>
                   <p className="text-base text-gray-900 font-normal mb-5">
-                    <span className="font-medium text-primary">Date:</span>{" "}
+                    <span className="font-semibold text-primary">Date:</span>{" "}
                     {format(new Date(product.date), "d MMMM, yyyy")}
                   </p>
                   <Link

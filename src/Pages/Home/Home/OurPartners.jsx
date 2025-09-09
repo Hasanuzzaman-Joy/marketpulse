@@ -15,7 +15,7 @@ const partners = [
 const OurPartners = () => {
   return (
     <section className="w-full md:max-w-screen-xl mx-auto px-4">
-      <h2 className="text-2xl md:text-4xl font-heading font-bold text-secondary text-center mb-2">
+      <h2 className="text-2xl md:text-3xl font-heading font-bold text-primary text-center mb-2">
         Our Partners
       </h2>
       <p className="text-base text-gray-600 text-center mb-6">

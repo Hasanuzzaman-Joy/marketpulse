@@ -17,10 +17,10 @@ const Banner = () => {
       {/* Content on top */}
       <div className="w-full md:max-w-screen-xl mx-auto absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-20">
         <ZoomIn>
-          <h1 className="text-white text-4xl md:text-6xl font-bold drop-shadow-lg">
+          <h1 className="w-full md:w-4/5 lg:w-full mx-auto text-white text-4xl md:text-6xl font-bold drop-shadow-lg">
             Fresh Market Prices at Your Fingertips
           </h1>
-          <p className="mt-4 text-white text-lg md:text-2xl drop-shadow-md">
+          <p className="w-full md:w-4/5 mx-auto text-white text-lg md:text-2xl drop-shadow-md mt-3 md:mt-6 ">
             Track real-time prices of fresh produce directly from your local
             markets
           </p>

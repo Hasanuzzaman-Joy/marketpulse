@@ -36,8 +36,14 @@ const FeaturedCategory = () => {
   ];
 
   return (
-    <section className="w-full md:max-w-screen-xl mx-auto px-4 mt-30">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 text-center">
+    <section className="w-full md:max-w-screen-xl mx-auto px-4 mt-16 md:mt-20 lg:mt-30">
+      <h2 className="text-2xl md:text-3xl font-heading font-bold text-primary text-center mb-2">
+        Explore Top Categories
+      </h2>
+      <p className="text-base text-gray-600 text-center mb-10">
+        Browse popular product categories from trusted vendors and suppliers
+      </p>
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8 text-center">
         {categories.map(({ icon, title, subtitle }, idx) => (
           <ZoomIn key={idx}>
             <div className="flex flex-col items-center">

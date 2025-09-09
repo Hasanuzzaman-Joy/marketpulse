@@ -40,11 +40,11 @@ const Discount = () => {
   }, []);
 
   return (
-    <section className="w-full md:max-w-screen-xl mx-auto mt-24 px-4">
+    <section className="w-full md:max-w-screen-xl mx-auto mt-14 md:mt-20">
       <ZoomIn>
-        <div className="flex h-[360px] overflow-hidden rounded-xl shadow-lg">
+        <div className="flex flex-col md:flex-row h-auto md:h-[360px] overflow-hidden md:rounded-xl shadow-lg mx-0 md:mx-4">
           {/* Left Image with gradient overlay */}
-          <div className="relative w-1/4 h-full">
+          <div className="hidden md:block relative w-1/4 h-full">
             <img
               src="https://res.cloudinary.com/dvkiiyhaj/image/upload/v1754823519/n4mjicozxi0csehbewvx.jpg"
               alt="Discount Left"
@@ -54,11 +54,11 @@ const Discount = () => {
           </div>
 
           {/* Center Content */}
-          <div className="w-1/2 bg-gray-50 flex flex-col items-center justify-center text-center p-8">
-            <h2 className="text-2xl md:text-4xl font-heading font-extrabold text-secondary">
+          <div className="w-full md:w-1/2 bg-primary md:bg-gray-50 flex flex-col items-center justify-center text-center p-8">
+            <h2 className="text-2xl md:text-4xl font-heading font-extrabold text-accent md:text-secondary">
               Winter Discount
             </h2>
-            <p className="text-lg text-gray-600 text-center mt-2 mb-4">
+            <p className="text-lg text-white md:text-gray-600 text-center mt-2 mb-4">
               Limited time offer on all products
             </p>
 
@@ -66,7 +66,7 @@ const Discount = () => {
               {["days", "hours", "minutes", "seconds"].map((unit) => (
                 <div
                   key={unit}
-                  className="flex flex-col items-center bg-secondary text-white rounded-xl px-4 py-2 min-w-[60px] shadow"
+                  className="flex flex-col items-center bg-secondary text-white rounded-xl px-4 py-2 min-w-[60px] border-white border-[1px] md:border-0 shadow"
                 >
                   <span className="text-2xl font-bold">{timeLeft[unit]}</span>
                   <span className="uppercase text-xs tracking-wide">
@@ -76,11 +76,13 @@ const Discount = () => {
               ))}
             </div>
 
-            <Button>Shop Now</Button>
+            <Button className="border-white border-[1px] md:border-0">
+              Shop Now
+            </Button>
           </div>
 
           {/* Right Image with gradient overlay */}
-          <div className="relative w-1/4 h-full">
+          <div className="hidden md:block relative w-1/4 h-full">
             <img
               src="https://res.cloudinary.com/dvkiiyhaj/image/upload/v1754823519/prvmyunoskxhpcai6sid.jpg"
               alt="Discount Right"

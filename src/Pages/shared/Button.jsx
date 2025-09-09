@@ -1,4 +1,3 @@
-
 const Button = ({
   type = "button",
   children,
@@ -12,9 +11,10 @@ const Button = ({
       onClick={onClick}
       disabled={disabled}
       className={`text-white px-3 py-2 rounded bg-secondary hover:bg-accent transition font-semibold
-        ${disabled
-          ? "bg-gray-400 cursor-not-allowed"
-          : "bg-secondary hover:bg-accent cursor-pointer"
+        ${
+          disabled
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-secondary hover:bg-accent cursor-pointer"
         } 
         ${className}`}
     >

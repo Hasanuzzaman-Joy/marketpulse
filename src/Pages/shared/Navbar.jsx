@@ -4,7 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import Button from "../shared/Button";
 import { FiLogOut, FiMenu, FiX } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
-import { motion, AnimatePresence } from "motion/react"
+import { motion, AnimatePresence } from "motion/react";
 import useRole from "../../hooks/useRole";
 
 const Navbar = () => {
@@ -42,21 +42,24 @@ const Navbar = () => {
           Contact
         </NavLink>
       </li>
-      {
-        user &&
+      {user && (
         <li>
-          <NavLink to="/dashboard" className="nav-link" onClick={handleLinkClick}>
+          <NavLink
+            to="/dashboard"
+            className="nav-link"
+            onClick={handleLinkClick}
+          >
             Dashboard
           </NavLink>
         </li>
-      }
-      {
-        !roleLoading && userRole === "user" &&
+      )}
+      {!roleLoading && userRole === "user" && (
         <li>
           <NavLink
             to="/apply-vendor"
             className={({ isActive }) =>
-              `nav-link border-[1.5px] px-3 py-1 rounded-full ${isActive ? "border-accent text-accent" : "border-[1.5px]"
+              `nav-link border-[1.5px] px-3 py-1 rounded-full ${
+                isActive ? "border-accent text-accent" : "border-[1.5px]"
               }`
             }
             onClick={handleLinkClick}
@@ -64,14 +67,15 @@ const Navbar = () => {
             Become A Seller
           </NavLink>
         </li>
-      }
+      )}
     </>
   );
 
   return (
     <header
-      className={`w-full z-50 bg-white sticky top-0 shadow transition-all duration-500 ease-in-out ${isScrolled ? "py-3" : "py-5"
-        }`}
+      className={`w-full z-50 bg-white sticky top-0 shadow transition-all duration-500 ease-in-out ${
+        isScrolled ? "py-3" : "py-5"
+      }`}
     >
       <nav className="max-w-screen-xl mx-auto flex items-center justify-between md:px-4 relative">
         {/* Left - Logo */}
@@ -79,7 +83,7 @@ const Navbar = () => {
           <img
             src="https://i.ibb.co/CstBYsHY/trans-logo.png"
             alt="Logo"
-            className="w-10 h-10"
+            className="w-10 h-10 ml-2 md:ml-0"
           />
           <h1 className="text-xl md:text-2xl font-heading font-bold text-secondary">
             Market <span className="text-accent">Pulse</span>
@@ -122,7 +126,7 @@ const Navbar = () => {
         </div>
 
         {/* Hamburger Icon */}
-        <div className="lg:hidden z-50">
+        <div className="lg:hidden z-50 mr-4">
           <button onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? (
               <FiX className="text-2xl text-main cursor-pointer" />
@@ -191,7 +195,9 @@ const Navbar = () => {
                       ) : (
                         <FaUserCircle className="text-2xl text-textSecondary" />
                       )}
-                      <span className="text-base font-medium font-heading">{user.displayName}</span>
+                      <span className="text-base font-medium font-heading">
+                        {user.displayName}
+                      </span>
                     </div>
                     <Button
                       onClick={() => {
