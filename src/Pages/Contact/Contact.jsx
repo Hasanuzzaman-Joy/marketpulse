@@ -1,13 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
 import Button from "../shared/Button";
 import Banner from "../shared/Banner";
 import useAxios from "../../hooks/useAxios";
 import Swal from "sweetalert2";
 import ZoomIn from "../shared/ZoomIn";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Contact = () => {
   const axiosInstance = useAxios();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     document.title = "MarketPulse - Contact";
@@ -22,6 +24,7 @@ const Contact = () => {
     const message = form[2].value;
 
     try {
+      setLoading(true);
       const response = await axiosInstance.post("/contact", {
         name,
         email,
@@ -44,6 +47,8 @@ const Contact = () => {
         icon: "error",
         confirmButtonColor: "#0a472e",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -60,11 +65,11 @@ const Contact = () => {
       />
 
       {/* Contact Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full md:max-w-screen-xl mx-auto px-4 items-stretch md:min-h-[500px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10 w-full md:max-w-screen-xl mx-auto px-0 md:px-4 items-stretch md:min-h-[500px]">
         {/* Left Column */}
-        <div className="py-6 md:py-9 lg:py-16 bg-white space-y-4 flex flex-col justify-center">
+        <div className="py-6 md:py-9 lg:py-16 bg-white space-y-4 flex flex-col justify-center px-4 md:px-0">
           <ZoomIn>
-            <h3 className="text-2xl md:text-4xl font-heading font-bold text-secondary">
+            <h3 className="text-2xl md:text-4xl font-heading font-bold text-secondary mb-4">
               Leave a Message
             </h3>
             <p className="text-text-secondary text-base leading-8">
@@ -73,7 +78,7 @@ const Contact = () => {
               feel free to reach out. Drop us a message and our team will
               respond shortly to assist you.
             </p>
-            <div className="space-y-4 text-text-secondary text-base">
+            <div className="space-y-4 text-text-secondary text-base mt-4">
               <p>
                 <strong className="text-secondary">Email:</strong>{" "}
                 contact@marketpulse.com
@@ -83,7 +88,7 @@ const Contact = () => {
                 567890
               </p>
             </div>
-            <div className="flex gap-4 text-main pt-4">
+            <div className="flex gap-4 text-main pt-6">
               <a
                 href="https://www.facebook.com/"
                 className="bg-secondary hover:bg-accent text-white p-3 rounded-full transition duration-300 shadow"
@@ -108,10 +113,10 @@ const Contact = () => {
 
         {/* Right Column */}
         <div className="bg-primary w-full">
-          <div className="py-6 md:py-9 lg:py-16 flex items-center justify-center">
+          <div className="py-6 md:py-9 lg:py-16 px-4 flex items-center justify-center">
             <ZoomIn>
-              <div className="w-full max-w-md bg-white rounded shadow-md p-5 md:p-8 mx-auto">
-                <h4 className="text-xl font-semibold mb-4 text-main">
+              <div className="w-full max-w-md bg-[#ffffff] rounded shadow-md p-5 md:p-8 mx-auto">
+                <h4 className="text-xl font-semibold mb-4 text-primary">
                   Need Help or Support?
                 </h4>
                 <form className="space-y-4" onSubmit={handleSubmit}>
@@ -132,7 +137,16 @@ const Contact = () => {
                     className="w-full border border-border px-4 py-2 rounded h-32 resize-none focus:outline-none focus:ring-2 focus:ring-accent"
                     required
                   />
-                  <Button type="submit">Send</Button>
+                  <Button type="submit" disabled={loading}>
+                    {loading ? (
+                      <div className="flex gap-2 items-center justify-center">
+                        <CircularProgress size={20} sx={{ color: "white" }} />
+                        Sending...
+                      </div>
+                    ) : (
+                      "Send"
+                    )}
+                  </Button>
                   <p className="text-sm text-text-secondary mt-2">
                     We'll get back to you within 24 hours.
                   </p>

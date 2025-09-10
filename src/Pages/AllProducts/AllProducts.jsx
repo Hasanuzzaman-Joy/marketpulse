@@ -7,6 +7,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Banner from "../shared/Banner";
 import ProductCard from "./ProductCard";
+import { FaSortAmountDownAlt, FaCalendarAlt } from "react-icons/fa";
 
 const AllProducts = () => {
   useEffect(() => {
@@ -32,6 +33,7 @@ const AllProducts = () => {
     setPage((prv) => prv + 1);
   };
 
+  // Fetch approved products with pagination, sorting, and date filtering
   const { data = {}, isLoading } = useQuery({
     queryKey: ["approved-products", page, limit, sortOrder, selectedDate],
     queryFn: async () => {
@@ -73,31 +75,35 @@ const AllProducts = () => {
         ]}
       />
 
-      <div className="w-full md:max-w-screen-xl mx-auto px-4 md:py-10 py-20">
+      <div className="w-full md:max-w-screen-xl mx-auto px-4 py-16 md:py-22">
         {/* Filters & Sorting */}
-        <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
+        <div className="flex md:flex-wrap justify-between items-center gap-4 mb-6">
           {/* Sort */}
-          <select
-            className="w-48 px-4 py-3 border-accent border-2 rounded-md text-[#414040] font-base font-medium focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-          >
-            <option value="">Sort by Price</option>
-            <option value="asc">Price: Low to High</option>
-            <option value="desc">Price: High to Low</option>
-          </select>
+          <div className="relative w-48">
+            <FaSortAmountDownAlt className="absolute left-3 top-1/2 -translate-y-1/2 text-[#2c2b2b]" />
+            <select
+              className="w-full pl-8 pr-4 py-3 border-accent border-[1px] rounded-md text-[#2c2b2b] text-base font-medium focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+            >
+              <option value="">Sort by Price</option>
+              <option value="asc">Price: Low to High</option>
+              <option value="desc">Price: High to Low</option>
+            </select>
+          </div>
 
           {/* Date Filter */}
-          <div className="relative z-10">
+          <div className="relative w-48">
+            <FaCalendarAlt className="absolute left-3 top-1/2 -translate-y-1/2 text-[#383737]" />
             <DatePicker
               selected={selectedDate}
               onChange={(date) => {
                 setPage(1);
                 setSelectedDate(date);
               }}
-              placeholderText="📅 Filter by Date"
+              placeholderText="Filter by Date"
               dateFormat="yyyy-MM-dd"
-              className="w-full px-4 py-3 border-accent border-2 rounded-md placeholder-[#414040] font-base focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
+              className="w-full pl-8 pr-4 py-3 border-accent border-[1px] rounded-md placeholder-[#2c2b2b] text-base font-medium focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
               isClearable
             />
           </div>

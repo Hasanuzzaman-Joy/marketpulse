@@ -1,6 +1,21 @@
 import { useState } from "react";
 import { NavLink, Outlet, useNavigation } from "react-router";
-import { FaUserFriends, FaClipboardList, FaBullhorn, FaShoppingBasket, FaPlusSquare, FaBoxOpen, FaAd, FaChartBar, FaChartLine, FaTools, FaListAlt, FaUserCircle, FaBox } from "react-icons/fa";
+import {
+  FaUserFriends,
+  FaClipboardList,
+  FaBullhorn,
+  FaShoppingBasket,
+  FaPlusSquare,
+  FaBoxOpen,
+  FaAd,
+  FaChartBar,
+  FaChartLine,
+  FaTools,
+  FaListAlt,
+  FaUserCircle,
+  FaBox,
+  FaCashRegister,
+} from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import useRole from "../hooks/useRole";
 import ScrollToTop from "../Pages/shared/ScrollToTop";
@@ -148,6 +163,15 @@ const DashboardLayout = () => {
               onClick={() => setMenuOpen(false)}
             >
               <FaListAlt /> My Order List
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/apply-vendor"
+              className="flex items-center gap-2 nav-link"
+              onClick={() => setMenuOpen(false)}
+            >
+              <FaCashRegister /> Become A Seller
             </NavLink>
           </li>
         </>

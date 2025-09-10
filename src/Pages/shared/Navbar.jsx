@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import Button from "../shared/Button";
 import { FiLogOut, FiMenu, FiX } from "react-icons/fi";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 import { motion, AnimatePresence } from "motion/react";
 import useRole from "../../hooks/useRole";
 
@@ -54,19 +54,22 @@ const Navbar = () => {
         </li>
       )}
       {!roleLoading && userRole === "user" && (
-        <li>
-          <NavLink
-            to="/apply-vendor"
-            className={({ isActive }) =>
-              `nav-link border-[1.5px] px-3 py-1 rounded-full ${
-                isActive ? "border-accent text-accent" : "border-[1.5px]"
-              }`
-            }
-            onClick={handleLinkClick}
-          >
-            Become A Seller
-          </NavLink>
-        </li>
+        <>
+          <li>
+            <NavLink
+              to="/cart"
+              className={({ isActive }) =>
+                `nav-link flex items-center justify-center gap-2 text-[15px] border-[1px] w-24 py-[2px] rounded-full ${
+                  isActive ? "border-accent text-accent" : "border-[1px]"
+                }`
+              }
+              onClick={handleLinkClick}
+            >
+              <FaShoppingCart className="text-base" />
+              Cart
+            </NavLink>
+          </li>
+        </>
       )}
     </>
   );
@@ -86,7 +89,7 @@ const Navbar = () => {
             className="w-10 h-10 ml-2 md:ml-0"
           />
           <h1 className="text-xl md:text-2xl font-heading font-bold text-secondary">
-            Market <span className="text-accent">Pulse</span>
+            Market<span className="text-accent">Pulse</span>
           </h1>
         </Link>
 

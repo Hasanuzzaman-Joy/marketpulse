@@ -56,8 +56,7 @@ const Testimonial = ({ testimonialData }) => {
             className="py-10"
             breakpoints={{
               150: { slidesPerView: 1 },
-              850: { slidesPerView: 1 },
-              1024: { slidesPerView: 2 },
+              767: { slidesPerView: 2 },
               1280: { slidesPerView: 2 },
             }}
           >

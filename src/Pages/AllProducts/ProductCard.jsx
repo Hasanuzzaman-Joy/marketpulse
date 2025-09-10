@@ -101,19 +101,19 @@ const ProductCard = ({ products }) => {
                   </div>
                 </div>
 
-                <p className="text-base text-gray-900 font-normal mt-5">
-                  <span className="font-medium text-primary">Price:</span>{" "}
+                <p className="text-base text-gray-900 font-normal mt-4">
+                  <span className="font-semibold text-primary">Price:</span>{" "}
                   {new Intl.NumberFormat("en-US", {
                     style: "currency",
                     currency: "USD",
                   }).format(product.pricePerUnit)}
                 </p>
                 <p className="text-base text-gray-900 font-normal">
-                  <span className="font-medium text-primary">Market:</span>{" "}
+                  <span className="font-semibold text-primary">Market:</span>{" "}
                   {product.marketName}
                 </p>
                 <p className="text-base text-gray-900 font-normal mb-8">
-                  <span className="font-medium text-primary">Date:</span>{" "}
+                  <span className="font-semibold text-primary">Date:</span>{" "}
                   {format(new Date(product.date), "d MMMM, yyyy")}
                 </p>
                 <Link
