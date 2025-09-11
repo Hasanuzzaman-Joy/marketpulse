@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from "../shared/Button";
+import Button from "../../shared/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router";

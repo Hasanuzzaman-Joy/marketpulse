@@ -77,6 +77,16 @@ const VendorModal = ({ vendor, onClose }) => {
                 : "N/A"}
             </td>
           </tr>
+          <tr className="border border-border">
+            <th className="px-4 py-2 font-heading text-secondary">Photo</th>
+            <td className="px-4 py-2 border border-border">
+              <img
+                src={vendor.photo}
+                alt=""
+                className="w-26 h-26 object-contain"
+              />
+            </td>
+          </tr>
         </tbody>
       </table>
 

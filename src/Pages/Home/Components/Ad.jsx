@@ -1,6 +1,7 @@
 import Button from "../../shared/Button";
 import { FaShoppingCart, FaFireAlt, FaLeaf } from "react-icons/fa";
 import ZoomIn from "../../shared/ZoomIn";
+import { Link } from "react-router";
 
 const adsData = [
   {
@@ -44,10 +45,12 @@ export default function Ad() {
                 {ad.subtitle}
               </h3>
               <p className="text-base text-gray-600">{ad.discount}</p>
-              <Button className="mt-5 flex justify-center items-center gap-1">
-                <FaShoppingCart className="inline-block mr-1 w-4 h-4" />
-                Shop Now
-              </Button>
+              <Link to="/products">
+                <Button className="mt-5 flex justify-center items-center gap-1">
+                  <FaShoppingCart className="inline-block mr-1 w-4 h-4" />
+                  Shop Now
+                </Button>
+              </Link>
             </div>
 
             {/* Image */}

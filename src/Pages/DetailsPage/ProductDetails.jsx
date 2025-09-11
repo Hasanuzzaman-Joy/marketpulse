@@ -22,6 +22,7 @@ import {
   FaStar,
   FaRegStar,
 } from "react-icons/fa";
+import ZoomIn from "../shared/ZoomIn";
 
 const ProductDetails = () => {
   const { user } = useAuth();
@@ -179,55 +180,58 @@ const ProductDetails = () => {
       <div className="w-full bg-secondary rounded shadow-lg border border-gray-200 overflow-hidden grid lg:grid-cols-2">
         {/* Image */}
         <div className="bg-bg-alt flex items-center justify-center p-6">
-          <img
-            src={image}
-            alt={itemName}
-            className="max-h-[300px] w-auto object-contain"
-          />
+          <ZoomIn>
+            <img
+              src={image}
+              alt={itemName}
+              className="max-h-[300px] w-auto object-contain"
+            />
+          </ZoomIn>
         </div>
 
         {/* Product Details */}
-        <div className="px-4 md:px-8 py-8 flex flex-col justify-center space-y-5 text-base text-left text-white">
-          <h2 className="text-2xl md:text-4xl font-bold font-heading">
-            {itemName}
-          </h2>
+        <ZoomIn>
+          <div className="px-4 md:px-8 py-8 flex flex-col justify-center space-y-5 text-base text-left text-white">
+            <h2 className="text-2xl md:text-4xl font-bold font-heading">
+              {itemName}
+            </h2>
 
-          {/* Product Info */}
-          <div className="flex flex-col gap-3">
-            <p className="flex items-center text-lg gap-2">
-              <FaStore className="text-accent" />
-              <span className="font-semibold">Market:</span> {marketName}
-            </p>
-            <p className="flex items-center text-lg gap-2">
-              <FaCalendarAlt className="text-accent" />
-              <span className="font-semibold">Date:</span> {formatDate(date)}
-            </p>
-            <p className="flex items-center text-lg gap-2">
-              <FaUser className="text-accent" />
-              <span className="font-semibold">Vendor:</span> {vendorName} (
-              {vendorEmail})
-            </p>
-            <p className="flex items-center text-lg gap-2">
-              <FaCartPlus className="text-accent" />
-              <span className="font-semibold">Price/Unit:</span> $
-              {parseFloat(pricePerUnit).toFixed(2)}
-            </p>
-          </div>
+            {/* Product Info */}
+            <div className="flex flex-col gap-3">
+              <p className="flex items-center text-lg gap-2">
+                <FaStore className="text-accent" />
+                <span className="font-semibold">Market:</span> {marketName}
+              </p>
+              <p className="flex items-center text-lg gap-2">
+                <FaCalendarAlt className="text-accent" />
+                <span className="font-semibold">Date:</span> {formatDate(date)}
+              </p>
+              <p className="flex items-center text-lg gap-2">
+                <FaUser className="text-accent" />
+                <span className="font-semibold">Vendor:</span> {vendorName} (
+                {vendorEmail})
+              </p>
+              <p className="flex items-center text-lg gap-2">
+                <FaCartPlus className="text-accent" />
+                <span className="font-semibold">Price/Unit:</span> $
+                {parseFloat(pricePerUnit).toFixed(2)}
+              </p>
+            </div>
 
-          {/* Descriptions */}
-          <div className="leading-relaxed space-y-2 pt-2">
-            <p className="text-lg">
-              <span className="font-semibold">Item Description:</span>{" "}
-              {itemDescription}
-            </p>
-            <p className="text-lg">
-              <span className="font-semibold">Market Note:</span>{" "}
-              {marketDescription}
-            </p>
-          </div>
+            {/* Descriptions */}
+            <div className="leading-relaxed space-y-2 pt-2">
+              <p className="text-lg">
+                <span className="font-semibold">Item Description:</span>{" "}
+                {itemDescription}
+              </p>
+              <p className="text-lg">
+                <span className="font-semibold">Market Note:</span>{" "}
+                {marketDescription}
+              </p>
+            </div>
 
-          {/* Price History */}
-          {/* <div>
+            {/* Price History */}
+            {/* <div>
             <h4 className="font-semibold text-lg mt-4 mb-2">
               Price History
             </h4>
@@ -241,25 +245,26 @@ const ProductDetails = () => {
             </ul>
           </div> */}
 
-          {/* Buttons */}
-          {user && (
-            <div className="flex flex-wrap gap-4 mt-4">
-              <Button
-                onClick={handleAddToCart}
-                className="flex items-center gap-2 bg-yellow-500 hover:bg-accent duration-300 transition-all"
-                aria-label="Add to Cart"
-              >
-                <FaCartPlus /> Add to Cart
-              </Button>
-              <Button
-                onClick={() => navigate(`/payment/${product._id}`)}
-                className="flex items-center gap-2 bg-yellow-500 hover:bg-accent duration-300 transition-all"
-              >
-                <FaShoppingBag /> Buy Product
-              </Button>
-            </div>
-          )}
-        </div>
+            {/* Buttons */}
+            {user && (
+              <div className="flex flex-wrap gap-4 mt-4">
+                <Button
+                  onClick={handleAddToCart}
+                  className="flex items-center gap-2 bg-yellow-500 hover:bg-accent duration-300 transition-all"
+                  aria-label="Add to Cart"
+                >
+                  <FaCartPlus /> Add to Cart
+                </Button>
+                <Button
+                  onClick={() => navigate(`/payment/${product._id}`)}
+                  className="flex items-center gap-2 bg-yellow-500 hover:bg-accent duration-300 transition-all"
+                >
+                  <FaShoppingBag /> Buy Product
+                </Button>
+              </div>
+            )}
+          </div>
+        </ZoomIn>
       </div>
 
       {/* Price Comparison Chart */}

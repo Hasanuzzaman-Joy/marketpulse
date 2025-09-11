@@ -5,16 +5,16 @@ import useAuth from "../../../../hooks/useAuth";
 import SynchronizedLineChart from "./SynchronizedLineChart";
 import Loading from "../../../shared/Loading";
 import { FaChartLine } from "react-icons/fa";
-import ZoomIn from "../../../shared/ZoomIn";
 
 const ViewPriceTrends = () => {
   useEffect(() => {
-    document.title = "MarketPulse - Price Trends"
-  }, [])
+    document.title = "MarketPulse - Price Trends";
+  }, []);
 
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 
+  // Fetch all products for the user
   const { data: products = [], isLoading } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
@@ -26,13 +26,14 @@ const ViewPriceTrends = () => {
   const [selectedProductId, setSelectedProductId] = useState("");
   const selectedProduct = products.find((p) => p._id === selectedProductId);
 
+  // Set default selected product when products load
   useEffect(() => {
     if (products.length && !selectedProductId) {
       setSelectedProductId(products[0]._id);
     }
   }, [products, selectedProductId]);
 
-  if (isLoading) return <Loading />
+  if (isLoading) return <Loading />;
 
   return (
     <div className="font-body text-main p-6 md:p-10 bg-white ">
@@ -60,7 +61,11 @@ const ViewPriceTrends = () => {
             className="mt-2 w-full px-2 py-3 border border-border rounded-md text-base focus:outline-none focus:ring-2 focus:ring-accent bg-white text-main cursor-pointer"
           >
             {products.map((product) => (
-              <option key={product._id} value={product._id} className="cursor-pointer py-1">
+              <option
+                key={product._id}
+                value={product._id}
+                className="cursor-pointer py-1"
+              >
                 {product.itemName}
               </option>
             ))}

@@ -10,6 +10,7 @@ import ProductTable from "./ProductTable";
 import ProductModal from "./ProductModal";
 import RejectProductModal from "./RejectProductModal";
 import { FaClipboardList } from "react-icons/fa";
+import ZoomIn from "../../../shared/ZoomIn";
 
 const AdminAllProducts = () => {
   useEffect(() => {
@@ -123,21 +124,23 @@ const AdminAllProducts = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <ProductTable
-          products={products}
-          onView={setSelectedProduct}
-          onApprove={(id) =>
-            updateStatusMutation.mutate({
-              productId: id,
-              newStatus: "approved",
-            })
-          }
-          onDelete={(id) => deleteProductMutation.mutate(id)}
-          onEdit={(id) => navigate(`/dashboard/update-product/${id}`)}
-          deleteLoading={deleteProductMutation.isLoading}
-          approveLoading={updateStatusMutation.isLoading}
-          onReject={(product) => setRejectProduct(product)}
-        />
+        <ZoomIn>
+          <ProductTable
+            products={products}
+            onView={setSelectedProduct}
+            onApprove={(id) =>
+              updateStatusMutation.mutate({
+                productId: id,
+                newStatus: "approved",
+              })
+            }
+            onDelete={(id) => deleteProductMutation.mutate(id)}
+            onEdit={(id) => navigate(`/dashboard/update-product/${id}`)}
+            deleteLoading={deleteProductMutation.isLoading}
+            approveLoading={updateStatusMutation.isLoading}
+            onReject={(product) => setRejectProduct(product)}
+          />
+        </ZoomIn>
       )}
 
       {selectedProduct && (

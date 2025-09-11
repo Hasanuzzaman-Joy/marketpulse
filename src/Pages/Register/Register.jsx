@@ -6,8 +6,8 @@ import useSuccessAlert from "../../hooks/useSuccessAlert";
 import { toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useImageUpload from "../../hooks/useImageUpload";
-import GoogleSignUpButton from "./GoogleSignUpButton";
-import RegisterForm from "./RegisterForm";
+import GoogleSignUpButton from "./Components/GoogleSignUpButton";
+import RegisterForm from "./Components/RegisterForm";
 
 const Register = () => {
   useEffect(() => {

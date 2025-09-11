@@ -6,6 +6,7 @@ import Loading from "../../../shared/Loading";
 import Swal from "sweetalert2";
 import StatCard from "../../../shared/StatCard";
 import { FaUsers } from "react-icons/fa";
+import ZoomIn from "../../../shared/ZoomIn";
 
 const roles = ["admin", "vendor", "user"];
 
@@ -84,85 +85,101 @@ const AllUsers = () => {
 
       {/* Stat Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-        <StatCard title="Total Users" count={totalUsers} bg="bg-green-100" />
-        <StatCard title="Admins" count={totalAdmins} bg="bg-pink-100" />
-        <StatCard title="Vendors" count={totalVendors} bg="bg-blue-100" />
-        <StatCard title="Normal Users" count={totalNormal} bg="bg-yellow-100" />
+        <ZoomIn>
+          <StatCard title="Total Users" count={totalUsers} bg="bg-green-100" />
+        </ZoomIn>
+        <ZoomIn>
+          <StatCard title="Admins" count={totalAdmins} bg="bg-pink-100" />
+        </ZoomIn>
+        <ZoomIn>
+          <StatCard title="Vendors" count={totalVendors} bg="bg-blue-100" />
+        </ZoomIn>
+        <ZoomIn>
+          <StatCard
+            title="Normal Users"
+            count={totalNormal}
+            bg="bg-yellow-100"
+          />
+        </ZoomIn>
       </div>
 
       {/* Search form with input & submit button */}
-      <form
-        onSubmit={handleSubmit}
-        className="w-full md:max-w-xs flex mt-14 mb-6 gap-2"
-      >
-        <input
-          type="text"
-          placeholder="Search by email..."
-          value={searchEmail}
-          onChange={(e) => setSearchEmail(e.target.value)}
-          className="flex-grow px-4 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
-        />
-        <button
-          type="submit"
-          className="px-4 py-2 bg-accent text-white rounded-md hover:bg-accent-dark transition"
+      <ZoomIn>
+        <form
+          onSubmit={handleSubmit}
+          className="w-full md:max-w-xs flex mt-14 mb-6 gap-2"
         >
-          Search
-        </button>
-      </form>
+          <input
+            type="text"
+            placeholder="Search by email..."
+            value={searchEmail}
+            onChange={(e) => setSearchEmail(e.target.value)}
+            className="flex-grow px-4 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+          />
+          <button
+            type="submit"
+            className="px-4 py-2 bg-accent text-white rounded-md hover:bg-accent-dark transition"
+          >
+            Search
+          </button>
+        </form>
+      </ZoomIn>
 
       {/* User Table */}
-      <div className="overflow-x-auto bg-bg rounded shadow-sm">
-        <table className="min-w-full text-left text-base text-main">
-          <thead className="bg-secondary text-white text-base font-medium">
-            <tr>
-              <th className="px-6 py-4">#</th>
-              <th className="px-6 py-4">Name</th>
-              <th className="px-6 py-4">Email</th>
-              <th className="px-6 py-4">Role</th>
-              <th className="px-6 py-4">Set Role</th>
-            </tr>
-          </thead>
-          <tbody className="text-base md:text-sm font-medium">
-            {filteredUsers.map((u, idx) => (
-              <tr
-                key={u._id}
-                className="border-b border-border hover:bg-gray-50 transition"
-              >
-                <td className="px-6 py-4">{idx + 1}</td>
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={u.photo}
-                      alt={u.name}
-                      className="w-10 h-10 rounded-md object-cover border border-border"
-                    />
-                    <span>{u.name}</span>
-                  </div>
-                </td>
-                <td className="px-6 py-4">{u.email}</td>
-                <td className="px-6 py-4 capitalize">{u.role}</td>
-                <td className="px-6 py-4">
-                  <select
-                    className="border border-gray-300 px-3 py-2 rounded focus:ring-2 focus:ring-accent text-main cursor-pointer hover:border-accent transition-all duration-200"
-                    value={u.role}
-                    onChange={(e) =>
-                      updateRole({ userId: u._id, role: e.target.value })
-                    }
-                    disabled={isPending}
-                  >
-                    {roles.map((roleOption) => (
-                      <option key={roleOption} value={roleOption}>
-                        {roleOption.charAt(0).toUpperCase() +
-                          roleOption.slice(1)}
-                      </option>
-                    ))}
-                  </select>
-                </td>
+      <ZoomIn>
+        <div className="overflow-x-auto bg-bg rounded shadow-sm">
+          <table className="min-w-full text-left text-base text-main">
+            <thead className="bg-secondary text-white text-base font-medium">
+              <tr>
+                <th className="px-6 py-4">#</th>
+                <th className="px-6 py-4">Name</th>
+                <th className="px-6 py-4">Email</th>
+                <th className="px-6 py-4">Role</th>
+                <th className="px-6 py-4">Set Role</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody className="text-base md:text-sm font-medium">
+              {filteredUsers.map((u, idx) => (
+                <tr
+                  key={u._id}
+                  className="border-b border-border hover:bg-gray-50 transition"
+                >
+                  <td className="px-6 py-4">{idx + 1}</td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={u.photo}
+                        alt={u.name}
+                        className="w-10 h-10 rounded-md object-cover border border-border"
+                      />
+                      <span>{u.name}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">{u.email}</td>
+                  <td className="px-6 py-4 capitalize">{u.role}</td>
+                  <td className="px-6 py-4">
+                    <select
+                      className="border border-gray-300 px-3 py-2 rounded focus:ring-2 focus:ring-accent text-main cursor-pointer hover:border-accent transition-all duration-200"
+                      value={u.role}
+                      onChange={(e) =>
+                        updateRole({ userId: u._id, role: e.target.value })
+                      }
+                      disabled={isPending}
+                    >
+                      {roles.map((roleOption) => (
+                        <option key={roleOption} value={roleOption}>
+                          {roleOption.charAt(0).toUpperCase() +
+                            roleOption.slice(1)}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </ZoomIn>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const CheckoutForm = ({ productId, price, cartItems, onSuccess }) => {
   const stripe = useStripe();
@@ -128,7 +129,6 @@ const CheckoutForm = ({ productId, price, cartItems, onSuccess }) => {
         onSuccess?.();
       }
     } catch (err) {
-      console.error("Payment error:", err);
       toast.error("Payment failed. Please try again.");
     } finally {
       setLoading(false);
@@ -188,9 +188,16 @@ const CheckoutForm = ({ productId, price, cartItems, onSuccess }) => {
         <button
           type="submit"
           disabled={!stripe || loading}
-          className="text-white px-10 py-2 rounded bg-accent hover:bg-secondary transition font-semibold font-heading border border-white flex items-center gap-2 cursor-pointer"
+          className="text-white px-10 py-2 rounded bg-accent hover:bg-secondary border border-white duration-300 transition-all font-semibold font-heading flex items-center gap-2 cursor-pointer"
         >
-          {loading ? "Processing..." : `Pay $${displayPrice.toFixed(2)}`}
+          {loading ? (
+            <div className="flex gap-2 items-center justify-center">
+              <CircularProgress size={20} sx={{ color: "white" }} />
+              Processing...
+            </div>
+          ) : (
+            `Pay $${displayPrice.toFixed(2)}`
+          )}
         </button>
       </form>
       <ToastContainer />

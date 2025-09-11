@@ -3,8 +3,8 @@ import { useLocation } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxios";
 import useSuccessAlert from "../../hooks/useSuccessAlert";
-import LeftSection from "./LeftSection";
-import RightSection from "./RightSection";
+import LeftSection from "./Components/LeftSection";
+import RightSection from "./Components/RightSection";
 
 const Login = () => {
   const { loading, setLoading, googleSign, login } = useAuth();

@@ -1,16 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import FeaturedProducts from "./FeaturedProducts";
-import useAxios from "../../../hooks/useAxios";
-import useAuth from "../../../hooks/useAuth";
-import Loading from "../../shared/Loading";
-import Banner from "./Banner";
-import CallToAction from "./CallToAction";
+import FeaturedProducts from "./Components/FeaturedProducts";
+import useAxios from "../../hooks/useAxios";
+import useAuth from "../../hooks/useAuth";
+import Loading from "../shared/Loading";
+import Banner from "./Components/Banner";
+import CallToAction from "./Components/CallToAction";
 import { Suspense, useEffect } from "react";
-import Testimonial from "./Testimonial";
-import FeaturedCategory from "./FeaturedCategory";
-import Ad from "./Ad";
-import Discount from "./Discount";
-import OurPartners from "./OurPartners";
+import Testimonial from "./Components/Testimonial";
+import FeaturedCategory from "./Components/FeaturedCategory";
+import Ad from "./Components/Ad";
+import Discount from "./Components/Discount";
+import OurPartners from "./Components/OurPartners";
 
 const testimonialData = fetch("/testimonial.json").then((res) => res.json());
 

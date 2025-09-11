@@ -9,6 +9,7 @@ import AdvertisementTable from "./AdvertisementTable";
 import RejectAdModal from "./RejectAdModal";
 import AdvertisementModal from "./AdvertisementModal";
 import { FaBullhorn } from "react-icons/fa";
+import ZoomIn from "../../../shared/ZoomIn";
 
 const AdminAllAdvertisements = () => {
   useEffect(() => {
@@ -22,6 +23,7 @@ const AdminAllAdvertisements = () => {
   const [selectedAd, setSelectedAd] = useState(null);
   const [rejectAd, setRejectAd] = useState(null);
 
+  // Fetch all advertisements
   const { data: ads = [], isLoading } = useQuery({
     queryKey: ["all-ads"],
     queryFn: async () => {
@@ -110,15 +112,17 @@ const AdminAllAdvertisements = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <AdvertisementTable
-          ads={ads}
-          onView={setSelectedAd}
-          onApprove={(id) => approveAdMutation.mutate({ adId: id })}
-          onDelete={(id) => deleteAdMutation.mutate(id)}
-          onReject={(ad) => setRejectAd(ad)}
-          approveLoading={approveAdMutation.isLoading}
-          deleteLoading={deleteAdMutation.isLoading}
-        />
+        <ZoomIn>
+          <AdvertisementTable
+            ads={ads}
+            onView={setSelectedAd}
+            onApprove={(id) => approveAdMutation.mutate({ adId: id })}
+            onDelete={(id) => deleteAdMutation.mutate(id)}
+            onReject={(ad) => setRejectAd(ad)}
+            approveLoading={approveAdMutation.isLoading}
+            deleteLoading={deleteAdMutation.isLoading}
+          />
+        </ZoomIn>
       )}
 
       {selectedAd && (

@@ -6,6 +6,7 @@ import Pagination from "../../../shared/Pagination";
 import OrdersTable from "./OrdersTable";
 import useAuth from "../../../../hooks/useAuth";
 import { FaShoppingBasket } from "react-icons/fa";
+import ZoomIn from "../../../shared/ZoomIn";
 
 const AdminOrdersPage = () => {
   useEffect(() => {
@@ -43,9 +44,11 @@ const AdminOrdersPage = () => {
   return (
     <div className="font-body text-main shadow-sm p-6 md:p-10 bg-white">
       <h1 className="text-3xl text-primary font-bold mb-6 flex items-center gap-2">
-        <FaShoppingBasket /> All Paid Orders 
+        <FaShoppingBasket /> All Paid Orders
       </h1>
-      <OrdersTable orders={orders} currentPage={page} itemsPerPage={limit} />
+      <ZoomIn>
+        <OrdersTable orders={orders} currentPage={page} itemsPerPage={limit} />
+      </ZoomIn>
       <Pagination
         pages={pages}
         handlePage={handlePage}

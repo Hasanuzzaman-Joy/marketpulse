@@ -6,7 +6,7 @@ const ZoomIn = ({children}) => {
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            viewport={{ amount: 0.2 }}
+            viewport={{ amount: 0.1 }}
         >
             {children}
         </motion.div>

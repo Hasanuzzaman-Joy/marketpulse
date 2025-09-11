@@ -27,7 +27,7 @@ const VendorTable = ({
               <td className="px-6 py-4 text-center">
                 <button
                   onClick={() => setSelectedVendor(vendor)}
-                  className="px-3 py-1 bg-secondary text-white rounded-md flex items-center gap-2 hover:bg-secondary-dark transition"
+                  className="px-3 py-2 bg-accent hover:bg-secondary text-white rounded flex items-center gap-2 duration-300 transition-all cursor-pointer"
                 >
                   <FaEye /> View
                 </button>

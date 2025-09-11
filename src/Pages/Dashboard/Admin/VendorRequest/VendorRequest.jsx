@@ -7,6 +7,7 @@ import VendorTable from "./VendorTable";
 import VendorModal from "./VendorModal";
 import Loading from "../../../shared/Loading";
 import Swal from "sweetalert2";
+import ZoomIn from "../../../shared/ZoomIn";
 
 const VendorRequest = () => {
   const [selectedVendor, setSelectedVendor] = useState(null);
@@ -27,9 +28,12 @@ const VendorRequest = () => {
 
   const { mutate: updateStatus, isPending } = useMutation({
     mutationFn: async ({ vendorId, status }) => {
-      const res = await axiosSecure.patch(`/vendor-requests/${vendorId}?email=${user?.email}`, {
-        status,
-      });
+      const res = await axiosSecure.patch(
+        `/vendor-requests/${vendorId}?email=${user?.email}`,
+        {
+          status,
+        }
+      );
       return res.data;
     },
     onSuccess: () => {
@@ -62,12 +66,14 @@ const VendorRequest = () => {
         <h2 className="text-3xl text-primary font-bold">Vendor Applications</h2>
       </div>
 
-      <VendorTable
-        vendorApplications={vendorApplications}
-        setSelectedVendor={setSelectedVendor}
-        updateStatus={updateStatus}
-        isPending={isPending}
-      />
+      <ZoomIn>
+        <VendorTable
+          vendorApplications={vendorApplications}
+          setSelectedVendor={setSelectedVendor}
+          updateStatus={updateStatus}
+          isPending={isPending}
+        />
+      </ZoomIn>
 
       <VendorModal
         vendor={selectedVendor}
