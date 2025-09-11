@@ -18,10 +18,10 @@ const VendorTable = ({
             <th className="px-6 py-4 text-center">Actions</th>
           </tr>
         </thead>
-        <tbody className="text-sm font-semibold">
+        <tbody className="text-base md:text-sm font-medium">
           {vendorApplications.map((vendor, index) => (
             <tr key={vendor._id} className="border-b border-border">
-              <td className="px-6 py-4 font-bold">{index + 1}</td>
+              <td className="px-6 py-4">{index + 1}</td>
               <td className="px-6 py-4">{vendor.name}</td>
               <td className="px-6 py-4 break-all">{vendor.email}</td>
               <td className="px-6 py-4 text-center">
@@ -62,7 +62,7 @@ const VendorTable = ({
                   </>
                 ) : (
                   <span
-                    className={`px-3 py-1 rounded text-sm font-medium ${
+                    className={`px-3 py-1 rounded text-base md:text-sm font-medium ${
                       vendor.vendor_status === "approved"
                         ? "bg-green-100 text-green-700"
                         : "bg-red-100 text-red-700"

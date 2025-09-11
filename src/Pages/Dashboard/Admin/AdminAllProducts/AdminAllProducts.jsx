@@ -8,12 +8,13 @@ import Swal from "sweetalert2";
 import Loading from "../../../shared/Loading";
 import ProductTable from "./ProductTable";
 import ProductModal from "./ProductModal";
-import RejectProductModal from "./RejectProductModal";import { FaClipboardList } from "react-icons/fa";
+import RejectProductModal from "./RejectProductModal";
+import { FaClipboardList } from "react-icons/fa";
 
 const AdminAllProducts = () => {
   useEffect(() => {
-    document.title = "MarketPulse - All Products"
-  }, [])
+    document.title = "MarketPulse - All Products";
+  }, []);
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
@@ -36,9 +37,12 @@ const AdminAllProducts = () => {
   // Mutation to update status
   const updateStatusMutation = useMutation({
     mutationFn: async ({ productId, newStatus }) => {
-      const res = await axiosSecure.patch(`/approve-product/${productId}?email=${user?.email}`, {
-        status: newStatus,
-      });
+      const res = await axiosSecure.patch(
+        `/approve-product/${productId}?email=${user?.email}`,
+        {
+          status: newStatus,
+        }
+      );
       return res.data;
     },
     onSuccess: () => {
@@ -46,7 +50,7 @@ const AdminAllProducts = () => {
       setSelectedProduct(null);
       showSuccess({
         title: "Product Approved...",
-        text: "The product status has been updated to approved."
+        text: "The product status has been updated to approved.",
       });
     },
   });
@@ -54,10 +58,13 @@ const AdminAllProducts = () => {
   // Reject mutation
   const rejectProductMutation = useMutation({
     mutationFn: async ({ productId, reason, feedback }) => {
-      const res = await axiosSecure.patch(`/reject-product/${productId}?email=${user?.email}`, {
-        reason,
-        feedback,
-      });
+      const res = await axiosSecure.patch(
+        `/reject-product/${productId}?email=${user?.email}`,
+        {
+          reason,
+          feedback,
+        }
+      );
       return res.data;
     },
     onSuccess: () => {
@@ -80,7 +87,9 @@ const AdminAllProducts = () => {
   // Mutation to delete product
   const deleteProductMutation = useMutation({
     mutationFn: async (productId) => {
-      const res = await axiosSecure.delete(`/delete-products/${productId}?email=${user?.email}`);
+      const res = await axiosSecure.delete(
+        `/delete-products/${productId}?email=${user?.email}`
+      );
       return res.data;
     },
     onSuccess: () => {
@@ -102,32 +111,43 @@ const AdminAllProducts = () => {
   return (
     <div className="bg-white text-main font-body shadow-sm p-6 md:p-10">
       <div className="mb-8 space-y-2">
-        <h2 className="text-3xl text-primary font-bold mb-2 flex items-center gap-2"><FaClipboardList /> All Products</h2>
+        <h2 className="text-3xl text-primary font-bold mb-2 flex items-center gap-2">
+          <FaClipboardList /> All Products
+        </h2>
         <p className="text-text-secondary text-base md:text-lg mb-6">
-          Overview of all vendor-created products. You can review and manage their statuses.
+          Overview of all vendor-created products. You can review and manage
+          their statuses.
         </p>
       </div>
 
       {isLoading ? (
         <Loading />
       ) : (
-          <ProductTable
-            products={products}
-            onView={setSelectedProduct}
-            onApprove={(id) => updateStatusMutation.mutate({ productId: id, newStatus: "approved" })}
-            onDelete={(id) => deleteProductMutation.mutate(id)}
-            onEdit={(id) => navigate(`/dashboard/update-product/${id}`)}
-            deleteLoading={deleteProductMutation.isLoading}
-            approveLoading={updateStatusMutation.isLoading}
-            onReject={(product) => setRejectProduct(product)}
-          />
-      )}
-
-      {selectedProduct && (
-        <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)}
+        <ProductTable
+          products={products}
+          onView={setSelectedProduct}
+          onApprove={(id) =>
+            updateStatusMutation.mutate({
+              productId: id,
+              newStatus: "approved",
+            })
+          }
+          onDelete={(id) => deleteProductMutation.mutate(id)}
+          onEdit={(id) => navigate(`/dashboard/update-product/${id}`)}
+          deleteLoading={deleteProductMutation.isLoading}
+          approveLoading={updateStatusMutation.isLoading}
+          onReject={(product) => setRejectProduct(product)}
         />
       )}
 
+      {selectedProduct && (
+        <ProductModal
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
+
+      {/* Reject Modal */}
       {rejectProduct && (
         <RejectProductModal
           product={rejectProduct}

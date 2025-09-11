@@ -86,12 +86,15 @@ const AllUsers = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
         <StatCard title="Total Users" count={totalUsers} bg="bg-green-100" />
         <StatCard title="Admins" count={totalAdmins} bg="bg-pink-100" />
-        <StatCard title="Vendors" count={totalVendors} bg="bg-blue-100"/>
+        <StatCard title="Vendors" count={totalVendors} bg="bg-blue-100" />
         <StatCard title="Normal Users" count={totalNormal} bg="bg-yellow-100" />
       </div>
 
       {/* Search form with input & submit button */}
-      <form onSubmit={handleSubmit} className="w-full md:max-w-xs flex mt-14 mb-6 gap-2">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full md:max-w-xs flex mt-14 mb-6 gap-2"
+      >
         <input
           type="text"
           placeholder="Search by email..."
@@ -119,13 +122,13 @@ const AllUsers = () => {
               <th className="px-6 py-4">Set Role</th>
             </tr>
           </thead>
-          <tbody className="text-sm font-semibold">
+          <tbody className="text-base md:text-sm font-medium">
             {filteredUsers.map((u, idx) => (
               <tr
                 key={u._id}
                 className="border-b border-border hover:bg-gray-50 transition"
               >
-                <td className="px-6 py-4 font-bold">{idx + 1}</td>
+                <td className="px-6 py-4">{idx + 1}</td>
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     <img
@@ -133,14 +136,14 @@ const AllUsers = () => {
                       alt={u.name}
                       className="w-10 h-10 rounded-md object-cover border border-border"
                     />
-                    <span className="font-medium">{u.name}</span>
+                    <span>{u.name}</span>
                   </div>
                 </td>
                 <td className="px-6 py-4">{u.email}</td>
                 <td className="px-6 py-4 capitalize">{u.role}</td>
                 <td className="px-6 py-4">
                   <select
-                    className="border border-border px-3 py-2 rounded focus:ring-2 focus:ring-accent text-main cursor-pointer hover:border-accent transition-all duration-200"
+                    className="border border-gray-300 px-3 py-2 rounded focus:ring-2 focus:ring-accent text-main cursor-pointer hover:border-accent transition-all duration-200"
                     value={u.role}
                     onChange={(e) =>
                       updateRole({ userId: u._id, role: e.target.value })

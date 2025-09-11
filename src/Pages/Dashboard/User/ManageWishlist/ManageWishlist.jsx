@@ -97,19 +97,16 @@ const ManageWishlist = () => {
                                         <th className="px-6 py-4">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody className="text-sm font-semibold">
+                                <tbody className="text-base md:text-sm font-medium">
                                     {wishlist.map((item, idx) => (
                                         <tr key={item._id} className="border-b border-border hover:bg-gray-50 transition">
                                             <td className="px-6 py-4 font-bold">{idx + 1}</td>
                                             <td className="px-5 py-2">
                                                 <div className="flex items-center gap-3">
                                                     <img
-                                                        src={
-                                                            item.image ||
-                                                            "https://res.cloudinary.com/dvkiiyhaj/image/upload/v1752928833/ikhyvszgvsjzqqf8xcej.png"
-                                                        }
+                                                        src={item.image}
                                                         alt={item.itemName}
-                                                        className="w-12 h-12 rounded-md object-cover border border-border p-1"
+                                                        className="w-12 h-12 rounded-md object-contain border border-border p-1"
                                                     />
                                                     <span className="font-medium">{item.itemName}</span>
                                                 </div>

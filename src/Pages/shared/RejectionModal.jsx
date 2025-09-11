@@ -1,5 +1,5 @@
-import Modal from "../../shared/Modal";
-import Button from "../../shared/Button";
+import Modal from "./Modal";
+import Button from "./Button";
 
 const RejectionModal = ({ isOpen, onClose, rejectionReason, rejectionFeedback }) => {
     return (

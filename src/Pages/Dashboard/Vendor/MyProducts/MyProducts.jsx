@@ -8,9 +8,10 @@ import Swal from "sweetalert2";
 import { MdInventory } from "react-icons/md";
 import Button from "../../../shared/Button";
 import Loading from "../../../shared/Loading";
-import RejectionModal from "../../shared/RejectionModal";
+import RejectionModal from "../../../shared/RejectionModal";
 import { FaBoxOpen } from "react-icons/fa";
 import ZoomIn from "../../../shared/ZoomIn";
+import { format } from "date-fns";
 
 const MyProducts = () => {
   useEffect(() => {
@@ -38,6 +39,7 @@ const MyProducts = () => {
     enabled: !!user?.email,
   });
 
+  // Delete Product
   const handleDelete = async (id) => {
     const res = await Swal.fire({
       title: "Are you sure?",
@@ -63,12 +65,14 @@ const MyProducts = () => {
     }
   };
 
+  // Rejection Modal Handlers
   const openRejectionModal = (reason, feedback) => {
     setSelectedRejectionReason(reason);
     setSelectedRejectionFeedback(feedback);
     setShowRejectModal(true);
   };
 
+  // Close Rejection Modal
   const closeRejectionModal = () => {
     setShowRejectModal(false);
     setSelectedRejectionReason("");
@@ -120,7 +124,7 @@ const MyProducts = () => {
                   <th className="px-6 py-4">Actions</th>
                 </tr>
               </thead>
-              <tbody className="text-sm font-semibold">
+              <tbody className="text-base md:text-sm font-medium">
                 {products.map((item, index) => (
                   <tr key={item._id} className="border-b border-border">
                     <td className="px-6 py-4 font-bold">{index + 1}</td>
@@ -134,19 +138,19 @@ const MyProducts = () => {
                           alt={item.itemName}
                           className="w-12 h-12 rounded-md object-cover border border-border p-1"
                         />
-                        <span className="font-medium">{item.itemName}</span>
+                        <span>{item.itemName}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4">${item.pricePerUnit}</td>
                     <td className="px-6 py-4">{item.marketName}</td>
                     <td className="px-6 py-4">
-                      {new Date(item.date).toLocaleDateString()}
+                      {format(new Date(item.date), "dd MMMM, yyyy")}
                     </td>
 
                     {/* Status */}
                     <td className="px-6 py-4">
                       <span
-                        className={`px-3 py-1 rounded-md text-sm font-medium ${
+                        className={`px-3 py-1 rounded-md ${
                           item.status === "approved"
                             ? "bg-green-100 text-green-700"
                             : item.status === "pending"

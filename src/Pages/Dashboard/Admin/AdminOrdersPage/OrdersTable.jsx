@@ -1,6 +1,4 @@
-
 const OrdersTable = ({ orders, currentPage = 1, itemsPerPage = 10 }) => {
-
   // Handle case when there are no orders
   if (!orders.length) {
     return (
@@ -27,7 +25,7 @@ const OrdersTable = ({ orders, currentPage = 1, itemsPerPage = 10 }) => {
             <th className="px-6 py-4">Buyer Email</th>
           </tr>
         </thead>
-        <tbody className="text-sm font-semibold">
+        <tbody className="text-base md:text-sm font-medium">
           {orders.map((order, index) => (
             <tr key={order._id} className="border-b border-border">
               <td className="px-6 py-4 font-bold">
@@ -36,14 +34,11 @@ const OrdersTable = ({ orders, currentPage = 1, itemsPerPage = 10 }) => {
 
               <td className="px-6 py-4 flex items-center gap-3">
                 <img
-                  src={
-                    order.productImage ||
-                    "https://res.cloudinary.com/dvkiiyhaj/image/upload/v1752928833/ikhyvszgvsjzqqf8xcej.png"
-                  }
+                  src={order.productImage}
                   alt={order.productName || "Product Image"}
                   className="w-10 h-10 rounded-md object-cover border border-border p-1"
                 />
-                <span className="font-medium">{order.productName}</span>
+                <span>{order.productName}</span>
               </td>
 
               <td className="px-6 py-4">
@@ -52,7 +47,7 @@ const OrdersTable = ({ orders, currentPage = 1, itemsPerPage = 10 }) => {
                   ? order.price.toFixed(2)
                   : order.price || "N/A"}
               </td>
-              
+
               <td className="px-6 py-4">{order.vendorEmail}</td>
               <td className="px-6 py-4 break-all">{order.buyerEmail}</td>
             </tr>

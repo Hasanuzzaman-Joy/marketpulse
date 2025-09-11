@@ -45,7 +45,11 @@ const VendorOrdersPage = () => {
       <h1 className="text-3xl text-primary font-bold mb-6 flex items-center gap-2">
         <FaShoppingBasket /> Orders Details
       </h1>
-      <VendorOrdersTable orders={orders} currentPage={page} itemsPerPage={limit} />
+      <VendorOrdersTable
+        orders={orders}
+        currentPage={page}
+        itemsPerPage={limit}
+      />
       <Pagination
         pages={pages}
         handlePage={handlePage}

@@ -12,8 +12,8 @@ import { FaBullhorn } from "react-icons/fa";
 
 const AdminAllAdvertisements = () => {
   useEffect(() => {
-    document.title = "MarketPulse - All Advertisements"
-  }, [])
+    document.title = "MarketPulse - All Advertisements";
+  }, []);
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
@@ -31,6 +31,7 @@ const AdminAllAdvertisements = () => {
     enabled: !!user?.email,
   });
 
+  // Approve Mutation
   const approveAdMutation = useMutation({
     mutationFn: async ({ adId }) => {
       const res = await axiosSecure.patch(
@@ -49,6 +50,7 @@ const AdminAllAdvertisements = () => {
     },
   });
 
+  // Reject Mutation
   const rejectAdMutation = useMutation({
     mutationFn: async ({ adId, reason, feedback }) => {
       const res = await axiosSecure.patch(
@@ -77,6 +79,7 @@ const AdminAllAdvertisements = () => {
     },
   });
 
+  // Delete Mutation
   const deleteAdMutation = useMutation({
     mutationFn: async (adId) => {
       const res = await axiosSecure.delete(
@@ -97,7 +100,7 @@ const AdminAllAdvertisements = () => {
     <div className="p-6 md:p-10 bg-white text-main font-body">
       <div className="mb-8 space-y-2">
         <h2 className="text-3xl text-primary font-bold mb-2 flex items-center gap-2">
-          <FaBullhorn />  All Advertisements
+          <FaBullhorn /> All Advertisements
         </h2>
         <p className="text-text-secondary text-base md:text-lg mb-6">
           Manage and review advertisements submitted by vendors.
@@ -126,11 +129,9 @@ const AdminAllAdvertisements = () => {
         />
       )}
 
+      {/* Reject Modal */}
       {rejectAd && (
-        <RejectAdModal
-          ad={rejectAd}
-          onClose={() => setRejectAd(null)}
-        />
+        <RejectAdModal ad={rejectAd} onClose={() => setRejectAd(null)} />
       )}
     </div>
   );

@@ -18,7 +18,7 @@ const ProductTable = ({
   onEdit,
   deleteLoading,
   approveLoading,
-  onReject
+  onReject,
 }) => {
   if (products.length === 0) {
     return (
@@ -47,32 +47,30 @@ const ProductTable = ({
             <th className="px-6 py-4 text-center">Actions</th>
           </tr>
         </thead>
-        <tbody className="text-sm font-semibold">
+        <tbody className="text-base md:text-sm font-medium">
           {products.map((item, index) => (
             <tr key={item._id} className="border-b border-border">
               <td className="px-6 py-4 font-bold">{index + 1}</td>
               <td className="px-5 py-2">
                 <div className="flex items-center gap-3">
                   <img
-                    src={
-                      item.image ||
-                      "https://res.cloudinary.com/dvkiiyhaj/image/upload/v1752928833/ikhyvszgvsjzqqf8xcej.png"
-                    }
+                    src={item.image}
                     alt={item.itemName}
                     className="w-10 h-10 rounded-md object-cover border border-border p-1"
                   />
-                  <span className="font-medium">{item.itemName}</span>
+                  <span>{item.itemName}</span>
                 </div>
               </td>
               <td className="px-6 py-4 break-all">{item.vendorEmail}</td>
               <td className="px-6 py-4">
                 <span
-                  className={`px-3 py-1 rounded-md text-sm font-medium ${item.status === "approved"
-                    ? "bg-green-100 text-green-700"
-                    : item.status === "pending"
+                  className={`px-3 py-1 rounded-md ${
+                    item.status === "approved"
+                      ? "bg-green-100 text-green-700"
+                      : item.status === "pending"
                       ? "bg-yellow-100 text-yellow-700"
                       : "bg-red-100 text-red-600"
-                    }`}
+                  }`}
                 >
                   {item.status}
                 </span>
@@ -107,7 +105,7 @@ const ProductTable = ({
                   )}
 
                   {/* Reject */}
-                  {item.status === "pending"  && (
+                  {item.status === "pending" && (
                     <button
                       onClick={() => onReject(item)}
                       className="text-red-600 hover:text-red-800 cursor-pointer"

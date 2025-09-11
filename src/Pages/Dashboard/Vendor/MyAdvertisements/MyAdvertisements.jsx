@@ -8,7 +8,7 @@ import AdvertisementForm from "../../../shared/AdvertisementForm";
 import Modal from "../../../shared/Modal";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import RejectionModal from "../../shared/RejectionModal";
+import RejectionModal from "../../../shared/RejectionModal";
 import Swal from "sweetalert2";
 import { FaChartBar } from "react-icons/fa";
 import ZoomIn from "../../../shared/ZoomIn";
@@ -149,7 +149,7 @@ const MyAdvertisements = () => {
                   <th className="px-6 py-4">Actions</th>
                 </tr>
               </thead>
-              <tbody className="text-sm font-semibold">
+              <tbody className="text-base md:text-sm font-medium">
                 {ads.map((ad, index) => (
                   <tr key={ad._id} className="border-b border-border">
                     <td className="px-6 py-4 font-bold">{index + 1}</td>
@@ -163,7 +163,7 @@ const MyAdvertisements = () => {
                           alt={ad.title}
                           className="w-10 h-10 rounded-md object-cover border border-border"
                         />
-                        <span className="font-medium">{ad.title}</span>
+                        <span>{ad.title}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -173,7 +173,7 @@ const MyAdvertisements = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span
-                        className={`px-3 py-1 rounded-md text-sm font-medium ${
+                        className={`px-3 py-1 rounded-md ${
                           ad.status === "approved"
                             ? "bg-green-100 text-green-700"
                             : ad.status === "pending"

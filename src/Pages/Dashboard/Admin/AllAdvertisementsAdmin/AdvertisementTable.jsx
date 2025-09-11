@@ -22,8 +22,12 @@ const AdvertisementTable = ({
     return (
       <div className="flex flex-col items-center justify-center text-center space-y-3 min-h-[60vh] bg-gray-100 px-4">
         <MdCampaign className="text-secondary text-6xl mb-2" />
-        <h3 className="text-3xl font-heading font-bold text-secondary">No Ads Found</h3>
-        <p className="text-text-secondary text-lg">No advertisements have been submitted yet.</p>
+        <h3 className="text-3xl font-heading font-bold text-secondary">
+          No Ads Found
+        </h3>
+        <p className="text-text-secondary text-lg">
+          No advertisements have been submitted yet.
+        </p>
       </div>
     );
   }
@@ -41,18 +45,22 @@ const AdvertisementTable = ({
             <th className="px-6 py-4 text-center">Actions</th>
           </tr>
         </thead>
-        <tbody className="text-sm font-semibold">
+        <tbody className="text-base md:text-sm font-medium">
           {ads.map((ad, index) => (
             <tr key={ad._id} className="border-b border-border">
-              <td className="px-6 py-4 font-bold">{index + 1}</td>
+              <td className="px-6 py-4">{index + 1}</td>
               <td className="px-6 py-4">{ad.title}</td>
               <td className="px-6 py-4 break-all">{ad.adCreatedBy}</td>
               <td className="px-6 py-4">
-                <span className={`px-3 py-1 rounded text-sm font-medium ${
-                  ad.status === "approved" ? "bg-green-100 text-green-700" :
-                  ad.status === "pending" ? "bg-yellow-100 text-yellow-700" :
-                  "bg-red-100 text-red-600"
-                }`}>
+                <span
+                  className={`px-3 py-1 rounded ${
+                    ad.status === "approved"
+                      ? "bg-green-100 text-green-700"
+                      : ad.status === "pending"
+                      ? "bg-yellow-100 text-yellow-700"
+                      : "bg-red-100 text-red-600"
+                  }`}
+                >
                   {ad.status}
                 </span>
               </td>

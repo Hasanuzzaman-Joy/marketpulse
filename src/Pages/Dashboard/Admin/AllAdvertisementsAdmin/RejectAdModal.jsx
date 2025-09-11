@@ -40,7 +40,7 @@ const RejectAdModal = ({ ad, onClose }) => {
       showSuccess({
         title: "Advertisement Rejected",
         text: "The advertisement has been successfully rejected.",
-        redirectTo: "/dashboard/all-advertisement"
+        redirectTo: "/dashboard/all-advertisement",
       });
     },
     onError: () => {
@@ -67,8 +67,7 @@ const RejectAdModal = ({ ad, onClose }) => {
           Reject Advertisement
         </h2>
         <p className="text-center text-text-secondary">
-          Provide a reason and feedback to reject{" "}
-          <strong>{ad.title}</strong>.
+          Provide a reason and feedback to reject <strong>{ad.title}</strong>.
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
