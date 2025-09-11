@@ -59,8 +59,8 @@ const Navbar = () => {
             <NavLink
               to="/cart"
               className={({ isActive }) =>
-                `nav-link flex items-center justify-center gap-2 text-[15px] border-[1px] w-24 py-[2px] rounded-full ${
-                  isActive ? "border-accent text-accent" : "border-[1px]"
+                `nav-link flex items-center justify-center gap-2 text-[15px] border w-24 py-[2px] rounded-full ${
+                  isActive ? "border-accent text-accent" : "border"
                 }`
               }
               onClick={handleLinkClick}

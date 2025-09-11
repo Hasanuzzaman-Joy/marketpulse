@@ -20,7 +20,7 @@ const CallToAction = () => {
             buying decisions with MarketPulse.
           </p>
           <Link to="/products">
-            <button className="text-white px-3 py-2 rounded bg-secondary hover:bg-accent transition font-semibold cursor-pointer border-[1px] border-white">
+            <button className="text-white px-3 py-2 rounded bg-secondary hover:bg-accent transition font-semibold cursor-pointer border border-white">
               Explore Now
             </button>
           </Link>

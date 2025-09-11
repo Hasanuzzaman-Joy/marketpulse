@@ -66,7 +66,7 @@ const Discount = () => {
               {["days", "hours", "minutes", "seconds"].map((unit) => (
                 <div
                   key={unit}
-                  className="flex flex-col items-center bg-secondary text-white rounded-xl px-2 md:px-4 py-2 min-w-[60px] border-white border-[1px] md:border-0 shadow"
+                  className="flex flex-col items-center bg-secondary text-white rounded-xl px-2 md:px-4 py-2 min-w-[60px] border-white border md:border-0 shadow"
                 >
                   <span className="text-xl md:text-2xl font-bold">
                     {timeLeft[unit]}
@@ -78,7 +78,7 @@ const Discount = () => {
               ))}
             </div>
 
-            <Button className="border-white border-[1px] md:border-0">
+            <Button className="border-white border md:border-0">
               Shop Now
             </Button>
           </div>

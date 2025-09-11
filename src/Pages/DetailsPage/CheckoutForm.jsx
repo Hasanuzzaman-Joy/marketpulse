@@ -188,7 +188,7 @@ const CheckoutForm = ({ productId, price, cartItems, onSuccess }) => {
         <button
           type="submit"
           disabled={!stripe || loading}
-          className="text-white px-10 py-2 rounded bg-accent hover:bg-secondary transition font-semibold font-heading border-[1px] border-white flex items-center gap-2 cursor-pointer"
+          className="text-white px-10 py-2 rounded bg-accent hover:bg-secondary transition font-semibold font-heading border border-white flex items-center gap-2 cursor-pointer"
         >
           {loading ? "Processing..." : `Pay $${displayPrice.toFixed(2)}`}
         </button>

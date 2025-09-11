@@ -126,7 +126,7 @@ const ProductDetails = () => {
 
     const selected = parseISO(selectedDate);
 
-    // Use latest price in the prices array as "today"
+    // Find prices for selected date
     const todayPrice = prices[prices.length - 1];
     const prevPrice = prices.find((p) => isSameDay(parseISO(p.date), selected));
 
@@ -187,7 +187,7 @@ const ProductDetails = () => {
         </div>
 
         {/* Product Details */}
-        <div className="p-8 flex flex-col justify-center space-y-5 text-base text-left text-white">
+        <div className="px-4 md:px-8 py-8 flex flex-col justify-center space-y-5 text-base text-left text-white">
           <h2 className="text-2xl md:text-4xl font-bold font-heading">
             {itemName}
           </h2>
@@ -273,7 +273,7 @@ const ProductDetails = () => {
             <select
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border-gray-300 border-[1px] rounded text-[#2c2b2b] text-base font-medium focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
+              className="w-full pl-10 pr-4 py-3 border-gray-300 border rounded text-[#2c2b2b] text-base font-medium focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
             >
               <option value="">Select a Previous Date</option>
               {availableDates.map((d, idx) => (

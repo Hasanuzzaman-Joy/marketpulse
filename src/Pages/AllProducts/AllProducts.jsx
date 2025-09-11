@@ -82,7 +82,7 @@ const AllProducts = () => {
           <div className="relative w-54">
             <FaSortAmountDownAlt className="absolute left-3 top-1/2 -translate-y-1/2 text-[#2c2b2b]" />
             <select
-              className="w-full pl-8 pr-4 py-3 border-gray-300 border-[1px] rounded-md text-[#2c2b2b] text-base font-medium focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
+              className="w-full pl-8 pr-4 py-3 border-gray-300 border rounded-md text-[#2c2b2b] text-base font-medium focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
             >
@@ -103,7 +103,7 @@ const AllProducts = () => {
               }}
               placeholderText="Filter by Date"
               dateFormat="yyyy-MM-dd"
-              className="w-full pl-8 pr-4 py-3 border-gray-300 border-[1px] rounded-md placeholder-[#2c2b2b] text-base font-medium focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
+              className="w-full pl-8 pr-4 py-3 border-gray-300 border rounded-md placeholder-[#2c2b2b] text-base font-medium focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
               isClearable
             />
           </div>

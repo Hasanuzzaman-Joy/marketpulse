@@ -211,7 +211,7 @@ const ManageCart = () => {
             <button
               type="button"
               onClick={handleProceedToCheckout}
-              className="w-full text-white px-3 py-2 rounded bg-accent hover:bg-secondary border-[1px] border-white transition font-semibold cursor-pointer"
+              className="w-full text-white px-3 py-2 rounded bg-accent hover:bg-secondary border border-white transition font-semibold cursor-pointer"
             >
               Proceed to Checkout (${totalPrice.toFixed(2)})
             </button>

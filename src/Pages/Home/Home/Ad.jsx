@@ -32,7 +32,7 @@ export default function Ad() {
         <ZoomIn key={ad.id}>
           {/* Single Ad Card */}
           <div
-            className={`flex h-auto md:h-70 items-center justify-between p-4 md:p-6 border-[1px] border-border rounded-2xl shadow-xl ${ad.bgColor}`}
+            className={`flex h-auto md:h-70 items-center justify-between p-4 md:p-6 border border-border rounded-2xl shadow-xl ${ad.bgColor}`}
           >
             {/* Text Content */}
             <div className="space-y-2 max-w-[60%]">
