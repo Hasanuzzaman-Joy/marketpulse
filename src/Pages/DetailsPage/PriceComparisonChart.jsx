@@ -19,7 +19,7 @@ const PriceComparisonChart = ({ data }) => {
           <YAxis unit="$" />
           <Tooltip formatter={(value) => `$${value.toFixed(2)}`} />
           <Legend />
-          <Bar dataKey="price" fill="#8884d8" />
+          <Bar dataKey="price" fill="#eab308" />
         </BarChart>
       </ResponsiveContainer>
     </div>
